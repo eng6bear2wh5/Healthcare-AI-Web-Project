@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đặt lịch hẹn bác sĩ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex justify-center items-center min-h-screen">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+        <h2 class="text-2xl font-bold mb-4 text-center">Đặt lịch hẹn bác sĩ</h2>
+        <form id="bookingForm" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Họ và Tên</label>
+                <input type="text" id="name" class="w-full p-2 border border-gray-300 rounded mt-1" required>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Email</label>
+                <input type="email" id="email" class="w-full p-2 border border-gray-300 rounded mt-1" required>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Số điện thoại</label>
+                <input type="tel" id="phone" class="w-full p-2 border border-gray-300 rounded mt-1" required>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Chọn khung giờ</label>
+                <select id="timeSlot" class="w-full p-2 border border-gray-300 rounded mt-1" required>
+                    <option value="">-- Chọn khung giờ --</option>
+                    <option value="08:00">08:00</option>
+                    <option value="09:00">09:00</option>
+                    <option value="10:00">10:00</option>
+                    <option value="11:00">11:00</option>
+                    <option value="12:00">12:00</option>
+                    <option value="13:00">13:00</option>
+                    <option value="14:00">14:00</option>
+                    <option value="15:00">15:00</option>
+                    <option value="16:00">16:00</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Phương thức thanh toán</label>
+                <select id="paymentMethod" class="w-full p-2 border border-gray-300 rounded mt-1">
+                    <option value="">-- Chọn phương thức --</option>
+                    <option value="bank_transfer">Chuyển khoản</option>
+                    <option value="credit_card">Thẻ tín dụng</option>
+                </select>
+            </div>
+            <div id="transferOptions" class="hidden">
+                <label class="block text-sm font-medium text-gray-700">Hình thức chuyển khoản</label>
+                <select id="transferMethod" class="w-full p-2 border border-gray-300 rounded mt-1">
+                    <option value="">-- Chọn hình thức --</option>
+                    <option value="momo">Momo</option>
+                    <option value="bank">Ngân hàng</option>
+                    <option value="zalopay">Zalo Pay</option>
+                </select>
+                <div id="momoDetails" class="hidden mt-3 p-3 bg-gray-100 rounded text-center">
+                    <p class="font-semibold">Momo</p>
+                    <p>Số tài khoản: 123456789</p>
+                    <img src="/momo-qr.png" alt="Mã QR Momo" class="w-32 h-32 mx-auto mt-2">
+                </div>
+                <div id="bankDetails" class="hidden mt-3 p-3 bg-gray-100 rounded text-center">
+                    <p class="font-semibold">Ngân hàng</p>
+                    <p>STK: 987654321 - Ngân hàng ABC</p>
+                    <img src="/bank-qr.png" alt="Mã QR Ngân hàng" class="w-32 h-32 mx-auto mt-2">
+                </div>
+                <div id="zalopayDetails" class="hidden mt-3 p-3 bg-gray-100 rounded text-center">
+                    <p class="font-semibold">Zalo Pay</p>
+                    <p>Số tài khoản: 1122334455</p>
+                    <img src="/zalopay-qr.png" alt="Mã QR Zalo Pay" class="w-32 h-32 mx-auto mt-2">
+                </div>
+            </div>
+            <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition">
+                Xác nhận đặt lịch
+            </button>
+        </form>
+    </div>
+    <script>
+        document.getElementById("paymentMethod").addEventListener("change", function() {
+            const transferOptions = document.getElementById("transferOptions");
+            transferOptions.classList.toggle("hidden", this.value !== "bank_transfer");
+        });
+        document.getElementById("transferMethod").addEventListener("change", function() {
+            ["momoDetails", "bankDetails", "zalopayDetails"].forEach(id =>
+                document.getElementById(id).classList.add("hidden")
+            );
+            if (this.value) {
+                document.getElementById(this.value + "Details").classList.remove("hidden");
+            }
+        });
+        document.getElementById("bookingForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const phone = document.getElementById("phone").value;
+            const timeSlot = document.getElementById("timeSlot").value;
+            const paymentMethod = document.getElementById("paymentMethod").value;
+            let transferMethod = "";
+            if (paymentMethod === "bank_transfer") {
+                transferMethod = document.getElementById("transferMethod").value;
+            }
+            alert(`Bạn đã đặt lịch thành công!\nTên: ${name}\nEmail: ${email}\nSĐT: ${phone}\nKhung giờ: ${timeSlot}\nThanh toán: ${paymentMethod} ${transferMethod ? " - " + transferMethod : ""}`);
+        });
+    </script>
+</body>
+</html>
