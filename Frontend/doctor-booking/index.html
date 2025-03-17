@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đặt lịch hẹn</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex justify-center items-center min-h-screen">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+        <h2 class="text-2xl font-bold mb-4 text-center">Chọn bác sĩ</h2>
+        
+        <label class="block text-sm font-medium text-gray-700">Chọn bác sĩ:</label>
+        <select id="doctorSelect" class="w-full p-2 border border-gray-300 rounded mt-2">
+            <option value="">-- Chọn bác sĩ --</option>
+            <option value="1">Bác sĩ Nguyễn Trung Thành</option>
+            <option value="2">Bác sĩ Trần Quyết</option>
+            <option value="3">Bác sĩ Lệ Thị Hoa</option>
+            <option value="4">Bác sĩ Phạm Trung Hiếu Tài</option>
+            <option value="5">Bác sĩ Nguyễn Phương Thảo</option>
+            <option value="6">Bác sĩ Dương Quang Vinh</option>
+            <option value="7">Bác sĩ Trần Văn Công</option>
+        </select>
+        
+        <button onclick="redirectToDoctor()" class="w-full bg-blue-500 text-white py-2 rounded mt-4 hover:bg-blue-600 transition">
+            Tiếp tục
+        </button>
+    </div>
+
+    <script>
+        function redirectToDoctor() {
+            var doctorId = document.getElementById("doctorSelect").value;
+            if (doctorId) {
+                window.location.href = "doctor.html?id=" + doctorId;
+            } else {
+                alert("Vui lòng chọn bác sĩ!");
+            }
+        }
+    </script>
+</body>
+</html>
