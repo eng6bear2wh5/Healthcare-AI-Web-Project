@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đặt Lịch Hẹn Khám</title>
+</head>
+<body>
+
+    <h2>Thông Tin Bệnh Nhân</h2>
+    <p><strong>Họ Tên:</strong> <span id="username"></span></p>
+    <p><strong>Email:</strong> <span id="email"></span></p>
+    <p><strong>Số Điện Thoại:</strong> <span id="phone"></span></p>
+    <p><strong>Giới Tính:</strong> <span id="gender"></span></p>
+    <p><strong> Patient_id:</strong><span id="patientid"></span></p>
+
+    <h2>Thông Tin Bác Sĩ</h2>
+    <p><strong>Họ Tên:</strong> <span id="doctorName"></span></p>
+    <p><strong>Chuyên Khoa:</strong> <span id="doctorSpecialty"></span></p>
+    <p><strong>Email:</strong> <span id="doctor_email"></span></p>
+    <p><strong>Số Điện Thoại:</strong> <span id="doctor_phone"></span></p>
+    <p><strong> Doctor_id:</strong><span id="doctorid"></span></p>
+
+    <h2>Đặt Lịch Hẹn</h2>
+    <label for="appointmentDate">Chọn ngày khám:</label>
+    <input type="date" id="appointmentDate" required>
+
+    <label for="appointmentTime">Chọn giờ khám:</label>
+    <input type="time" id="appointmentTime" required>
+
+    <button id="submitBtn">Đặt Lịch</button>
+
+    <script>
+        const userId = "US001"; // Giả sử user đã đăng nhập
+        const doctorUserId = "US002"; // Giả sử bác sĩ được chọn có USER_ID
+
+        let patientId = null;
+        let doctorId = null;
+
+        
+
+        // Lấy thông tin bệnh nhân
+        async function loadUserData() {
+            const res = await fetch(`http://localhost:3000/api/patient/${userId}`);
+            const patient = await res.json();
+            document.getElementById("username").textContent = patient.USERNAME;
+            document.getElementById("email").textContent = patient.EMAIL;
+            document.getElementById("phone").textContent = patient.PHONE_NUMBER;
+            document.getElementById("gender").textContent = patient.GENDER;
+            document.getElementById("patientid").textContent = patient.PATIENT_ID;
+            patientId = patient.PATIENT_ID;
+        }
+
+        // Lấy thông tin bác sĩ
+        async function loadDoctorData() {
+            const res = await fetch(`http://localhost:3000/api/doctor/${doctorUserId}`);
+            const doctor = await res.json();
+            document.getElementById("doctorName").textContent = doctor.USERNAME;
+            document.getElementById("doctor_email").textContent = doctor.EMAIL;
+            document.getElementById("doctor_phone").textContent = doctor.PHONE_NUMBER;
+            document.getElementById("doctorSpecialty").textContent = doctor.SPECIALTY;
+            document.getElementById("doctorid").textContent = doctor.DOCTOR_ID;
+            doctorId = doctor.DOCTOR_ID;
+        }
+
+
+        // Gửi yêu cầu đặt lịch hẹn
+        document.getElementById("submitBtn").addEventListener("click", async () => {
+            if (!patientId || !doctorId) {
+                alert("Không thể đặt lịch hẹn vì thiếu thông tin.");
+                return;
+            }
+
+            const appointmentDate = document.getElementById("appointmentDate").value;
+            const appointmentTime = document.getElementById("appointmentTime").value;
+
+            if (!appointmentDate || !appointmentTime) {
+                alert("Vui lòng chọn đầy đủ thông tin!");
+                return;
+            }
+
+            const res = await fetch("http://localhost:3000/api/appointments", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    patientId,
+                    doctorId,
+                    dateTime: `${appointmentDate} ${appointmentTime}`
+                })
+            });
+
+            const data = await res.json();
+            alert(data.message);
+        });
+
+        // Load dữ liệu khi trang mở
+        loadUserData();
+        loadDoctorData();
+    </script>
+
+</body>
+</html>
