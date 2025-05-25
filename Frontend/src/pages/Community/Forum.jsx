@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom"; // Import Link từ react-router-dom
-import ChatButton from "../../components/ChatButton"; // Giữ nguyên ChatButton nếu bạn muốn thêm chức năng chat
+// Giữ nguyên ChatButton nếu bạn muốn thêm chức năng chat
 
 // Dữ liệu diễn đàn tĩnh
 const forums = [

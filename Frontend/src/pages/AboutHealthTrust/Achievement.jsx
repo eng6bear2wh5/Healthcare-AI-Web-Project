@@ -1,4 +1,4 @@
-import ChatButton from "../../components/ChatButton";
+//import ChatButton from "../../components/ChatButton";
 import DiseaseDetectButton from "../../components/DiseaseDetectButton";
 import { useEffect } from "react";
 

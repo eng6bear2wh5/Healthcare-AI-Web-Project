@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import ChatButton from "../../components/ChatButton";
+//import ChatButton from "../../components/ChatButton";
 
 const events = [
     {
