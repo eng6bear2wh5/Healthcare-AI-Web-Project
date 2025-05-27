@@ -1,2 +1,11 @@
 @import "tailwindcss";
+@tailwind utilities;
+/* Slick Carousel Styles */
+@import "slick-carousel/slick/slick.css";
+@import "slick-carousel/slick/slick-theme.css";
+
+body {
+  @apply bg-gradient-to-b from-blue-100 to-white;
+  /* Hoặc bg-fixed bg-cover bg-center bg-[url('/path/to/image.jpg')] */
+}
 

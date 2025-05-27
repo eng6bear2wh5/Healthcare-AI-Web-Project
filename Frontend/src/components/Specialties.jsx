@@ -1,4 +1,4 @@
-import { FaHeartbeat, FaLungs, FaBrain, FaBone, FaUserMd } from "react-icons/fa"; // Icon đẹp từ react-icons
+import { FaHeartbeat, FaLungs, FaBrain, FaBone, FaSpa, FaUserMd } from "react-icons/fa"; // Icon đẹp từ react-icons
 
 export default function Specialties() {
     const specialties = [
@@ -21,6 +21,11 @@ export default function Specialties() {
             icon: <FaBone className="text-yellow-500 text-4xl mb-4" />,
             title: "Cơ xương khớp",
             description: "Hỗ trợ phục hồi chức năng vận động và điều trị đau nhức xương khớp.",
+        },
+        {
+            icon: <FaSpa className="text-pink-600 text-4xl mb-4" />,
+            title: "Da liễu",
+            description: "Chăm sóc sức khỏe da liễu với các phương pháp điều trị hiệu quả.",
         },
         {
             icon: <FaUserMd className="text-green-500 text-4xl mb-4" />,

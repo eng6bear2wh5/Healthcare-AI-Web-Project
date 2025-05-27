@@ -1,89 +1,122 @@
-import { useState } from "react";
+// src/components/Articles.jsx
+import { useState, useEffect } from "react";
 
 export default function Articles() {
-    const [activeTab, setActiveTab] = useState("featured");
+  const [activeTab, setActiveTab] = useState("featured");
+  const [articles, setArticles] = useState([]);
+  const [diseases, setDiseases] = useState([]);
+  const [error, setError] = useState(null);
 
-    const articles = Array.from({ length: 10 }, (_, i) => ({
-        title: `Bài viết ${i + 1}`,
-        content: `Nội dung tóm tắt của bài viết số ${i + 1}. Đây là một đoạn mô tả ngắn giúp người đọc hiểu sơ lược về nội dung chính.`,
-        image: `https://via.placeholder.com/400x200?text=Image+${i + 1}`,
-    }));
+  // 1. Fetch articles + diseases đồng thời
+  useEffect(() => {
+    Promise.all([
+      fetch("/api/articles").then(res => {
+        if (!res.ok) throw new Error("Không thể tải bài báo");
+        return res.json();
+      }),
+      fetch("/api/diseases").then(res => {
+        if (!res.ok) throw new Error("Không thể tải bệnh");
+        return res.json();
+      })
+    ])
+      .then(([arts, dis]) => {
+        setArticles(arts);
+        setDiseases(dis);
+      })
+      .catch(err => setError(err.message));
+  }, []);
 
-    const latestArticles = Array.from({ length: 5 }, (_, i) => ({
-        title: `Bài viết mới ${i + 1}`,
-        content: `Đây là một bài viết mới, cung cấp thông tin mới nhất về các chủ đề sức khỏe.`,
-        image: `https://via.placeholder.com/400x200?text=Latest+${i + 1}`,
-    }));
+  // 2. Tạo map cho diseases
+  const diseaseMap = Object.fromEntries(diseases.map(d => [d._id, d]));
 
+  // 3. Enrich articles với ảnh của disease
+  const enriched = articles.map(a => ({
+    ...a,
+    imageUrl: diseaseMap[a.disease_id]?.image_url || ""
+  }));
+
+  // 4. Chọn 7 bài “nổi bật” ngẫu nhiên
+  const featured = (() => {
+    if (!enriched.length) return [];
+    const shuffled = [...enriched].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, 7);
+  })();
+
+  // 5. Lấy 6 bài “mới nhất”
+  const latest = enriched.slice(-6);
+
+  if (error) {
     return (
-        <section className="max-w-7xl mx-auto px-4 py-10">
-            {/* Tabs */}
-            <div className="flex gap-6 mb-8">
-                <button
-                    onClick={() => setActiveTab("featured")}
-                    className={`text-xl font-semibold pb-2 border-b-2 ${activeTab === "featured"
-                        ? "border-blue-600 text-blue-600"
-                        : "border-transparent text-gray-500 hover:text-blue-600"
-                        } transition`}
-                >
-                    Bài viết nổi bật
-                </button>
-                <button
-                    onClick={() => setActiveTab("latest")}
-                    className={`text-xl font-semibold pb-2 border-b-2 ${activeTab === "latest"
-                        ? "border-blue-600 text-blue-600"
-                        : "border-transparent text-gray-500 hover:text-blue-600"
-                        } transition`}
-                >
-                    Bài viết mới nhất
-                </button>
-            </div>
-
-            {/* Nội dung */}
-            {activeTab === "featured" && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {articles.slice(0, 6).map((a, i) => (
-                        <div
-                            key={i}
-                            className={`rounded-lg shadow-md p-5 bg-white hover:shadow-lg transition ${i === 0 ? "lg:col-span-2" : ""
-                                }`}
-                        >
-                            <img
-                                src={a.image}
-                                alt={`Image for ${a.title}`}
-                                className="w-full h-48 object-cover rounded-lg mb-4"
-                            />
-                            <h3 className="text-lg font-semibold text-blue-600 mb-2">{a.title}</h3>
-                            <p className="text-gray-700 mb-3">{a.content}</p>
-                            <button className="text-sm text-blue-500 hover:underline">
-                                Đọc thêm →
-                            </button>
-                        </div>
-                    ))}
-                </div>
-            )}
-
-            {activeTab === "latest" && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {latestArticles.map((a, i) => (
-                        <div
-                            key={i}
-                            className="rounded-lg shadow-md p-5 bg-white hover:shadow-lg transition"
-                        >
-                            <img
-                                src={a.image}
-                                alt={`Image for ${a.title}`}
-                                className="w-full h-48 object-cover rounded-lg mb-4"
-                            />
-                            <h3 className="text-lg font-semibold text-blue-600 mb-2">{a.title}</h3>
-                            <p className="text-gray-700 mb-3">{a.content}</p>
-                            <button className="text-sm text-blue-500 hover:underline">
-                                Đọc thêm →
-                            </button>
-                        </div>
-                    ))}
-                </div>
-            )}
-        </section>
+      <section className="max-w-7xl mx-auto px-4 py-10">
+        <h2 className="text-2xl text-center text-red-600">Lỗi: {error}</h2>
+      </section>
     );
+  }
+
+  if (!articles.length || !diseases.length) {
+    return (
+      <section className="max-w-7xl mx-auto px-4 py-10">
+        <p className="text-center text-gray-500">Đang tải dữ liệu...</p>
+      </section>
+    );
+  }
+
+  // 6. Render
+  return (
+    <section className="max-w-7xl mx-auto px-4 py-10">
+      {/* Tabs */}
+      <div className="flex gap-6 mb-8 justify-center">
+        {["featured","latest"].map(tab => (
+          <button
+            key={tab}
+            onClick={() => setActiveTab(tab)}
+            className={`text-xl font-semibold pb-2 border-b-2 ${
+              activeTab === tab
+                ? "border-blue-600 text-blue-600"
+                : "border-transparent text-gray-500 hover:text-blue-600"
+            } transition`}
+          >
+            {tab === "featured" ? "Bài viết nổi bật" : "Bài viết mới nhất"}
+          </button>
+        ))}
+      </div>
+
+      {/* Nội dung */}
+      {(activeTab === "featured" ? featured : latest).length > 0 ? (
+        <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-${activeTab==="featured"?4:3} gap-6`}>
+          {(activeTab === "featured" ? featured : latest).map((a, i) => (
+            <a
+              key={a._id || i}
+              href={a.article_link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`block rounded-lg overflow-hidden shadow-md bg-white hover:shadow-lg transition ${
+                activeTab==="featured" && i === 0 ? "lg:col-span-2" : ""
+              }`}
+            >
+              {a.imageUrl && (
+                <img
+                  src={a.imageUrl}
+                  alt={a.article_name}
+                  className="w-full h-48 object-cover"
+                />
+              )}
+              <div className="p-4">
+                <h3 className="text-lg font-semibold text-blue-600 mb-2">
+                  {a.article_name}
+                </h3>
+                <button className="text-sm text-blue-500 hover:underline">
+                  Đọc thêm →
+                </button>
+              </div>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <p className="text-center text-gray-500 italic">
+          Không có bài viết {activeTab === "featured" ? "nổi bật" : "mới nhất"}.
+        </p>
+      )}
+    </section>
+  );
 }

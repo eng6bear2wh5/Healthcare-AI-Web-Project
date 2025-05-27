@@ -9,11 +9,11 @@ export default function Navbar() {
 
     const navItems = [
         { label: "Trang chủ", path: "/" },
-        { label: "Chuyên mục", children: [{ label: "Tim", path: "Category/HeartDisease" }, { label: "Phổi", path: "//" }] },
+        { label: "Chuyên mục", path: "Category/CategoryHome" },
         { label: "Video", children: [{ label: "Hướng dẫn", path: "/video/huong-dan" }, { label: "Sức khỏe", path: "/video/suc-khoe" }] },
         { label: "Về Health Trust", children: [{ label: "Tầm nhìn và sứ mệnh", path: "/AboutHealthTrust/Mission" }, { label: "Thành tựu và giải thưởng", path: "/AboutHealthTrust/Achievement" }, { label: "Đối tác", path: "/AboutHealthTrust/Partner" }] },
-        { label: "Kiểm tra sức khỏe", children: [{ label: "BMI", path: "/check/bmi" }, { label: "Tình trạng da", path: "/check/skin" }] },
-        { label: "Cộng đồng", children: [{ label: "Diễn đàn", path: "Community/Forum" }, { label: "Sự kiện", path: "Community/Event" }] },
+        { label: "Kiểm tra sức khỏe", children: [{ label: "BMI", path: "/HealthCheck/BMI" }, { label: "Lượng calo cần mỗi ngày", path: "/HealthCheck/TDEECalculator" }, {label: " Cân nặng lý tưởng", path: "/HealthCheck/IdealWeightCalculator"}, {label: "Tỉ lệ mỡ cơ thể", path: "/HealthCheck/BodyFatCalculator"}] },
+        { label: "Cộng đồng", children: [{ label: "Tin tức", path: "Community/News" }, { label: "Sự kiện", path: "Community/Event" }] },
         { label: "Thông tin dược", children: [{ label: "Thuốc an toàn", path: "/PharmaInformation/SafeMedicine" }] },
     ];
 
