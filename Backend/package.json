@@ -16,6 +16,7 @@
   "description": "",
   "dependencies": {
     "@elastic/elasticsearch": "^8.17.1",
+    "body-parser": "^2.2.0",
     "axios": "^1.8.4",
     "bcryptjs": "^3.0.2",
     "cheerio": "^1.0.0",
