@@ -5,7 +5,15 @@
 @import "slick-carousel/slick/slick-theme.css";
 
 body {
-  @apply bg-gradient-to-b from-blue-100 to-white;
+  @apply bg-gradient-to-b from-white via-blue-50 to-slate-100;
+  font-family: 'Nunito', sans-serif;
   /* Hoặc bg-fixed bg-cover bg-center bg-[url('/path/to/image.jpg')] */
 }
 
+.box-modern {
+  @apply bg-white/70 rounded-lg shadow-md p-6 transition flex flex-col items-center text-center;
+}
+
+.box-modern:hover {
+  @apply shadow-lg;
+}

@@ -45,7 +45,7 @@ export default function Specialties() {
                     {specialties.map((specialty, index) => (
                         <div
                             key={index}
-                            className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition flex flex-col items-center text-center"
+                            className="box-modern"
                         >
                             {specialty.icon}
                             <h3 className="text-xl font-semibold text-gray-800 mb-2">

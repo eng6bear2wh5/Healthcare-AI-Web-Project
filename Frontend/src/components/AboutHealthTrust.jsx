@@ -6,7 +6,7 @@ export default function AboutHealthTrust() {
     return (
 
 
-        <section className="bg-white py-16 px-4" >
+        <section className="py-16 px-4 box-modern" >
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12">
                 {/* Ảnh minh họa */}
                 <div className="flex-1">
@@ -20,10 +20,10 @@ export default function AboutHealthTrust() {
                 {/* Nội dung giới thiệu */}
                 <div className="flex-1 text-center md:text-left">
                     <h2 className="text-3xl font-bold text-blue-700 mb-4">
-                        Về Health Trust
+                        Về HealthTrust
                     </h2>
                     <p className="text-gray-700 text-lg mb-6">
-                        <span className="font-semibold text-blue-600">Health Trust</span> là nền tảng sức khỏe toàn diện, kết nối bạn với những dịch vụ y tế chất lượng và đội ngũ chuyên gia hàng đầu.
+                        <span className="font-semibold text-blue-600">HealthTrust</span> là nền tảng sức khỏe toàn diện, kết nối bạn với những dịch vụ y tế chất lượng và đội ngũ chuyên gia hàng đầu.
                         Chúng tôi cam kết đồng hành cùng bạn trên hành trình chăm sóc sức khỏe chủ động, dễ dàng và an toàn.
                     </p>
                     <p className="text-gray-600 text-md mb-6">
