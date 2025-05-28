@@ -3,6 +3,7 @@ import { CategoryProvider } from "./contexts/CategoryContext";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Mission from "./pages/AboutHealthTrust/Mission";
+import ScrollToTop from "./ScrollToTop"; 
 import SafeMedicine from "./pages/PharmaInformation/SafeMedicine";
 import MedicineDetail from "./pages/PharmaInformation/MedicineDetail";
 import HeartDisease from "./pages/Category/HeartDisease";
@@ -39,41 +40,42 @@ function App() {
         <Navbar />
         <main className="flex-grow">
           <CategoryProvider>
-            <Routes>
-              <Route path="/" element={<Home />} /> {/* ✅ Dùng Home */}
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="/email-verification" element={<EmailVerification />} />
+            <ScrollToTop />
+              <Routes>
+                <Route path="/" element={<Home />} /> {/* ✅ Dùng Home */}
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
+                <Route path="/email-verification" element={<EmailVerification />} />
 
-              <Route path="/personal-tracker/dashboard" element={<Dashboard />} />
-              <Route path="/personal-tracker/edit-profile" element={<EditProfile />} />
-              <Route path="/personal-tracker/" element={<Navigate to="/personal-tracker/dashboard" replace />} />
-              <Route path="/AboutHealthTrust/Mission" element={<Mission />} />
-              <Route path="/PharmaInformation/SafeMedicine" element={<SafeMedicine />} />
-              <Route path="/AboutHealthTrust/Achievement" element={<Achievement />} />
-              <Route path="/AboutHealthTrust/Partner" element={<Partner />} />
-              <Route path="/PharmaInformation/medicine/:name" element={<MedicineDetail />} />
-              <Route path="/Community/Event" element={<Event />} />
-              <Route path="/HealthCheck/BMI" element={<BMI />} />
-              <Route path="/HealthCheck/TDEECalculator" element={<TDEECalculator />} />
-              <Route path="/HealthCheck/IdealWeightCalculator" element={<IdealWeightCalculator />} />
-              <Route path="/HealthCheck/BodyFatCalculator" element={<BodyFatCalculator />} />
-              <Route path="/Community/News" element={<News />} />
-              <Route path="/Community/Forum" element={<Forum />} />
-              <Route path="/Community/Forum/:topicId" element={<ForumDetail />} />
-              <Route path="Category/HeartDisease" element={<HeartDisease />} />
-              <Route path="/about-healthtrust/mission" element={<Mission />} />
-              <Route path="/Category/CategoryHome" element={<CategoryHome />} />
-              <Route path="/Category/DiseaseList/:categoryId" element={<DiseaseList />} />
-              <Route path="/Category/DiseaseDetail/:diseaseId" element={<DiseaseDetail />} />
+                <Route path="/personal-tracker/dashboard" element={<Dashboard />} />
+                <Route path="/personal-tracker/edit-profile" element={<EditProfile />} />
+                <Route path="/personal-tracker/" element={<Navigate to="/personal-tracker/dashboard" replace />} />
+                <Route path="/AboutHealthTrust/Mission" element={<Mission />} />
+                <Route path="/PharmaInformation/SafeMedicine" element={<SafeMedicine />} />
+                <Route path="/AboutHealthTrust/Achievement" element={<Achievement />} />
+                <Route path="/AboutHealthTrust/Partner" element={<Partner />} />
+                <Route path="/PharmaInformation/medicine/:name" element={<MedicineDetail />} />
+                <Route path="/Community/Event" element={<Event />} />
+                <Route path="/HealthCheck/BMI" element={<BMI />} />
+                <Route path="/HealthCheck/TDEECalculator" element={<TDEECalculator />} />
+                <Route path="/HealthCheck/IdealWeightCalculator" element={<IdealWeightCalculator />} />
+                <Route path="/HealthCheck/BodyFatCalculator" element={<BodyFatCalculator />} />
+                <Route path="/Community/News" element={<News />} />
+                <Route path="/Community/Forum" element={<Forum />} />
+                <Route path="/Community/Forum/:topicId" element={<ForumDetail />} />
+                <Route path="Category/HeartDisease" element={<HeartDisease />} />
+                <Route path="/about-healthtrust/mission" element={<Mission />} />
+                <Route path="/Category/CategoryHome" element={<CategoryHome />} />
+                <Route path="/Category/DiseaseList/:categoryId" element={<DiseaseList />} />
+                <Route path="/Category/DiseaseDetail/:diseaseId" element={<DiseaseDetail />} />
 
-              {/* Thêm các route khác tại đây */}
+                {/* Thêm các route khác tại đây */}
 
 
 
-            </Routes>
+              </Routes>
           </CategoryProvider>
         </main>
         <Footer />
