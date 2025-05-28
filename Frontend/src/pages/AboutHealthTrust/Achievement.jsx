@@ -16,7 +16,7 @@ const achievements = [
     {
         title: "Chứng nhận ISO 9001:2015",
         description: "Health Trust đạt tiêu chuẩn quản lý chất lượng quốc tế trong vận hành và cung cấp dịch vụ y tế.",
-        image: "https://dangkythuonghieu.org/upload/images/dich-vu-cap-chung-chi-chung-nhan-iso-9001-2015-tron-goi-tai-tphcm.jpg",
+        image: "https://knacert.com.vn/storage/mau-chung-nhan-isso-9001-2015-1234.jpg",
     },
     {
         title: "Đối tác chiến lược của Bộ Y tế",
