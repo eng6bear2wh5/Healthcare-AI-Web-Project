@@ -11,9 +11,8 @@ export default function Navbar() {
         { label: "Trang chủ", path: "/" },
         { label: "Chuyên mục bệnh", path: "Category/CategoryHome" },
         { label: "Thông tin dược", children: [{ label: "Thuốc an toàn", path: "/PharmaInformation/SafeMedicine" }] },
-       // { label: "Video", children: [{ label: "Hướng dẫn", path: "/video/huong-dan" }, { label: "Sức khỏe", path: "/video/suc-khoe" }] },
         { label: "Kiểm tra sức khỏe", children: [{ label: "BMI", path: "/HealthCheck/BMI" }, { label: "Lượng calo cần mỗi ngày", path: "/HealthCheck/TDEECalculator" }, {label: " Cân nặng lý tưởng", path: "/HealthCheck/IdealWeightCalculator"}, {label: "Tỉ lệ mỡ cơ thể", path: "/HealthCheck/BodyFatCalculator"}] },
-        { label: "Cộng đồng", children: [{ label: "Tin tức", path: "Community/News" }, { label: "Sự kiện", path: "Community/Event" }] },
+        { label: "Cộng đồng", children: [{ label: "Tin tức", path: "Community/News" }, { label: "Lịch hiến máu", path: "Community/ScheduleBlood" }] },
         { label: "Về Health Trust", children: [{ label: "Tầm nhìn và sứ mệnh", path: "/AboutHealthTrust/Mission" }, { label: "Thành tựu và giải thưởng", path: "/AboutHealthTrust/Achievement" }, { label: "Đối tác", path: "/AboutHealthTrust/Partner" }] },
     ];
 
@@ -75,7 +74,7 @@ export default function Navbar() {
                     className="border p-2 rounded w-60"
                 />
                 <button
-                    className="bg-blue-600 text-white px-4 py-2 rounded"
+                    className="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-700 transition"
                     onClick={() => navigate("/login")}
                 >
                     Đăng nhập

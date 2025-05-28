@@ -23,14 +23,14 @@ const partners = [
         logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuRdp-5TDYIBcQDhoqw8AcaYap1oTxuvGd5A&s"
     },
     {
-        name: "Đại học Y Hà Nội",
-        description: "Hợp tác trong nghiên cứu và phát triển các giải pháp y tế mới.",
-        logo: "https://medw.vn/wp-content/uploads/2024/10/ao-blouse-dai-hoc-y-ha-noi-medw-1.jpg"
+        name: "Giọt máu vàng",
+        description: "Hợp tác trong việc nâng cao nhận thức về hiến máu và hỗ trợ bệnh nhân.",
+        logo: "data:image/png;base64,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"
     },
     {
-        name: "WHO (Tổ chức Y tế Thế giới)",
-        description: "Hợp tác phát triển chương trình chăm sóc sức khỏe toàn diện.",
-        logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Flag_of_WHO.svg/1200px-Flag_of_WHO.svg.png"
+        name: "Bộ y tế Việt Nam",
+        description: "Hợp tác trong việc xây dựng chính sách y tế và quản lý dịch bệnh.",
+        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTt9f277N4Uee1EvlKcK9w5f-wPKu6FZZid_g&s"
     },
 ];
 

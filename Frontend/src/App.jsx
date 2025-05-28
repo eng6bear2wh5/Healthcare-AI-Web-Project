@@ -6,7 +6,7 @@ import Mission from "./pages/AboutHealthTrust/Mission";
 import ScrollToTop from "./ScrollToTop"; 
 import SafeMedicine from "./pages/PharmaInformation/SafeMedicine";
 import MedicineDetail from "./pages/PharmaInformation/MedicineDetail";
-import HeartDisease from "./pages/Category/HeartDisease";
+
 
 import Home from "./pages/Home";
 import Partner from "./pages/AboutHealthTrust/Partner";
@@ -14,9 +14,9 @@ import CategoryHome from "./pages/Category/CategoryHome";
 import DiseaseList from "./pages/Category/DiseaseList";
 import DiseaseDetail from "./pages/Category/DiseaseDetail";
 import Achievement from "./pages/AboutHealthTrust/Achievement";
-import Event from "./pages/Community/Event";
-import Forum from "./pages/Community/Forum";
-import ForumDetail from "./pages/Community/ForumDetail";
+import ScheduleBlood from "./pages/Community/ScheduleBlood";
+
+
 import Login from './pages/auth/Login'
 import Signup from './pages/auth/Signup'
 import ForgotPassword from './pages/auth/ForgotPassword'
@@ -57,15 +57,13 @@ function App() {
                 <Route path="/AboutHealthTrust/Achievement" element={<Achievement />} />
                 <Route path="/AboutHealthTrust/Partner" element={<Partner />} />
                 <Route path="/PharmaInformation/medicine/:name" element={<MedicineDetail />} />
-                <Route path="/Community/Event" element={<Event />} />
+                <Route path="/Community/ScheduleBlood" element={<ScheduleBlood />} />
                 <Route path="/HealthCheck/BMI" element={<BMI />} />
                 <Route path="/HealthCheck/TDEECalculator" element={<TDEECalculator />} />
                 <Route path="/HealthCheck/IdealWeightCalculator" element={<IdealWeightCalculator />} />
                 <Route path="/HealthCheck/BodyFatCalculator" element={<BodyFatCalculator />} />
                 <Route path="/Community/News" element={<News />} />
-                <Route path="/Community/Forum" element={<Forum />} />
-                <Route path="/Community/Forum/:topicId" element={<ForumDetail />} />
-                <Route path="Category/HeartDisease" element={<HeartDisease />} />
+                
                 <Route path="/about-healthtrust/mission" element={<Mission />} />
                 <Route path="/Category/CategoryHome" element={<CategoryHome />} />
                 <Route path="/Category/DiseaseList/:categoryId" element={<DiseaseList />} />
