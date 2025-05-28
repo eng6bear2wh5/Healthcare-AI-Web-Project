@@ -70,7 +70,7 @@ export default function Articles() {
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`text-xl font-semibold pb-2 border-b-2 ${
+            className={`text-xl font-semibold pb-2 border-b-2 cursor-pointer ${
               activeTab === tab
                 ? "border-blue-600 text-blue-600"
                 : "border-transparent text-gray-500 hover:text-blue-600"
@@ -90,7 +90,7 @@ export default function Articles() {
               href={a.article_link}
               target="_blank"
               rel="noopener noreferrer"
-              className={`block rounded-lg overflow-hidden shadow-md bg-white hover:shadow-lg transition ${
+              className={`block transform hover:scale-105 hover:-translate-y-1 transition-all duration-300 rounded-lg overflow-hidden shadow-md bg-white hover:shadow-lg transition ${
                 activeTab==="featured" && i === 0 ? "lg:col-span-2" : ""
               }`}
             >
