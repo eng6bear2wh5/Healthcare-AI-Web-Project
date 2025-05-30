@@ -13,11 +13,7 @@ export default function Navbar() {
     { label: "Trang chủ", path: "/" },
     { label: "Chuyên mục bệnh", path: "Category/CategoryHome" },
     {
-      label: "Thông tin dược",
-      children: [
-        { label: "Thuốc an toàn", path: "/PharmaInformation/SafeMedicine" },
-      ],
-    },
+      label: "Thông tin dược", path: "/PharmaInformation/SafeMedicine" },
     {
       label: "Kiểm tra sức khỏe",
       children: [
