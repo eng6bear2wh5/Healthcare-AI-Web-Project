@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 function Mission() {
     useEffect(() => {
-        document.title = "Sứ mệnh - Health Trust";
+        document.title = "Sứ mệnh | HealthTrust";
     }, []);
     return (
         <div className="max-w-4xl mx-auto py-10 px-4">

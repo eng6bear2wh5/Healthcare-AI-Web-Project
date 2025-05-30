@@ -15,7 +15,7 @@ const partners = [
     {
         name: "Bệnh viện Chợ Rẫy",
         description: "Hợp tác trong việc nâng cao chất lượng dịch vụ y tế và đào tạo nhân lực.",
-        logo: "https://lh4.googleusercontent.com/proxy/aQ3d-o9oF5Uy1j7FuT2WRL47-jPpck2_yISdght6kAY5gY3QBy2o53uqACLNxupMwIBumNNLKTN9MoXxCo1vYRL1LvlGXUqreA"
+        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdB2uJqxCPADxfjpcFOYgam-WqvObz_czPuw&s"
     },
     {
         name: "Đại học Y Dược TP.HCM",
@@ -36,7 +36,7 @@ const partners = [
 
 function Partner() {
     useEffect(() => {
-        document.title = "Đối tác - Health Trust";
+        document.title = "Đối tác | HealthTrust";
     }, []);
     return (
         <div className="max-w-5xl mx-auto p-4 relative">

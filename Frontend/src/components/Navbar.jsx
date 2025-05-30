@@ -13,7 +13,7 @@ export default function Navbar() {
     { label: "Trang chủ", path: "/" },
     { label: "Chuyên mục bệnh", path: "Category/CategoryHome" },
     {
-      label: "Thông tin dược", path: "/PharmaInformation/SafeMedicine" },
+      label: "Thông tin dược", path: "/PharmaInformation/MedicineList" },
     {
       label: "Kiểm tra sức khỏe",
       children: [
@@ -126,7 +126,7 @@ export default function Navbar() {
 
         {/* Login Button */}
         <button
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition cursor-pointer"
           onClick={() => navigate("/login")}
         >
           Đăng nhập
