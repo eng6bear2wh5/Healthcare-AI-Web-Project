@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Toggle from "./Toggle";
 import { useNavigate } from "react-router-dom";
 
 const SignupForm = () => {
+  useEffect(() => {
+    document.title = "Đăng ký | HealthTrust";
+  }, []);
   const [fullname, setFullname] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");

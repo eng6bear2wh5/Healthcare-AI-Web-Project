@@ -1,10 +1,14 @@
 const Drug = require('../models/drug');
 const { indexDrug, deleteDrug } = require('../../services/elasticsearchService');
 
-const getAllDrugs = async (req, res) => {
+const getAllDrugs = async (req, res, next) => {
   try {
-    const drugs = await Drug.find().limit();
-    res.status(201).json(drugs);
+    const drugs = await Drug.find().select('name indications _id');
+    // Cho phép cache public (browser, CDN…) trong s
+    res
+      .set('Cache-Control', 'public, max-age=3600') //giây
+      .status(200)
+      .json(drugs);
   } catch (error) {
     next(error);
   }

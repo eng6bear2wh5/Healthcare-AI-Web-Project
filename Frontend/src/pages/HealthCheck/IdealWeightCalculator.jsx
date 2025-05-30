@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function IdealWeightCalculator() {
+  useEffect(() => {
+    document.title = "Cân nặng lý tưởng | HealthTrust";
+  }, []);
   const [height, setHeight] = useState("");
   const [gender, setGender] = useState("male");
   const [idealWeight, setIdealWeight] = useState(null);

@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function BMICalculator() {
+    useEffect(() => {
+        document.title = "BMI | HealthTrust";
+    }, []);
     const [height, setHeight] = useState("");
     const [weight, setWeight] = useState("");
     const [bmi, setBmi] = useState(null);

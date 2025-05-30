@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function BodyFatCalculator() {
+  useEffect(() => {
+    document.title = "Tỉ lệ mỡ | HealthTrust";
+  }, []);
   const [gender, setGender] = useState("male");
   const [height, setHeight] = useState("");
   const [neck, setNeck] = useState("");

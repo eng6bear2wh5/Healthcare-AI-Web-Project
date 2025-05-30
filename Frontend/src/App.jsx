@@ -4,8 +4,9 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Mission from "./pages/AboutHealthTrust/Mission";
 import ScrollToTop from "./ScrollToTop";
-import SafeMedicine from "./pages/PharmaInformation/SafeMedicine";
+
 import MedicineDetail from "./pages/PharmaInformation/MedicineDetail";
+import MedicineList from './pages/PharmaInformation/MedicineList';
 
 
 import Home from "./pages/Home";
@@ -53,7 +54,7 @@ function App() {
               <Route path="/personal-tracker/edit-profile" element={<EditProfile />} />
               <Route path="/personal-tracker/" element={<Navigate to="/personal-tracker/dashboard" replace />} />
               <Route path="/AboutHealthTrust/Mission" element={<Mission />} />
-              <Route path="/PharmaInformation/SafeMedicine" element={<SafeMedicine />} />
+              <Route path="/PharmaInformation/MedicineList" element={<MedicineList />} />
               <Route path="/AboutHealthTrust/Achievement" element={<Achievement />} />
               <Route path="/AboutHealthTrust/Partner" element={<Partner />} />
               <Route path="/PharmaInformation/MedicineDetail/:id" element={<MedicineDetail />} />

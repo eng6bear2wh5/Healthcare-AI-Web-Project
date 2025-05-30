@@ -2,6 +2,9 @@
 import React, { useState, useEffect } from "react";
 
 export default function NewsPage() {
+  useEffect(() => {
+    document.title = "Tin tức | HealthTrust";
+  }, []);
   const [groups, setGroups] = useState([]);
   const [diseases, setDiseases] = useState([]);
   const [articles, setArticles] = useState([]);
@@ -9,15 +12,14 @@ export default function NewsPage() {
 
   // 1. Lấy data từ backend
   useEffect(() => {
-    Promise.all([
-      fetch("/api/group_diseases").then(r => r.json()),
-      fetch("/api/diseases").then(r => r.json()),
-      fetch("/api/articles").then(r => r.json())
-    ]).then(([grp, dis, art]) => {
-      setGroups(grp);
-      setDiseases(dis);
-      setArticles(art);
-    }).catch(err => console.error("Lỗi khi tải dữ liệu tin tức:", err));
+    fetch("/api/news-data")
+      .then(r => r.json())
+      .then(({ groups, diseases, articles }) => {
+        setGroups(groups);
+        setDiseases(diseases);
+        setArticles(articles);
+      })
+      .catch(err => console.error("Lỗi khi tải dữ liệu tin tức:", err));
   }, []);
 
   // 2. Build map để tra cứu nhanh
