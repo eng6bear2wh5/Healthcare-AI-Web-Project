@@ -137,6 +137,7 @@ const articlesRoute = require('./routes/articles');
 const diseasesRoute = require('./routes/diseases');
 const groupDiseasesRoute = require('./routes/groupDiseases');
 const adminsRoute = require('./routes/admins');
+const AIRoutes = require('./routes/AI.routes')
 
 // 4. Import DB connectors
 const connectDB = require('./config/db/mongoDB');
@@ -178,6 +179,7 @@ const { checkElasticsearchConnection } = require('./config/db/elasticsearch');
   app.use('/api/diseases', diseasesRoute);
   app.use('/api/group_diseases', groupDiseasesRoute);
   app.use('/api/admins', adminsRoute);
+  app.use('/api/AI', AIRoutes);
 
   // 10. Web page routes (static HTML)
   app.get('/articles_by_group.html', (req, res) =>
