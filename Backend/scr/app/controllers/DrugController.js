@@ -3,7 +3,7 @@ const { indexDrug, deleteDrug } = require('../../services/elasticsearchService')
 
 const getAllDrugs = async (req, res) => {
   try {
-    const drugs = await Drug.find().limit(10);
+    const drugs = await Drug.find().limit();
     res.status(201).json(drugs);
   } catch (error) {
     next(error);
@@ -19,14 +19,14 @@ const importDataToElasticsearch = async (req, res) => {
     let skip = 0;
     const batchSize = 100;
     const pauseTime = 500;
-    while(true) {
+    while (true) {
       const drugs = await Drug.find().skip(skip).limit(batchSize).lean();
       if (drugs.length === 0) break;
       await indexDrug(drugs);
       skip += drugs.length;
       await sleep(pauseTime); // nghỉ giữa các batch để giảm tải CPU
     }
-    res.status(201).json({ message: "Hoàn thành import data"});
+    res.status(201).json({ message: "Hoàn thành import data" });
   }
   catch {
     next(error);
@@ -37,7 +37,7 @@ const createDrug = async (req, res) => {
   const newDrug = new Drug(req.body);
   try {
     const savedDrug = await newDrug.save();
-    await indexDrug(savedDrug); 
+    await indexDrug(savedDrug);
     res.status(201).json(savedDrug);
   } catch (error) {
     next(error);
@@ -75,7 +75,7 @@ const deleteDrugById = async (req, res) => {
     if (!deletedDrug) {
       return res.status(404).json({ message: 'Drug not found' });
     }
-    await deleteDrug(deletedDrug._id); 
+    await deleteDrug(deletedDrug._id);
     res.status(201).json({ message: 'Drug deleted successfully' });
   } catch (error) {
     next(error);
