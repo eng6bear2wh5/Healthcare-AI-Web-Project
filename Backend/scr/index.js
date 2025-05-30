@@ -141,7 +141,7 @@ const adminsRoute = require('./routes/admins');
 // 4. Import DB connectors
 const connectDB = require('./config/db/mongoDB');
 const { checkElasticsearchConnection } = require('./config/db/elasticsearch');
-
+const route = require('./routes');
 // Immediately-Invoked Async Function to bootstrap app
 (async () => {
   // 5. Connect to databases
@@ -172,6 +172,7 @@ const { checkElasticsearchConnection } = require('./config/db/elasticsearch');
   );
   app.use(passport.initialize());
   app.use(passport.session());
+  route(app); // Initialize routes
 
   // 9. API routes
   app.use('/api/articles', articlesRoute);
@@ -210,6 +211,7 @@ const { checkElasticsearchConnection } = require('./config/db/elasticsearch');
 
   // 11. Error handling (should be last)
   app.use(errorHandler);
+
 
   // 12. Start server
   app.listen(PORT, () =>
