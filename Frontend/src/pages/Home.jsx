@@ -8,7 +8,7 @@ import HeroSection from "../components/HeroSection";
 
 function Home() {
     useEffect(() => {
-        document.title = "Trang chủ - Health Trust";
+        document.title = "Trang chủ | HealthTrust";
     }, []);
     return (
         <>

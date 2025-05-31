@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function TDEECalculator() {
+  useEffect(() => {
+    document.title = "Tính lượng calo | HealthTrust";
+  }, []);
   const [height, setHeight] = useState("");
   const [weight, setWeight] = useState("");
   const [age, setAge] = useState("");

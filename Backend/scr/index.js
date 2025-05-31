@@ -37,7 +37,6 @@ const { checkElasticsearchConnection } = require('./config/db/elasticsearch');
   app.use(bodyParser.json());                                 // Parser body form
   app.use(methodOverride('_method'));                         // Override methods
   app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
-  app.use(express.static(path.join(__dirname, 'public')));     // Serve static files
 
   // 8. Session & Passport
   app.use(
@@ -54,34 +53,6 @@ const { checkElasticsearchConnection } = require('./config/db/elasticsearch');
   // 9. API routes
   route(app); // Initialize routes
 
-  // // 10. Web page routes (static HTML)
-  // app.get('/articles_by_group.html', (req, res) =>
-  //   res.sendFile(path.join(__dirname, 'public', 'articles_by_group.html'))
-  // );
-  // app.get('/DISEASES', (req, res) =>
-  //   res.sendFile(path.join(__dirname, 'public', 'diseases.html'))
-  // );
-  // app.get('/DISEASES/:diseaseName', (req, res) =>
-  //   res.sendFile(path.join(__dirname, 'public', 'diseaseDetail.html'))
-  // );
-  // app.get('/ADMIN', (req, res) =>
-  //   res.sendFile(path.join(__dirname, 'public', 'admin_home.html'))
-  // );
-  // app.get('/admin_diseases', (req, res) =>
-  //   res.sendFile(path.join(__dirname, 'public', 'admin_diseases.html'))
-  // );
-  // app.get('/ADD_DISEASE', (req, res) =>
-  //   res.sendFile(path.join(__dirname, 'public', 'add_disease.html'))
-  // );
-  // app.get('/ADD_GROUP', (req, res) =>
-  //   res.sendFile(path.join(__dirname, 'public', 'add_group.html'))
-  // );
-  // app.get('/admin_group_diseases', (req, res) =>
-  //   res.sendFile(path.join(__dirname, 'public', 'admin_group_diseases.html'))
-  // );
-  // app.get('/articles', (req, res) =>
-  //   res.sendFile(path.join(__dirname, 'public', 'articles.html'))
-  // );
 
   // 11. Error handling (should be last)
   app.use(errorHandler);

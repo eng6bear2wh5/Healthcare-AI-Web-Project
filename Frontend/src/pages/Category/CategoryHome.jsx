@@ -1,9 +1,15 @@
 // src/pages/Category/CategoryHome.jsx
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { CategoryContext } from "../../contexts/CategoryContext";
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function CategoryHome() {
+  useEffect(() => {
+    document.title = "Chuyên mục bệnh | HealthTrust";
+  }, []);
+  
+  const queryClient = useQueryClient();
   const { categories } = useContext(CategoryContext);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
@@ -13,6 +19,7 @@ export default function CategoryHome() {
   );
 
   return (
+    
     <section className="max-w-7xl mx-auto px-4 py-10">
       <h2 className="text-3xl flex justify-center font-bold text-blue-600 mb-6">
         Chuyên mục bệnh
@@ -53,5 +60,5 @@ export default function CategoryHome() {
         </div>
       )}
     </section>
-  );
+);
 }

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 export default function Login() {
     useEffect(() => {
-        document.title = "Đăng nhập - Health Trust";
+        document.title = "Đăng nhập | HealthTrust";
     }, []);
     return (
         <div className="flex justify-center items-center h-96">

@@ -1,37 +1,51 @@
 // src/pages/Category/DiseaseList.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext, useEffect} from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import { getAllDiseases } from "../../api/diseaseApi";
-import { useContext } from "react";
 import { CategoryContext } from "../../contexts/CategoryContext";
 
 export default function DiseaseList() {
+  useEffect(() => {
+        document.title = "Chi tiết bệnh | HealthTrust";
+    }, []);
+
   const { categoryId } = useParams();
   const navigate = useNavigate();
   const { categories } = useContext(CategoryContext);
-
   const [searchTerm, setSearchTerm] = useState("");
-  const [diseases, setDiseases] = useState([]);
+  
+  const { data: allDiseases = [], isLoading, error } = useQuery({
+   queryKey: ["allDiseases", categoryId],
+   queryFn: getAllDiseases,
+   staleTime: 1000 * 60 * 5,
+   cacheTime: 1000 * 60 * 10,
+   enabled: !!categoryId,
+ });
 
-  // Lấy tên nhóm để hiển thị tiêu đề
+
   const currentCategory = categories.find(c => c._id === categoryId);
-
-  useEffect(() => {
-    getAllDiseases()
-      .then(all => {
-        // lọc các bệnh thuộc group_diseases === categoryId
-        const filtered = all.filter(d => d.group_diseases === categoryId);
-        setDiseases(filtered);
-      })
-      .catch(err => {
-        console.error("Lỗi khi tải bệnh:", err);
-        setDiseases([]);
-      });
-  }, [categoryId]);
+  // const diseases = allDiseases.filter(d => d.group_diseases === categoryId);
+  const diseases = allDiseases.filter(
+  d => String(d.group_diseases) === categoryId
+);
 
   const filteredDiseases = diseases.filter(d =>
     d.name_diseases.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  if (isLoading) {
+    return (
+      <p className="text-center text-gray-500">Đang tải danh sách bệnh…</p>
+    );
+  }
+  if (error) {
+    return (
+      <p className="text-center text-red-600">
+        Lỗi khi tải bệnh: {error.message}
+      </p>
+    );
+  }
 
   return (
     <div className="max-w-2xl mx-auto p-4">
@@ -76,5 +90,5 @@ export default function DiseaseList() {
         </div>
       )}
     </div>
-  );
+);
 }

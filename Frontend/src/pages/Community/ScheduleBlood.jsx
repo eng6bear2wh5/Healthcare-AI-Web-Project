@@ -150,7 +150,7 @@ const events = [
 
 export default function Event() {
     useEffect(() => {
-        document.title = "Lịch hiến máu - Health Trust";
+        document.title = "Lịch hiến máu | HealthTrust";
     }, []);
 
     return (

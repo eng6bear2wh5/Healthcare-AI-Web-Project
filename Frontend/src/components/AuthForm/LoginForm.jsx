@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Toggle from "./Toggle";
 
 const LoginForm = () => {
-  // const [username, setUsername] = useState("");
+  useEffect(() => {
+    document.title = "Đăng nhập | HealthTrust";
+  }, []);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
