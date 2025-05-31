@@ -22,13 +22,14 @@ const ResetPasswordForm = () => {
       const data = await res.json();
 
       if (res.ok) {
-        alert(`Đặt lại mật khẩu thành công, bạn có thể đăng nhập lại`);
+        // alert(`Đặt lại mật khẩu thành công, bạn có thể đăng nhập lại`);
         navigate("/login");
       } else {
-        alert(`Đặt lại mật khẩu thất bại: ${data.message}`);
+        console.log(`Đặt lại mật khẩu thất bại: ${data.message}`);
+        alert(`Đặt lại mật khẩu thất bại`);
       }
     } catch (error) {
-      alert(`Có lỗi khi fetch reset password: ${error.message}`);
+      console.log(`Có lỗi khi fetch reset password: ${error.message}`);
     }
   };
 

@@ -3,11 +3,12 @@ import Toggle from "./Toggle";
 import { useNavigate } from "react-router-dom";
 
 const SignupForm = () => {
+  
   useEffect(() => {
     document.title = "Đăng ký | HealthTrust";
   }, []);
-  const [fullname, setFullname] = useState("");
-  const [username, setUsername] = useState("");
+  
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -20,21 +21,22 @@ const SignupForm = () => {
       const res = await fetch("http://localhost:3000/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fullname, username, email, password }),
+        body: JSON.stringify({ name, email, password }),
         credentials: "include",
       });
 
       const data = await res.json();
 
       if (res.ok) {
-        alert(`Server đã nhận được thông tin đăng ký, tiến hành gửi OTP để xác thực: ${data.message}`);
+        console.log(`Server đã nhận được thông tin đăng ký, tiến hành gửi OTP để xác thực: ${data.message}`);
         // Điều hướng tới trang "/email-verification"
         navigate(`/email-verification?email=${encodeURIComponent(email)}&from=signup`);
       } else {
-        alert(`Đăng ký thất bại: ${data.message || "Lỗi không xác định"}`);
+        console.log(`Đăng ký thất bại: ${data.message || "Lỗi không xác định"}`);
+        alert(`Đăng ký thất bại`);
       }
     } catch (error) {
-      alert(`Có lỗi khi fetch đăng ký: ${error.message}`);
+      console.log(`Có lỗi khi fetch đăng ký: ${error.message}`);
     }
   };
 
@@ -42,7 +44,7 @@ const SignupForm = () => {
     try {
       window.location.href = "http://localhost:3000/auth/google";
     } catch (error) {
-      alert(`Có lỗi khi đăng nhập google: ${error.message}`);
+      console.log(`Có lỗi khi đăng nhập google: ${error.message}`);
     }
   };
 
@@ -65,12 +67,12 @@ const SignupForm = () => {
             required
             className="block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-[#0180CC] focus:outline-none focus:ring-[#0180CC] text-sm"
             placeholder="Nhập họ tên đầy đủ"
-            value={fullname}
-            onChange={(e) => setFullname(e.target.value)}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
         </div>
 
-        <div>
+        {/* <div>
           <label
             htmlFor="register-username"
             className="block text-sm font-medium text-gray-700 mb-1"
@@ -87,7 +89,7 @@ const SignupForm = () => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
-        </div>
+        </div> */}
 
         <div>
           <label

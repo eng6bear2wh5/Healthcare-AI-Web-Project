@@ -26,9 +26,10 @@ const ForgotPasswordForm = () => {
       const data = await res.json();
 
       if (res.ok) {
-        alert(`Đã gửi mã otp: ${data.message}`);
+        // alert(`Đã gửi mã otp: ${data.message}`);
       } else {
-        alert(`Gửi otp không thành công: ${data.message}`);
+        console.log(`Gửi otp không thành công: ${data.message}`);
+        alert(`Gửi otp không thành công`);
       }
 
       navigate(
@@ -37,7 +38,7 @@ const ForgotPasswordForm = () => {
         )}&from=forgot-password`
       );
     } catch (error) {
-      alert(`Có lỗi khi fetch send otp forgot password: ${error.message}`);
+      console.log(`Có lỗi khi fetch send otp forgot password: ${error.message}`);
     }
   };
 

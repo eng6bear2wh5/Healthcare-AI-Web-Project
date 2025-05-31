@@ -1,36 +1,39 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Toggle from "./Toggle";
 
 const LoginForm = () => {
   useEffect(() => {
     document.title = "Đăng nhập | HealthTrust";
   }, []);
-  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await fetch(`http://localhost:300/auth/login`, {
+      const res = await fetch(`http://localhost:3000/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, email, password }),
+        body: JSON.stringify({ email, password }),
         credentials: "include",
       });
 
       const data = await res.json();
 
       if (res.ok) {
-        alert(`Đăng nhập thành công, đây là token của bạn: ${data.token}`);
+        console.log(`Đăng nhập thành công, đây là token của bạn: ${data.token}`);
+        navigate(`/`);
       } else {
-        alert(`Sai mật khẩu hoặc email chưa đăng ký: ${data.message}`);
+        console.log(`Sai mật khẩu hoặc email chưa đăng ký: ${data.message}`);
+        alert(`Sai mật khẩu hoặc email chưa đăng ký`);
       }
     } catch (error) {
-      alert(`Có lỗi khi fetch đăng nhập: ${error.message}`);
+      console.log(`Có lỗi khi fetch đăng nhập: ${error.message}`);
     }
   };
 
@@ -38,7 +41,7 @@ const LoginForm = () => {
     try {
       window.location.href = "http://localhost:3000/auth/google";
     } catch (error) {
-      alert(`Có lỗi khi đăng nhập google: ${error.message}`);
+      console.log(`Có lỗi khi đăng nhập google: ${error.message}`);
     }
   };
 
@@ -47,7 +50,7 @@ const LoginForm = () => {
       <Toggle />
 
       <form className="space-y-4" onSubmit={handleLogin}>
-        <div>
+        {/* <div>
           <label
             htmlFor="username"
             className="block text-sm font-medium text-gray-700 mb-1"
@@ -64,7 +67,7 @@ const LoginForm = () => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
-        </div>
+        </div> */}
 
         <div>
           <label
