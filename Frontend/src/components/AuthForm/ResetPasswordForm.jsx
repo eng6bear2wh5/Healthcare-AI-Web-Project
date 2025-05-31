@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { resetPassword } from "../../api/auth";
 
 const ResetPasswordForm = () => {
   const navigate = useNavigate();
@@ -8,27 +9,28 @@ const ResetPasswordForm = () => {
 
   const [email] = useState(emailToReset || "");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!password || !confirmPassword) {
+      alert("Vui lòng nhập đầy đủ mật khẩu mới và xác nhận mật khẩu!");
+      return;
+    }
+    if (password !== confirmPassword) {
+      alert("Mật khẩu xác nhận không khớp!");
+      return;
+    }
     try {
-      const res = await fetch(`http://localhost:3000/auth/reset-password`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-        credentials: "include",
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        alert(`Đặt lại mật khẩu thành công, bạn có thể đăng nhập lại`);
+      const result = await resetPassword({ email, password });
+      if (result.ok) {
+        // alert("Đặt lại mật khẩu thành công, bạn có thể đăng nhập lại");
         navigate("/login");
       } else {
-        alert(`Đặt lại mật khẩu thất bại: ${data.message}`);
+        alert(`Đặt lại mật khẩu thất bại: ${result.data.message}`);
       }
     } catch (error) {
-      alert(`Có lỗi khi fetch reset password: ${error.message}`);
+      alert(`Có lỗi khi đặt lại mật khẩu: ${error.message}`);
     }
   };
 
@@ -40,6 +42,7 @@ const ResetPasswordForm = () => {
         </h2>
         <p className="text-sm text-gray-600 text-center">
           Click "Xác nhận” để đổi mật khẩu cho email: <br />
+          <span className="font-medium">{email}</span>
         </p>
       </div>
 
@@ -76,6 +79,8 @@ const ResetPasswordForm = () => {
           required
           className="block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-[#0180CC] focus:outline-none focus:ring-[#0180CC] text-sm"
           placeholder="••••••••"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
         />
       </div>
 

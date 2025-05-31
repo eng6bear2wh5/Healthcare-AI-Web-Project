@@ -1,5 +1,5 @@
 const { validationResult } = require('express-validator');
-const bcrypt = require('bcryptjs'); 
+const bcrypt = require('bcryptjs');
 
 const User = require('../models/user');
 const { sendOTP } = require('../../helpers/sendemailservice');
@@ -31,19 +31,18 @@ class AuthController {
         if (!errors.isEmpty()) return sendResponse(res, 400, errors.array());
 
         try {
-            const { fullname, username, password, email } = req.body;
+            const { name, password, email } = req.body;
             const existingUser = await User.findOne({ email });
             if (existingUser) {
                 if (existingUser.provider.includes('google') && existingUser.googleId) {
-                  return sendResponse(res, 409, 'Email này đã được sử dụng với đăng nhập Google. Vui lòng đăng nhập bằng Google.');
+                    return sendResponse(res, 409, 'Email này đã được sử dụng với đăng nhập Google. Vui lòng đăng nhập bằng Google.');
                 } else {
-                  return sendResponse(res, 409, 'Email đã được đăng ký. Vui lòng sử dụng email khác hoặc đăng nhập.');
+                    return sendResponse(res, 409, 'Email đã được đăng ký. Vui lòng sử dụng email khác hoặc đăng nhập.');
                 }
             }
             // Lưu thông tin tạm trong session
             req.session.pendingUser = {
-                fullname,
-                username,
+                name,
                 email,
                 password: await hashPassword(password)
             };
@@ -60,7 +59,9 @@ class AuthController {
                 ...req.session.pendingUser,
                 isVerified: true
             });
+
             await newUser.save();
+
             sendResponse(res, 201, 'Tài khoản đã được kích hoạt, bạn có thể đăng nhập');
         }
         catch (error) {
@@ -68,12 +69,13 @@ class AuthController {
         }
     }
 
+
     static async login(req, res, next) {
         const errors = validationResult(req);
         if (!errors.isEmpty()) return sendResponse(res, 400, errors.array());
 
         try {
-            const { username, email, password } = req.body;
+            const { email, password } = req.body;
             const user = await User.findOne({ email });
             if (!user || !(await bcrypt.compare(password, user.password))) {
                 return sendResponse(res, 400, 'Sai email hoặc mật khẩu');
@@ -85,21 +87,24 @@ class AuthController {
 
             const token = generateToken(user);
 
-            res.cookie("token", token, {
-                httpOnly: true,  
-                secure: true,    
-                sameSite: "Strict",  
-                maxAge: 24 * 60 * 60 * 1000, 
+            res.cookie("jwt", token, {
+                httpOnly: true,
+                secure: false,
+                sameSite: "Strict",
+                maxAge: 7 * 24 * 60 * 60 * 1000,
+                httpOnly: true,
             });
-            
-            res.status(201).json({ message: 'Đăng nhập thành công', token });
+
+            const { password: pwd, ...userData } = user._doc;
+
+            res.status(200).json({ message: 'Đăng nhập thành công', user: userData });
         } catch (error) {
             next(error);
         }
     }
 
     static logout(req, res, next) {
-        res.clearCookie('token'); 
+        res.clearCookie('token');
         res.status(201).json({ message: 'Đăng xuất thành công' });
     }
 
@@ -116,7 +121,7 @@ class AuthController {
             await setAndSendOTP(req, email);
             sendResponse(res, 200, 'Đã gửi mã otp');
         }
-        catch(error) {
+        catch (error) {
             next(error);
         }
     }
@@ -142,11 +147,11 @@ class AuthController {
         const errors = validationResult(req);
         if (!errors.isEmpty()) return sendResponse(res, 400, errors.array());
 
-        const { email, password } = req.body;   
+        const { email, password } = req.body;
         try {
             const hashedPassword = await hashPassword(password);
             await User.updateOne(
-                { email: email},
+                { email: email },
                 { $set: { password: hashedPassword } }
             );
 

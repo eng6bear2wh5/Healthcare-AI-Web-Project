@@ -1,11 +1,10 @@
 const express = require('express');
-const passport = require('passport'); //user authentication
-const jwt = require('jsonwebtoken'); 
+const passport = require('passport');
 const router = express.Router();
 
 const AuthController = require('../app/controllers/AuthController');
 const validateMiddleware = require('../middleware/validateMiddleware');
-const authenticate = require('../middleware/authMiddleware');
+const { protect, authorize } = require('../middleware/auth');
 
 // Đăng ký (có rate limiting) với Xác thực OTP đăng ký
 router.post('/register', validateMiddleware.registerLimiter, validateMiddleware.validateInfoUser, AuthController.register);
@@ -22,7 +21,7 @@ router.post('/reset-password', validateMiddleware.validateInfoUser, AuthControll
 router.post('/send-otp', validateMiddleware.validateEmail, AuthController.sendOTP); 
 
 // Kiểm tra đăng nhập
-router.get('/me', authenticate, AuthController.me);
+// router.get('/me', authenticate, AuthController.me);
 
 // Đăng xuất
 router.get('/logout', AuthController.logout);

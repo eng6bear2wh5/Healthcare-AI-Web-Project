@@ -1,44 +1,40 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Toggle from "./Toggle";
+import { login } from "../../api/auth"
+import { useAuth } from "../../contexts/AuthContext"; // import hook
+
 
 const LoginForm = () => {
   useEffect(() => {
     document.title = "Đăng nhập | HealthTrust";
   }, []);
-  const [username, setUsername] = useState("");
+  const { setUser } = useAuth(); // lấy hàm setUser
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const navigate = useNavigate();
+
   const handleLogin = async (e) => {
     e.preventDefault();
+    const result = await login({ email, password });
 
-    try {
-      const res = await fetch(`http://localhost:300/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, email, password }),
-        credentials: "include",
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        alert(`Đăng nhập thành công, đây là token của bạn: ${data.token}`);
-      } else {
-        alert(`Sai mật khẩu hoặc email chưa đăng ký: ${data.message}`);
-      }
-    } catch (error) {
-      alert(`Có lỗi khi fetch đăng nhập: ${error.message}`);
+    if (result.ok) {
+      console.log(`Đăng nhập thành công, đây là token của bạn: ${result.data.token}`);
+      setUser(result.data.user);
+      navigate(`/`);
+    } else {
+      console.log(`Sai mật khẩu hoặc email chưa đăng ký: ${result.data.message}`);
+      alert(`Sai mật khẩu hoặc email chưa đăng ký`);
     }
   };
 
   const loginGoogle = async () => {
     try {
-      window.location.href = "http://localhost:3000/auth/google";
+      window.location.href = "/auth/google";
     } catch (error) {
-      alert(`Có lỗi khi đăng nhập google: ${error.message}`);
+      console.log(`Có lỗi khi đăng nhập google: ${error.message}`);
     }
   };
 
@@ -47,7 +43,7 @@ const LoginForm = () => {
       <Toggle />
 
       <form className="space-y-4" onSubmit={handleLogin}>
-        <div>
+        {/* <div>
           <label
             htmlFor="username"
             className="block text-sm font-medium text-gray-700 mb-1"
@@ -64,7 +60,7 @@ const LoginForm = () => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
-        </div>
+        </div> */}
 
         <div>
           <label

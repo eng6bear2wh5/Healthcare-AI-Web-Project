@@ -1,144 +1,118 @@
 import React, { useState, useEffect } from "react";
 import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
   HomeIcon,
   UserIcon,
-  Cog6ToothIcon,
-  ClockIcon,
+  Squares2X2Icon,
   Bars3Icon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
 } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function PersonalLayout({ children }) {
-  const [activeItem, setActiveItem] = useState("Dashboard");
+  const location = useLocation();
   const [collapsed, setCollapsed] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  const sidebarWidth = collapsed ? 100 :220;
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   const menuItems = [
-    { name: "Dashboard", href: "#", icon: HomeIcon },
-    { name: "Profile", href: "#", icon: UserIcon },
-    { name: "Settings", href: "#", icon: Cog6ToothIcon },
-    { name: "History", href: "#", icon: ClockIcon },
+    { name: "Home", to: "/", icon: HomeIcon },
+    { name: "Dashboard", to: "/personal-tracker/dashboard", icon: Squares2X2Icon },
+    { name: "Profile", to: "/personal-tracker/edit-profile", icon: UserIcon },
   ];
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 768) {
-        setSidebarOpen(false);
-      }
+      setIsMobile(window.innerWidth < 768);
     };
-
     window.addEventListener("resize", handleResize);
-
-    // Gọi ngay 1 lần khi load
-    handleResize();
-
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      <aside
-        style={{ width: sidebarWidth }}
-        className={`fixed top-0 left-0 bottom-0 z-40 transition-all duration-300 dark:bg-gray-900 bg-gray-100 p-4
-        ${sidebarOpen ? "flex" : "hidden"} flex-col md:flex overflow-y-auto`}
-      >
-        <div
-          className={`flex ${
-            collapsed ? "justify-center" : "justify-between"
-          } items-center mb-6 mt-4`}
+    <div className="flex flex-col min-h-screen bg-gray-100 md:flex-row">
+      {/* Sidebar for desktop */}
+      {!isMobile && (
+        <aside
+          style={{ width: collapsed ? 80 : 220 }}
+          className="bg-gray-100 dark:bg-gray-900 p-4 transition-all duration-300 hidden md:flex flex-col"
         >
-          {!collapsed && (
-            <h1 className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-              HealthCare
-            </h1>
-          )}
-          <button
-            onClick={() => setCollapsed(!collapsed)}
-            className="text-gray-600 dark:text-gray-300 hover:text-blue-600"
-          >
-            {collapsed ? (
-              <ChevronRightIcon className="w-5 h-5" />
-            ) : (
-              <ChevronLeftIcon className="w-5 h-5" />
+          <div className={`flex ${collapsed ? "justify-center" : "justify-between"} items-center mb-6 mt-4`}>
+            {!collapsed && (
+              <h1 className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                HealthCare
+              </h1>
             )}
-          </button>
-        </div>
-
-        <hr className="border-gray-200 dark:border-gray-700 mb-6" />
-
-        <nav className="space-y-1">
-          {menuItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = activeItem === item.name;
-
-            return (
-              <a
-                key={item.name}
-                href={item.href}
-                onClick={() => setActiveItem(item.name)}
-                className={`group flex ${
-                  collapsed ? "justify-center" : "items-center gap-3"
-                } px-3 py-2 rounded-md text-sm font-medium transition-all duration-200
-          ${
-            isActive
-              ? "bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-200 font-semibold"
-              : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
-          }`}
-              >
-                <Icon
-                  className={`w-5 h-5 transition-transform duration-200 ${
-                    isActive ? "text-blue-600 dark:text-blue-300" : ""
-                  }`}
-                />
-                {!collapsed && <span className="truncate">{item.name}</span>}
-              </a>
-            );
-          })}
-        </nav>
-      </aside>
-
-      {!sidebarOpen && (
-        <button
-          onClick={() => setSidebarOpen(true)}
-          className="md:hidden fixed top-4 left-4 z-50 p-2 bg-white dark:bg-gray-800 rounded-md shadow text-gray-700 dark:text-gray-300"
-        >
-          <Bars3Icon className="w-6 h-6" />
-        </button>
+            <button
+              onClick={() => setCollapsed(!collapsed)}
+              className="text-gray-600 dark:text-gray-300 hover:text-blue-600"
+            >
+              {collapsed ? (
+                <ChevronRightIcon className="w-5 h-5" />
+              ) : (
+                <ChevronLeftIcon className="w-5 h-5" />
+              )}
+            </button>
+          </div>
+          <hr className="border-gray-200 dark:border-gray-700 mb-6" />
+          <nav className="space-y-2">
+            {menuItems.map(({ name, to, icon: Icon }) => {
+              const isActive = location.pathname === to;
+              return (
+                <Link
+                  key={name}
+                  to={to}
+                  className={`group flex ${
+                    collapsed ? "justify-center" : "items-center gap-3"
+                  } px-3 py-2 rounded-md text-sm font-medium transition-all duration-200
+                    ${
+                      isActive
+                        ? "bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-200 font-semibold"
+                        : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                    }`}
+                >
+                  <Icon className="w-5 h-5" />
+                  {!collapsed && <span className="truncate">{name}</span>}
+                </Link>
+              );
+            })}
+          </nav>
+        </aside>
       )}
 
-      {/* Content dịch sang phải dựa vào sidebar */}
-      <main
-        className={`flex-1 transition-all duration-300 ${
-          collapsed ? "md:ml-20" : "md:ml-[220px]"
-        } ml-0`}
-      >
-        <div className="p-4">
+      <main className={`flex-1"}`}>
+        <div className="p-4 pb-20 md:pb-4">
           <div className="bg-white min-h-screen rounded-xl shadow-sm">
-            {/* Nội dung */}
             <div className="p-2 sm:p-4 md:p-6">
-              {/* Breadcumb */}
-
-              <nav aria-label="breadcrumb" className="mb-4 mt-4">
-                <ol className="flex list-none p-0">
-                  <li className="text-gray-600">
-                    <span className="block text-gray-700 mb-1">HealthCare</span>
-                  </li>
-                  <li className="text-gray-600">
-                  <span className="mx-2 text-gray-400">{'>'}</span>
-                    <span className="text-blue-500">{activeItem}</span>
-                  </li>
-                </ol>
-              </nav>
-
+              {/* Breadcrumb đã được xoá */}
               {children}
             </div>
           </div>
         </div>
       </main>
+
+      {/* Bottom nav for mobile */}
+      {isMobile && (
+        <nav className="fixed bottom-0 left-0 right-0 z-50 flex justify-around bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 py-2">
+          {menuItems.map(({ name, to, icon: Icon }) => {
+            const isActive = location.pathname === to;
+            return (
+              <Link
+                key={name}
+                to={to}
+                className={`flex flex-col items-center justify-center text-xs ${
+                  isActive ? "text-blue-600" : "text-gray-500"
+                }`}
+              >
+                <Icon className="w-6 h-6 mb-1" />
+                <span>{name}</span>
+              </Link>
+            );
+          })}
+        </nav>
+      )}
+
+      {/* Mobile menu toggle (optional, hidden in this version) */}
+      {/* Nếu muốn có nút mở sidebar trong mobile, có thể bổ sung thêm */}
     </div>
   );
 }

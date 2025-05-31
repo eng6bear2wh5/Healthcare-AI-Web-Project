@@ -1,0 +1,10 @@
+const express = require('express');
+const router  = express.Router();
+const PT      = require('../app/models/PersonalTracker');
+router.get('/',        async (req, res, next) => { try { res.json(await PT.find()); } catch(e){next(e);} });
+router.get('/:id',     async (req, res, next) => { try { res.json(await PT.findById(req.params.id)); } catch(e){next(e);} });
+router.post('/',       async (req, res, next) => { try { res.status(201).json(await PT.create(req.body)); } catch(e){next(e);} });
+router.put('/:id',     async (req, res, next) => { try { res.json(await PT.findByIdAndUpdate(req.params.id, req.body, { new: true })); } catch(e){next(e);} });
+router.delete('/:id',  async (req, res, next) => { try { await PT.findByIdAndDelete(req.params.id); res.json({ success: true }); } catch(e){next(e);} });
+router.get('/user/:userId', async (req, res, next) => { try { res.json(await PT.find({ user_id: req.params.userId })); } catch(e){next(e);} });
+module.exports = router;
