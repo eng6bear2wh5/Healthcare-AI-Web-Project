@@ -2,11 +2,14 @@ import React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Toggle from "./Toggle";
+import { useToast } from "../ToastContext";
 
 const LoginForm = () => {
   // const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const { showToast } = useToast();
 
   const navigate = useNavigate();
 
@@ -25,13 +28,15 @@ const LoginForm = () => {
 
       if (res.ok) {
         console.log(`Đăng nhập thành công, đây là token của bạn: ${data.token}`);
+        showToast("Đăng nhập thành công!", "success");
         navigate(`/`);
       } else {
         console.log(`Sai mật khẩu hoặc email chưa đăng ký: ${data.message}`);
-        alert(`Sai mật khẩu hoặc email chưa đăng ký`);
+        showToast("Đăng nhập thất bại!", "fail");
       }
     } catch (error) {
       console.log(`Có lỗi khi fetch đăng nhập: ${error.message}`);
+      showToast("Có lỗi xảy ra!", "fail");
     }
   };
 
@@ -40,6 +45,7 @@ const LoginForm = () => {
       window.location.href = "http://localhost:3000/auth/google";
     } catch (error) {
       console.log(`Có lỗi khi đăng nhập google: ${error.message}`);
+      showToast("Có lỗi xảy ra!", "fail");
     }
   };
 

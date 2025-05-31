@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import Toggle from "./Toggle";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "../ToastContext";
 
 const SignupForm = () => {
   const [name, setName] = useState("");
   // const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const { showToast } = useToast();
 
   const navigate = useNavigate();
 
@@ -29,10 +32,11 @@ const SignupForm = () => {
         navigate(`/email-verification?email=${encodeURIComponent(email)}&from=signup`);
       } else {
         console.log(`Đăng ký thất bại: ${data.message || "Lỗi không xác định"}`);
-        alert(`Đăng ký thất bại`);
+        showToast("Đăng ký thất bại!", "fail");
       }
     } catch (error) {
       console.log(`Có lỗi khi fetch đăng ký: ${error.message}`);
+      showToast("Xảy ra lỗi!", "fail");
     }
   };
 
@@ -41,6 +45,7 @@ const SignupForm = () => {
       window.location.href = "http://localhost:3000/auth/google";
     } catch (error) {
       console.log(`Có lỗi khi đăng nhập google: ${error.message}`);
+      showToast("Xảy ra lỗi!", "fail");
     }
   };
 

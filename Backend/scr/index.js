@@ -13,8 +13,6 @@ const session = require('express-session');
 const passport = require('./config/passport');
 const errorHandler = require('./middleware/handleError');
 
-// 3. Import routes
-const route = require('./routes');
 
 // 4. Import DB connectors
 const connectDB = require('./config/db/mongoDB');
@@ -50,38 +48,11 @@ const { checkElasticsearchConnection } = require('./config/db/elasticsearch');
   );
   app.use(passport.initialize());
   app.use(passport.session());
-  
-  // 9. API routes
-  route(app); // Initialize routes
 
-  // // 10. Web page routes (static HTML)
-  // app.get('/articles_by_group.html', (req, res) =>
-  //   res.sendFile(path.join(__dirname, 'public', 'articles_by_group.html'))
-  // );
-  // app.get('/DISEASES', (req, res) =>
-  //   res.sendFile(path.join(__dirname, 'public', 'diseases.html'))
-  // );
-  // app.get('/DISEASES/:diseaseName', (req, res) =>
-  //   res.sendFile(path.join(__dirname, 'public', 'diseaseDetail.html'))
-  // );
-  // app.get('/ADMIN', (req, res) =>
-  //   res.sendFile(path.join(__dirname, 'public', 'admin_home.html'))
-  // );
-  // app.get('/admin_diseases', (req, res) =>
-  //   res.sendFile(path.join(__dirname, 'public', 'admin_diseases.html'))
-  // );
-  // app.get('/ADD_DISEASE', (req, res) =>
-  //   res.sendFile(path.join(__dirname, 'public', 'add_disease.html'))
-  // );
-  // app.get('/ADD_GROUP', (req, res) =>
-  //   res.sendFile(path.join(__dirname, 'public', 'add_group.html'))
-  // );
-  // app.get('/admin_group_diseases', (req, res) =>
-  //   res.sendFile(path.join(__dirname, 'public', 'admin_group_diseases.html'))
-  // );
-  // app.get('/articles', (req, res) =>
-  //   res.sendFile(path.join(__dirname, 'public', 'articles.html'))
-  // );
+  // 9. API routes
+  // 3. Import routes
+  const route = require('./routes');
+  route(app); // Initialize routes
 
   // 11. Error handling (should be last)
   app.use(errorHandler);

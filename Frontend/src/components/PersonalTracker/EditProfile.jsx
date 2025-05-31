@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useToast } from "../ToastContext";
 
 function Input({ className = "", ...props }) {
   return (
@@ -53,32 +54,41 @@ function EditProfile() {
     diet: "",
     activity: "",
     lifestyle: "",
+    drug: "",
   });
+
+  const { showToast } = useToast();
+
+  const apiBackendURL = import.meta.env.VITE_API_BACKEND;
 
   useEffect(() => {
     Promise.all([
-      fetch(
-        "http://localhost:3000/api/user/profile-test?userId=68144307237289e8d5982c9d",
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      ).then((r) => r.json()), // User: email, name
-      fetch(
-        "http://localhost:3000/api/userinfo/test?userId=68144307237289e8d5982c9d",
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      ).then((r) => {
-        // Nếu 404 (UserInfo chưa tồn tại) → trả về {}
+      fetch(`${apiBackendURL}/api/user`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      }).then((r) => r.json()), 
+      fetch(`${apiBackendURL}/api/userinfo`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      }).then((r) => {
+        if (r.status === 404) return {};
+        return r.json();
+      }),
+      fetch(`${apiBackendURL}/api/medical-history/me`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      }).then((r) => {
         if (r.status === 404) return {};
         return r.json();
       }),
     ])
-      .then(([user, ui]) => {
+      .then(([user, ui, medical_history]) => {
         setFormData((prev) => ({
           ...prev,
           fullname: user.name || "",
@@ -90,6 +100,8 @@ function EditProfile() {
           diet: ui.diet_type || "",
           activity: ui.activity_level || "",
           lifestyle: ui.daily_routine || "",
+          condition: medical_history.disease_name || "",
+          conditionNote: medical_history.notes || "",
         }));
       })
       .catch(console.error);
@@ -110,49 +122,69 @@ function EditProfile() {
     e.preventDefault();
 
     const bodyUser = {
-      name: formData.fullname,
+      name: formData?.fullname,
     };
 
     const bodyInfo = {
-      sex: formData.gender,
-      birth_date: formData.dob,
-      blood_type: formData.blood,
-      height: parseFloat(formData.height),
-      weight: parseFloat(formData.weight),
-      diet_type: formData.diet,
-      activity_level: formData.activity,
-      daily_routine: formData.lifestyle,
+      sex: formData?.gender,
+      birth_date: formData?.dob,
+      blood_type: formData?.blood,
+      height: formData?.height ? parseFloat(formData.height) : "",
+      weight: formData?.weight ? parseFloat(formData.weight) : "",
+      diet_type: formData?.diet,
+      activity_level: formData?.activity,
+      daily_routine: formData?.lifestyle,
     };
 
-    fetch(
-      "http://localhost:3000/api/user/profile",
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          credentials: 'include'
-        },
-        body: JSON.stringify(bodyUser),
-      }
-    )
+    const bodyMedicalHistory = {
+      disease_name: formData?.condition,
+      diagnosis_date: new Date(),
+      notes: formData?.conditionNote,
+    };
+
+    // const bodyPrescription = {
+    //   medical_history_id: mhSelect.value,
+    //   prescribed_date: pForm.prescribed_date.value,
+    //   meds,
+    // };
+
+    fetch(`${apiBackendURL}/api/user`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(bodyUser),
+    })
       .then((res) => res.text())
       .then((data) => console.log("Thành công " + data))
       .catch((err) => console.error(err));
 
-    fetch(
-      "http://localhost:3000/api/userinfo",
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          credentials: 'include'
-        },
-        body: JSON.stringify(bodyInfo),
-      }
-    )
+    fetch(`${apiBackendURL}/api/userinfo`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(bodyInfo),
+    })
       .then((res) => res.text())
       .then((data) => console.log("Thành công " + data))
       .catch((err) => console.error(err));
+
+    fetch(`${apiBackendURL}/api/medical-history`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(bodyMedicalHistory),
+    })
+      .then((res) => res.text())
+      .then((data) => console.log("Thành công " + data))
+      .catch((err) => console.error(err));
+
+    showToast("Đã cập nhập profile!", "success");
   };
 
   return (
@@ -164,7 +196,7 @@ function EditProfile() {
       {/* Avatar */}
       <div className="flex items-center gap-4">
         <img
-          src={formData.gender === "female" ? avatars.female : avatars.male}
+          src={formData?.gender === "female" ? avatars.female : avatars.male}
           alt="Avatar Preview"
           className="w-24 h-24 rounded-full object-cover border"
         />
@@ -188,7 +220,7 @@ function EditProfile() {
           <Label htmlFor="fullname">Họ tên</Label>
           <Input
             id="fullname"
-            value={formData.fullname}
+            value={formData?.fullname}
             onChange={handleChange}
           />
         </div>
@@ -198,7 +230,7 @@ function EditProfile() {
           <Input
             id="dob"
             type="date"
-            value={formData.dob}
+            value={formData?.dob}
             onChange={handleChange}
           />
         </div>
@@ -207,14 +239,14 @@ function EditProfile() {
           <Label htmlFor="gender">Giới tính</Label>
           <select
             id="gender"
-            value={formData.gender}
+            value={formData?.gender}
             onChange={handleChange}
             className="w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="">-- Chọn --</option>
-            <option value="male">Nam</option>
-            <option value="female">Nữ</option>
-            <option value="other">Khác</option>
+            <option value="Nam">Nam</option>
+            <option value="Nữ">Nữ</option>
+            <option value="Khác">Khác</option>
           </select>
         </div>
 
@@ -222,7 +254,7 @@ function EditProfile() {
           <Label htmlFor="blood">Nhóm máu</Label>
           <select
             id="blood"
-            value={formData.blood}
+            value={formData?.blood}
             onChange={handleChange}
             className="w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
@@ -240,7 +272,7 @@ function EditProfile() {
           <Input
             id="height"
             type="number"
-            value={formData.height}
+            value={formData?.height}
             onChange={handleChange}
           />
         </div>
@@ -250,7 +282,7 @@ function EditProfile() {
           <Input
             id="weight"
             type="number"
-            value={formData.weight}
+            value={formData?.weight}
             onChange={handleChange}
           />
         </div>
@@ -259,7 +291,7 @@ function EditProfile() {
           <Label htmlFor="condition">Tên bệnh nền</Label>
           <Input
             id="condition"
-            value={formData.condition}
+            value={formData?.condition}
             onChange={handleChange}
           />
         </div>
@@ -268,57 +300,59 @@ function EditProfile() {
           <Label htmlFor="diet">Chế độ ăn uống</Label>
           <select
             id="diet"
-            value={formData.diet}
+            value={formData?.diet}
             onChange={handleChange}
             className="w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <option>Chế độ ăn uống lành mạnh (Healthy Eating)</option>
-            <option>Chế độ ăn uống theo nhóm máu (Blood Type Diet)</option>
-            <option>Chế độ ăn uống theo nhóm cơ thể (Body Type Diet)</option>
-            <option>Chế độ ăn uống theo nhóm tuổi (Age Group Diet)</option>
-            <option>
-              Chế độ ăn uống theo tình trạng sức khỏe (Health Condition Diet)
-            </option>
-            <option>Ít tinh bột (Low-Carb)</option>
-            <option>Ít béo (Low-Fat)</option>
-            <option>Ít cholesterol (Low-Cholesterol)</option>
-            <option>Ít natri (Low-Sodium)</option>
-            <option>Ít đường (Low-Sugar)</option>
-            <option>Ít cholesterol (Low-Cholesterol)</option>
-            <option>Ít calo (Low-Calorie)</option>
-            <option>Ít chất béo (Low-Fat)</option>
-            <option>Ít vitamin (Low-Vitamin)</option>
-            <option>Ít khoáng chất (Low-Mineral)</option>
-            <option>Ít omega-3 (Low-Omega-3)</option>
-            <option>Ít chất chống oxy hóa (Low-Antioxidant)</option>
-            <option>Ít probiotic (Low-Probiotic)</option>
-            <option>Giàu protein (High-Protein)</option>
-            <option>Giàu chất béo bão hòa (High-Saturated-Fat)</option>
-            <option>Giàu chất xơ (High-Fiber)</option>
-            <option>Giàu tinh bột (High-Carb)</option>
-            <option>Giàu calo (High-Calorie)</option>
-            <option>Giàu chất béo (High-Fat)</option>
-            <option>Giàu vitamin (High-Vitamin)</option>
-            <option>Giàu khoáng chất (High-Mineral)</option>
-            <option>Giàu omega-3 (High-Omega-3)</option>
-            <option>Giàu chất chống oxy hóa (High-Antioxidant)</option>
-            <option>Giàu flavonoid (High-Flavonoid)</option>
-            <option>Giàu probiotic (High-Probiotic)</option>
-            <option>Keto (Ketogenic)</option>
-            <option>Giảm cân (Weight Loss)</option>
-            <option>Eat Clean</option>
-            <option>Thực phẩm hữu cơ (Organic)</option>
-            <option>Không chứa gluten (Gluten-Free)</option>
-            <option>Cân bằng (Balanced)</option>
-            <option>DASH (Phòng ngừa tăng huyết áp)</option>
-            <option>Ăn chay (Vegetarian)</option>
-            <option>Thuần chay (Vegan)</option>
-            <option>Địa Trung Hải (Mediterranean)</option>
-            <option>Thực dưỡng (Macrobiotic)</option>
-            <option>Nhịn ăn gián đoạn (Intermittent Fasting)</option>
-            <option>Thực phẩm chức năng (Supplements)</option>
-            <option>Thực phẩm bổ sung (Nutritional Supplements)</option>
-            <option>Khác</option>
+            {[
+              "Chế độ ăn uống lành mạnh (Healthy Eating)",
+              "Chế độ ăn uống theo nhóm máu (Blood Type Diet)",
+              "Chế độ ăn uống theo nhóm cơ thể (Body Type Diet)",
+              "Chế độ ăn uống theo nhóm tuổi (Age Group Diet)",
+              "Chế độ ăn uống theo tình trạng sức khỏe (Health Condition Diet)",
+              "Ít tinh bột (Low-Carb)",
+              "Ít béo (Low-Fat)",
+              "Ít cholesterol (Low-Cholesterol)",
+              "Ít natri (Low-Sodium)",
+              "Ít đường (Low-Sugar)",
+              "Ít calo (Low-Calorie)",
+              "Ít vitamin (Low-Vitamin)",
+              "Ít khoáng chất (Low-Mineral)",
+              "Ít omega-3 (Low-Omega-3)",
+              "Ít chất chống oxy hóa (Low-Antioxidant)",
+              "Ít probiotic (Low-Probiotic)",
+              "Giàu protein (High-Protein)",
+              "Giàu chất béo bão hòa (High-Saturated-Fat)",
+              "Giàu chất xơ (High-Fiber)",
+              "Giàu tinh bột (High-Carb)",
+              "Giàu calo (High-Calorie)",
+              "Giàu chất béo (High-Fat)",
+              "Giàu vitamin (High-Vitamin)",
+              "Giàu khoáng chất (High-Mineral)",
+              "Giàu omega-3 (High-Omega-3)",
+              "Giàu chất chống oxy hóa (High-Antioxidant)",
+              "Giàu flavonoid (High-Flavonoid)",
+              "Giàu probiotic (High-Probiotic)",
+              "Keto (Ketogenic)",
+              "Giảm cân (Weight Loss)",
+              "Eat Clean",
+              "Thực phẩm hữu cơ (Organic)",
+              "Không chứa gluten (Gluten-Free)",
+              "Cân bằng (Balanced)",
+              "DASH (Phòng ngừa tăng huyết áp)",
+              "Ăn chay (Vegetarian)",
+              "Thuần chay (Vegan)",
+              "Địa Trung Hải (Mediterranean)",
+              "Thực dưỡng (Macrobiotic)",
+              "Nhịn ăn gián đoạn (Intermittent Fasting)",
+              "Thực phẩm chức năng (Supplements)",
+              "Thực phẩm bổ sung (Nutritional Supplements)",
+              "Khác",
+            ].map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -331,47 +365,89 @@ function EditProfile() {
               id="conditionNote"
               rows={6}
               className="h-full min-h-[150px] flex-grow"
-              value={formData.conditionNote}
+              value={formData?.conditionNote}
               onChange={handleChange}
             />
           </div>
 
           {/* Mức độ hoạt động và Sinh hoạt hằng ngày bên phải */}
-          <div className="w-full md:w-1/2 flex flex-col gap-4">
-            <div>
-              <Label htmlFor="activity">Mức độ hoạt động</Label>
-              <select
-                id="activity"
-                value={formData.activity}
-                onChange={handleChange}
-                className="w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">-- Chọn --</option>
-                <option value="low">Ít vận động</option>
-                <option value="medium">Vận động vừa phải</option>
-                <option value="high">Vận động thường xuyên</option>
-                <option value="intense">Vận động mạnh</option>
-              </select>
-            </div>
-
-            <div>
-              <Label htmlFor="lifestyle">Sinh hoạt hằng ngày</Label>
-              <select
-                id="lifestyle"
-                value={formData.lifestyle}
-                onChange={handleChange}
-                className="w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">-- Chọn --</option>
-                <option value="ngủ đủ">Ngủ đủ giấc</option>
-                <option value="hút thuốc">Hút thuốc</option>
-                <option value="stress">Thường xuyên căng thẳng</option>
-                <option value="làm việc nhiều">
-                  Làm việc nhiều trên máy tính
-                </option>
-              </select>
-            </div>
+          <div className="w-full md:w-1/2 flex flex-col">
+            <Label htmlFor="conditionNote">
+              Các loại thuốc đã dùng (nếu có)
+            </Label>
+            <Textarea
+              id="drug"
+              rows={6}
+              className="h-full min-h-[150px] flex-grow"
+              value={formData?.drug}
+              onChange={handleChange}
+            />
           </div>
+        </div>
+
+        <div>
+          <Label htmlFor="activity">Mức độ hoạt động</Label>
+          <select
+            id="activity"
+            value={formData?.activity}
+            onChange={handleChange}
+            className="w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">-- Chọn --</option>
+            <option value="Ít vận động">Ít vận động</option>
+            <option value="Vận động vừa phải">Vận động vừa phải</option>
+            <option value="Vận động thường xuyên">Vận động thường xuyên</option>
+            <option value="Vận động mạnh">Vận động mạnh</option>
+          </select>
+        </div>
+
+        <div>
+          <Label htmlFor="lifestyle">Sinh hoạt hằng ngày</Label>
+          <select
+            id="lifestyle"
+            value={formData?.lifestyle}
+            onChange={handleChange}
+            className="w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">-- Chọn --</option>
+            <option value="Ngủ đủ giấc">Ngủ đủ giấc</option>
+            <option value="Ngủ không đủ giấc">Ngủ không đủ giấc</option>
+            <option value="Hút thuốc">Hút thuốc</option>
+            <option value="Uống rượu bia">Uống rượu bia</option>
+            <option value="Thường xuyên căng thẳng">
+              Thường xuyên căng thẳng
+            </option>
+            <option value="Làm việc nhiều trên máy tính">
+              Làm việc nhiều trên máy tính
+            </option>
+            <option value="Lười vận động">Lười vận động</option>
+            <option value="Tập thể dục đều đặn">Tập thể dục đều đặn</option>
+            <option value="Thức khuya thường xuyên">
+              Thức khuya thường xuyên
+            </option>
+            <option value="Ăn uống không điều độ">Ăn uống không điều độ</option>
+            <option value="Ăn khuya">Ăn khuya</option>
+            <option value="Thường xuyên đi du lịch">
+              Thường xuyên đi du lịch
+            </option>
+            <option value="Thường xuyên tiếp xúc với thiết bị điện tử">
+              Thường xuyên tiếp xúc với thiết bị điện tử
+            </option>
+            <option value="Sinh hoạt theo giờ giấc ổn định">
+              Sinh hoạt theo giờ giấc ổn định
+            </option>
+            <option value="Thiền hoặc tập yoga">Thiền hoặc tập yoga</option>
+            <option value="Làm việc ca đêm">Làm việc ca đêm</option>
+            <option value="Thường xuyên ăn đồ ăn nhanh">
+              Thường xuyên ăn đồ ăn nhanh
+            </option>
+            <option value="Uống đủ nước mỗi ngày">Uống đủ nước mỗi ngày</option>
+            <option value="Không ăn sáng">Không ăn sáng</option>
+            <option value="Tự chăm sóc sức khỏe tốt">
+              Tự chăm sóc sức khỏe tốt
+            </option>
+            <option value="Khác">Khác</option>
+          </select>
         </div>
 
         <div className="md:col-span-2 text-right">

@@ -42,8 +42,7 @@ const SectionTitle = ({ icon, title }) => (
   </div>
 );
 
-const headers = { "Content-Type": "application/json", credentials: "include" };
-const testUserId = "68144307237289e8d5982c9d";
+const headers = { "Content-Type": "application/json" };
 const fmt = (d) => new Date(d).toLocaleDateString("vi-VN");
 
 // -------------------------------------------------------------------------------------------
@@ -55,23 +54,26 @@ const PersonalInfoCard = () => {
 
   useEffect(() => {
     Promise.all([
-      fetch(
-        `${apiBackendURL}/api/user/profile-test?userId=${testUserId}`,
-        { headers }
-      ).then((r) => r.json()),
-      fetch(`${apiBackendURL}/api/userinfo/test?userId=${testUserId}`, {
+      fetch(`${apiBackendURL}/api/user`, {
         headers,
-      }).then((r) => (r.status === 404 ? {} : r.json())),
-      fetch(`${apiBackendURL}/api/medical-history/user/${testUserId}`, {
-        headers,
+        credentials: "include",
       }).then((r) => r.json()),
-    ]).then(([u, ui]) => {
-      setNameUser(u.name);
-      setUserInfo(ui);
-    });
+      fetch(`${apiBackendURL}/api/userinfo`, {
+        headers,
+        credentials: "include",
+      }).then((r) => (r.status === 404 ? {} : r.json())),
+    ])
+      .then(([u, ui]) => {
+        setNameUser(u.name);
+        setUserInfo((prev) => ({
+          ...prev,
+          ...ui,
+        }));
+      })
+      .catch((err) => console.error(err));
   }, []);
 
-  if (!nameUser) return <div>Loading...</div>;
+  // if (!nameUser) return <div>Loading...</div>;
 
   const avatars = {
     male: "/src/assets/avatars/male_avatar.jpg",
@@ -91,7 +93,7 @@ const PersonalInfoCard = () => {
         {/* Phần trái */}
         <div className="flex flex-col justify-center items-center md:items-start text-center md:text-left md:w-1/4">
           <img
-            src={avatars[userInfo.sex] || avatars.other}
+            src={avatars[userInfo?.sex] || avatars.other}
             alt="Avatar"
             className="w-32 h-32 rounded-full object-cover mb-3 border-4 border-blue-200"
           />
@@ -106,19 +108,19 @@ const PersonalInfoCard = () => {
         {/* Phần phải */}
         <div className="grid grid-cols-2 gap-x-6 gap-y-4 text-sm w-full md:w-3/4">
           {[
-            ["Giới tính", userInfo.sex],
-            ["Ngày sinh", fmt(userInfo.birth_date)],
+            ["Giới tính", userInfo?.sex],
+            ["Ngày sinh", fmt(userInfo?.birth_date)],
             [
               "Tuổi",
               Math.floor(
-                (Date.now() - new Date(userInfo.birth_date)) /
+                (Date.now() - new Date(userInfo?.birth_date)) /
                   (365.25 * 24 * 3600 * 1000)
               ),
             ],
-            ["Nhóm máu", userInfo.blood_type],
-            ["Chiều cao", userInfo.height],
-            ["Cân nặng", userInfo.weight],
-            ["Đăng ký", fmt(userInfo.updatedAt)],
+            ["Nhóm máu", userInfo?.blood_type],
+            ["Chiều cao", `${userInfo?.height} cm`],
+            ["Cân nặng", `${userInfo?.weight} kg`],
+            ["Đăng ký", userInfo?.updatedAt ? fmt(userInfo.updatedAt) : ""],
             ["Trạng thái", "Đang theo dõi"],
           ].map(([label, value], idx) => (
             <div key={idx}>
@@ -136,56 +138,73 @@ const RecentHealthMetrics = () => {
   const [healthMetric, setHealthMetric] = useState({});
 
   useEffect(() => {
-    fetch(`${apiBackendURL}/api/health-metrics/user/${testUserId}`, {
+    fetch(`${apiBackendURL}/api/health-metrics/me`, {
       headers,
+      credentials: "include",
     })
       .then((r) => r.json())
-      .then((data) => setHealthMetric(data[0]));
+      .then((data) => {
+        setHealthMetric(data);
+      })
+      .catch((err) => console.error(err));
   }, []);
 
   const metrics = [
     {
       label: "🩸 Huyết áp",
-      value: healthMetric.blood_pressure
-        ? `${healthMetric.blood_pressure.systolic}/${healthMetric.blood_pressure.diastolic}`
+      value: healthMetric?.blood_pressure
+        ? `${healthMetric?.blood_pressure.systolic}/${healthMetric?.blood_pressure.diastolic}`
         : "N/A",
       unit: "mmHg",
     },
     {
       label: "❤️ Nhịp tim",
-      value: healthMetric.heart_rate,
+      value: healthMetric?.heart_rate,
       unit: "bpm",
     },
     {
       label: "⚖️ BMI",
-      value: healthMetric.bmi,
+      value: healthMetric?.bmi,
       unit: "",
     },
     {
-      label: "🧃 Glucose",
-      value: healthMetric.blood_glucose,
+      label: "🍬 Đường huyết",
+      value: healthMetric?.blood_glucose,
       unit: "mg/dL",
+    },
+    {
+      label: "💪 Tỷ lệ mỡ cơ thể",
+      value: healthMetric?.body_fat_percentage,
+      unit: "%",
     },
     {
       label: "🧪 Cholesterol",
       value: [
-        [`LDL: `, `${healthMetric.cholesterol_ldl}`],
-        [`HDL: `, `${healthMetric.cholesterol_hdl}`],
+        [`LDL: `, `${healthMetric?.cholesterol_ldl}`],
+        [`HDL: `, `${healthMetric?.cholesterol_hdl}`],
       ],
       unit: "mg/dL",
     },
     {
       label: "🧫 Men gan",
       value: [
-        [`SGPT: `, `${healthMetric.liver_enzymes?.sgpt}`],
-        [`SGOT: `, `${healthMetric.liver_enzymes?.sgot}`],
+        [`SGPT: `, `${healthMetric?.liver_enzymes?.sgpt}`],
+        [`SGOT: `, `${healthMetric?.liver_enzymes?.sgot}`],
       ],
       unit: "U/L",
     },
+    // {
+    //   label: "💧 Nước tiểu",
+    //   value: healthMetric?.urine,
+    //   unit: "",
+    // },
     {
-      label: "💧 Nước tiểu",
-      value: healthMetric.urine,
-      unit: "",
+      label: "📉 Chỉ số thận",
+      value: [
+        [`Creatinine: `, `${healthMetric?.kidney?.creatinine}`],
+        [`eGFR: `, `${healthMetric?.kidney?.egfr}`],
+      ],
+      unit: ["mg/dL", "mL/min/1.73m²"], // Vì mỗi chỉ số đã có đơn vị riêng
     },
   ];
 
@@ -214,7 +233,7 @@ const RecentHealthMetrics = () => {
                       </span>
                       {val[1]}{" "}
                       <span className="text-gray-500 text-base font-normal">
-                        {item.unit}
+                        {Array.isArray(item.unit) ? item.unit[i] : item.unit}
                       </span>
                     </p>
                   ))}
@@ -236,26 +255,31 @@ const RecentHealthMetrics = () => {
 };
 
 const MedicalInfoSection = () => {
-  const [medicalHistory, setMedicalHistory] = useState([]);
-  const [prescription, setPrescription] = useState([]);
+  const [medicalHistory, setMedicalHistory] = useState({});
+  const [prescription, setPrescription] = useState({});
   const [userInfo, setUserInfo] = useState({});
 
   useEffect(() => {
     Promise.all([
-      fetch(`${apiBackendURL}/api/medical-history/user/${testUserId}`, {
+      fetch(`${apiBackendURL}/api/medical-history/me`, {
         headers,
+        credentials: "include",
       }).then((r) => r.json()),
-      fetch(`${apiBackendURL}/api/prescriptions/user/${testUserId}`, {
+      fetch(`${apiBackendURL}/api/prescriptions/me`, {
         headers,
+        credentials: "include",
       }).then((r) => r.json()),
-      fetch(`${apiBackendURL}/api/userinfo/test?userId=${testUserId}`, {
+      fetch(`${apiBackendURL}/api/userinfo`, {
         headers,
+        credentials: "include",
       }).then((r) => r.json()),
-    ]).then(([a, b, c]) => {
-      setMedicalHistory(a);
-      setPrescription(b);
-      setUserInfo(c);
-    });
+    ])
+      .then(([a, b, c]) => {
+        setMedicalHistory(a);
+        setPrescription(b);
+        setUserInfo(c);
+      })
+      .catch((err) => console.error(err));
   }, []);
 
   return (
@@ -268,34 +292,45 @@ const MedicalInfoSection = () => {
       <Card>
         <SectionTitle icon="🩺" title="Bệnh nền" />
         <ul className="list-disc list-inside text-gray-700">
-          {medicalHistory.map((value, index) => (
+          {/* {medicalHistory.map((value, index) => (
             <li key={index}>
               {value.disease_name}
               {" - "}
               {value.notes}
             </li>
-          ))}
+          ))} */}
+
+          <li>
+            {medicalHistory?.disease_name}
+            {" - "}
+            {medicalHistory?.notes}
+          </li>
         </ul>
       </Card>
       <Card>
         <SectionTitle icon="💊" title="Thuốc đã dùng" />
         <ul className="list-disc list-inside text-gray-700">
-          {prescription.map((value) =>
+          {/* {prescription.map((value) =>
             value.meds.map((drug, index) => <li key={index}>{drug.name}</li>)
-          )}
+          )} */}
         </ul>
       </Card>
       <Card>
         <SectionTitle icon="🥗" title="Chế độ ăn uống" />
-        <p className="text-gray-700">{userInfo.diet_type}</p>
+        <ul className="list-disc list-inside text-gray-700">
+          <li>{userInfo?.diet_type}</li>
+        </ul>
       </Card>
       <Card>
         <SectionTitle icon="🏃" title="Thói quen sinh hoạt" />
-        <p className="text-gray-700">
-          {userInfo.daily_routine}
-          {" - "}
-          {userInfo.activity_level}
-        </p>
+
+        <ul className="list-disc list-inside text-gray-700">
+          <li>
+            {userInfo?.daily_routine}
+            {" - "}
+            {userInfo?.activity_level}
+          </li>
+        </ul>
       </Card>
     </motion.div>
   );

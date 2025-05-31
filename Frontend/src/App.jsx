@@ -30,6 +30,7 @@ import BodyFatCalculator from "./pages/HealthCheck/BodyFatCalculator";
 
 import Dashboard from './pages/PersonalTracker/Dashboard'
 import EditProfile from './pages/PersonalTracker/EditProfile'
+import WeeklyHealthInput from './pages/PersonalTracker/WeeklyHealthInput';
 
 import "./App.css";
 
@@ -51,6 +52,7 @@ function App() {
 
               <Route path="/personal-tracker/dashboard" element={<Dashboard />} />
               <Route path="/personal-tracker/edit-profile" element={<EditProfile />} />
+              <Route path="/personal-tracker/health-log" element={<WeeklyHealthInput />} />
               <Route path="/personal-tracker/" element={<Navigate to="/personal-tracker/dashboard" replace />} />
               
               <Route path="/AboutHealthTrust/Mission" element={<Mission />} />

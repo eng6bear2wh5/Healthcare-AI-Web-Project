@@ -6,6 +6,7 @@ import {
   Bars3Icon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  PencilIcon 
 } from "@heroicons/react/24/outline";
 import { Link, useLocation } from "react-router-dom";
 
@@ -18,6 +19,7 @@ function PersonalLayout({ children }) {
     { name: "Home", to: "/", icon: HomeIcon },
     { name: "Dashboard", to: "/personal-tracker/dashboard", icon: Squares2X2Icon },
     { name: "Profile", to: "/personal-tracker/edit-profile", icon: UserIcon },
+    { name: "Weekly Health Input", to: "/personal-tracker/health-log", icon: PencilIcon },
   ];
 
   useEffect(() => {
