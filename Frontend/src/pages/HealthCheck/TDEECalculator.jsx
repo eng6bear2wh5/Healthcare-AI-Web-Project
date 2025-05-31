@@ -35,14 +35,14 @@ export default function TDEECalculator() {
   };
 
   return (
-    // Thêm margin bottom để không sát footer
     <div className="max-w-md mx-auto mt-10 mb-16 p-6 bg-white shadow rounded-lg">
       <h2 className="text-2xl font-bold mb-4 text-blue-600">Tính lượng calo cần thiết</h2>
 
       <div className="space-y-4">
         <div>
-          <label className="block font-medium mb-1">Chiều cao (cm):</label>
+          <label htmlFor="height" className="block font-medium mb-1">Chiều cao (cm):</label>
           <input
+            id="height"
             type="number"
             className="w-full p-2 border rounded"
             value={height}
@@ -52,8 +52,9 @@ export default function TDEECalculator() {
         </div>
 
         <div>
-          <label className="block font-medium mb-1">Cân nặng (kg):</label>
+          <label htmlFor="weight" className="block font-medium mb-1">Cân nặng (kg):</label>
           <input
+            id="weight"
             type="number"
             className="w-full p-2 border rounded"
             value={weight}
@@ -63,8 +64,9 @@ export default function TDEECalculator() {
         </div>
 
         <div>
-          <label className="block font-medium mb-1">Tuổi:</label>
+          <label htmlFor="age" className="block font-medium mb-1">Tuổi:</label>
           <input
+            id="age"
             type="number"
             className="w-full p-2 border rounded"
             value={age}
@@ -74,8 +76,9 @@ export default function TDEECalculator() {
         </div>
 
         <div>
-          <label className="block font-medium mb-1">Giới tính:</label>
+          <label htmlFor="gender" className="block font-medium mb-1">Giới tính:</label>
           <select
+            id="gender"
             className="w-full p-2 border rounded"
             value={gender}
             onChange={(e) => setGender(e.target.value)}
@@ -86,8 +89,9 @@ export default function TDEECalculator() {
         </div>
 
         <div>
-          <label className="block font-medium mb-1">Mức độ hoạt động:</label>
+          <label htmlFor="activity" className="block font-medium mb-1">Mức độ hoạt động:</label>
           <select
+            id="activity"
             className="w-full p-2 border rounded"
             value={activity}
             onChange={(e) => setActivity(e.target.value)}

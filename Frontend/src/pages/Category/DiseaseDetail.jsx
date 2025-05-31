@@ -1,14 +1,14 @@
-// src/pages/Category/DiseaseDetail.jsx
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import DOMPurify from "dompurify";
 import { useQuery } from "@tanstack/react-query";
 import { getDiseaseById, getArticlesByDisease } from "../../api/diseaseApi";
+import { Helmet } from "react-helmet";
 import "./QuillContent.css";
 
 export default function DiseaseDetail() {
   useEffect(() => {
-      document.title = "Thông tin về bệnh | HealthTrust";
+    document.title = "Thông tin về bệnh | HealthTrust";
   }, []);
 
   const { diseaseId } = useParams();
@@ -25,11 +25,14 @@ export default function DiseaseDetail() {
     staleTime: 0,
   });
 
+  // Xác định ảnh LCP
+  const lcpImage = disease?.image_url;
 
-  // Sửa phần kiểm tra loading và error cho đúng tên biến
   if (ld || la) {
     return (
       <section className="max-w-4xl mx-auto p-6">
+        {/* Skeleton giữ chỗ cho ảnh */}
+        <div className="w-full h-[300px] bg-gray-200 rounded mb-8 animate-pulse"></div>
         <p className="text-center text-gray-500">Đang tải...</p>
       </section>
     );
@@ -54,15 +57,58 @@ export default function DiseaseDetail() {
 
   return (
     <article className="max-w-4xl mx-auto p-6 space-y-8">
+      {/* Preload ảnh LCP */}
+      <Helmet>
+        {lcpImage && (
+          <link rel="preload" as="image" href={lcpImage} />
+        )}
+      </Helmet>
+
       <h1 className="text-3xl font-bold text-blue-700">
         {disease.name_diseases}
       </h1>
 
-      <img
-        src={disease.image_url || "https://via.placeholder.com/600x300"}
+      {/* <img
+        src={disease.image_url}
+        srcSet={
+          disease.image_url
+            ? `${disease.image_url}?w=400 400w, ${disease.image_url}?w=800 800w, ${disease.image_url}?w=900 900w`
+            : undefined
+        }
+        sizes="(max-width: 640px) 100vw, 900px"
         alt={disease.name_diseases}
-        className="w-full h-120 object-cover rounded"
+        className="w-full h-[450px] object-cover rounded"
+        width={900}
+        height={450}
+      /> */}
+
+      <img
+        src={disease.image_url}
+        srcSet={
+          disease.image_url
+            ? `${disease.image_url}?w=600 600w, ${disease.image_url}?w=1200 1200w, ${disease.image_url}?w=1800 1800w`
+            : undefined
+        }
+        sizes="(max-width: 640px) 100vw, 1200px"
+        alt={disease.name_diseases}
+        className="w-full h-[600px] object-cover rounded"
+        width={1200}
+        height={600}
       />
+
+      {/* <img
+        src={disease.image_url}
+        srcSet={
+          disease.image_url
+            ? `${disease.image_url}?w=350 350w, ${disease.image_url}?w=600 600w, ${disease.image_url}?w=700 700w`
+            : undefined
+        }
+        sizes="(max-width: 640px) 100vw, 700px"
+        alt={disease.name_diseases}
+        className="w-full h-[350px] object-cover rounded"
+        width={700}
+        height={350}
+      /> */}
 
       <section>
         <h2 className="text-2xl font-semibold mb-2 text-blue-700">

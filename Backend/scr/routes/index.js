@@ -6,6 +6,7 @@ const diseasesRoute = require('./diseases');
 const groupDiseasesRoute = require('./groupDiseases');
 const adminsRoute = require('./admins');
 const AIRoutes = require('./AI.routes');
+const NewsData = require('./newsData')
 
 
 function route(app) {
@@ -14,6 +15,7 @@ function route(app) {
   app.use('/api/group_diseases', groupDiseasesRoute);
   app.use('/api/admins', adminsRoute);
   app.use('/api/AI', AIRoutes);
+  app.use('/api/news', NewsData);  
 
   app.use('/auth', authRouter);
   app.use('/health', drugRouter);
