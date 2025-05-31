@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { sendOtp } from "../../api/auth";
 
 const ForgotPasswordForm = () => {
   useEffect(() => {
-      document.title = "Quên mật khẩu | HealthTrust";
-    }, []);
+    document.title = "Quên mật khẩu | HealthTrust";
+  }, []);
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
 
@@ -16,19 +17,10 @@ const ForgotPasswordForm = () => {
         return;
       }
 
-      const res = await fetch("http://localhost:3000/auth/send-otp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-        credentials: "include",
-      });
+      const result = await sendOtp({ email });
 
-      const data = await res.json();
-
-      if (res.ok) {
-        // alert(`Đã gửi mã otp: ${data.message}`);
-      } else {
-        console.log(`Gửi otp không thành công: ${data.message}`);
+      if (!result.ok) {
+        console.log(`Gửi otp không thành công: ${result.data.message}`);
         alert(`Gửi otp không thành công`);
       }
 

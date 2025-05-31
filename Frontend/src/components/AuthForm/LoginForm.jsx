@@ -2,11 +2,15 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Toggle from "./Toggle";
+import { login } from "../../api/auth"
+import { useAuth } from "../../contexts/AuthContext"; // import hook
+
 
 const LoginForm = () => {
   useEffect(() => {
     document.title = "Đăng nhập | HealthTrust";
   }, []);
+  const { setUser } = useAuth(); // lấy hàm setUser
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -14,32 +18,21 @@ const LoginForm = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    const result = await login({ email, password });
 
-    try {
-      const res = await fetch(`http://localhost:3000/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-        credentials: "include",
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        console.log(`Đăng nhập thành công, đây là token của bạn: ${data.token}`);
-        navigate(`/`);
-      } else {
-        console.log(`Sai mật khẩu hoặc email chưa đăng ký: ${data.message}`);
-        alert(`Sai mật khẩu hoặc email chưa đăng ký`);
-      }
-    } catch (error) {
-      console.log(`Có lỗi khi fetch đăng nhập: ${error.message}`);
+    if (result.ok) {
+      console.log(`Đăng nhập thành công, đây là token của bạn: ${result.data.token}`);
+      setUser(result.data.user);
+      navigate(`/`);
+    } else {
+      console.log(`Sai mật khẩu hoặc email chưa đăng ký: ${result.data.message}`);
+      alert(`Sai mật khẩu hoặc email chưa đăng ký`);
     }
   };
 
   const loginGoogle = async () => {
     try {
-      window.location.href = "http://localhost:3000/auth/google";
+      window.location.href = "/auth/google";
     } catch (error) {
       console.log(`Có lỗi khi đăng nhập google: ${error.message}`);
     }

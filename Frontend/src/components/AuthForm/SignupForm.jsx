@@ -17,32 +17,21 @@ const SignupForm = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    try {
-      const res = await fetch("http://localhost:3000/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
-        credentials: "include",
-      });
+      const result = await register({ name, email, password });
 
-      const data = await res.json();
-
-      if (res.ok) {
-        console.log(`Server đã nhận được thông tin đăng ký, tiến hành gửi OTP để xác thực: ${data.message}`);
+      if (result.ok) {
+        console.log(`Server đã nhận được thông tin đăng ký, tiến hành gửi OTP để xác thực: ${result.data.message}`);
         // Điều hướng tới trang "/email-verification"
         navigate(`/email-verification?email=${encodeURIComponent(email)}&from=signup`);
       } else {
-        console.log(`Đăng ký thất bại: ${data.message || "Lỗi không xác định"}`);
+        console.log(`Đăng ký thất bại: ${result.data.message || "Lỗi không xác định"}`);
         alert(`Đăng ký thất bại`);
       }
-    } catch (error) {
-      console.log(`Có lỗi khi fetch đăng ký: ${error.message}`);
-    }
   };
 
   const loginGoogle = async () => {
     try {
-      window.location.href = "http://localhost:3000/auth/google";
+      window.location.href = "/auth/google";
     } catch (error) {
       console.log(`Có lỗi khi đăng nhập google: ${error.message}`);
     }
