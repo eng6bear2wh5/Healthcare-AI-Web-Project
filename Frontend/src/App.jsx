@@ -52,6 +52,7 @@ function App() {
               <Route path="/personal-tracker/dashboard" element={<Dashboard />} />
               <Route path="/personal-tracker/edit-profile" element={<EditProfile />} />
               <Route path="/personal-tracker/" element={<Navigate to="/personal-tracker/dashboard" replace />} />
+              
               <Route path="/AboutHealthTrust/Mission" element={<Mission />} />
               <Route path="/PharmaInformation/SafeMedicine" element={<SafeMedicine />} />
               <Route path="/AboutHealthTrust/Achievement" element={<Achievement />} />

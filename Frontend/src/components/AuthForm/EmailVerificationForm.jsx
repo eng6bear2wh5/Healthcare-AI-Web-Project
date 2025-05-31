@@ -22,12 +22,13 @@ const EmailVerificationForm = () => {
       const data = await res.json();
 
       if (res.ok) {
-        alert(
+        console.log(
           `Xác minh OTP thành công. Tài khoản đã được kích hoạt: : ${data.message}`
         );
         return true;
       } else {
-        alert(`Xác minh thất bại: ${data.message || "Sai mã OTP"}`);
+        console.log(`Xác minh thất bại: ${data.message || "Sai mã OTP"}`);
+        alert(`Xác minh thất bại`);
         return false;
       }
     } catch (error) {
@@ -54,7 +55,7 @@ const EmailVerificationForm = () => {
         navigate("/");
       }
     } catch (error) {
-      alert(`Có lỗi khi fetch xác minh OTP: ${error.message}`);
+      console.log(`Có lỗi khi fetch xác minh OTP: ${error.message}`);
     }
   };
 
@@ -70,12 +71,12 @@ const EmailVerificationForm = () => {
       const data = await res.json();
 
       if (res.ok) {
-        alert(`Đã gửi lại mã otp: ${data.message}`);
+        console.log(`Đã gửi lại mã otp: ${data.message}`);
       } else {
-        alert(`Gửi lại otp không thành công: ${data.message}`);
+        console.log(`Gửi lại otp không thành công: ${data.message}`);
       }
     } catch (error) {
-      alert(`Có lỗi khi yêu cầu gửi lại otp code: ${error.message}`);
+      console.log(`Có lỗi khi yêu cầu gửi lại otp code: ${error.message}`);
     }
   };
 

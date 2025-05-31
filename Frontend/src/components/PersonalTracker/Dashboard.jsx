@@ -13,6 +13,8 @@ import {
 import { motion } from "framer-motion";
 import { li } from "framer-motion/client";
 
+const apiBackendURL = import.meta.env.VITE_API_BACKEND;
+
 const bmiData = [
   { week: "Tuần 1", bmi: 23 },
   { week: "Tuần 2", bmi: 22.8 },
@@ -40,7 +42,7 @@ const SectionTitle = ({ icon, title }) => (
   </div>
 );
 
-const headers = { "Content-Type": "application/json" };
+const headers = { "Content-Type": "application/json", credentials: "include" };
 const testUserId = "68144307237289e8d5982c9d";
 const fmt = (d) => new Date(d).toLocaleDateString("vi-VN");
 
@@ -54,13 +56,13 @@ const PersonalInfoCard = () => {
   useEffect(() => {
     Promise.all([
       fetch(
-        `http://localhost:5000/api/user/profile-test?userId=${testUserId}`,
+        `${apiBackendURL}/api/user/profile-test?userId=${testUserId}`,
         { headers }
       ).then((r) => r.json()),
-      fetch(`http://localhost:5000/api/userinfo/test?userId=${testUserId}`, {
+      fetch(`${apiBackendURL}/api/userinfo/test?userId=${testUserId}`, {
         headers,
       }).then((r) => (r.status === 404 ? {} : r.json())),
-      fetch(`http://localhost:5000/api/medical-history/user/${testUserId}`, {
+      fetch(`${apiBackendURL}/api/medical-history/user/${testUserId}`, {
         headers,
       }).then((r) => r.json()),
     ]).then(([u, ui]) => {
@@ -72,9 +74,9 @@ const PersonalInfoCard = () => {
   if (!nameUser) return <div>Loading...</div>;
 
   const avatars = {
-    male: "/static/images/avatars/male_avatar.jpg",
-    female: "/static/images/avatars/female_avatar.jpg",
-    other: "/static/images/avatars/uit_avatar.jpg",
+    male: "/src/assets/avatars/male_avatar.jpg",
+    female: "/src/assets/avatars/female_avatar.jpg",
+    other: "/src/assets/avatars/uit_avatar.png",
   };
 
   return (
@@ -134,7 +136,7 @@ const RecentHealthMetrics = () => {
   const [healthMetric, setHealthMetric] = useState({});
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/health-metrics/user/${testUserId}`, {
+    fetch(`${apiBackendURL}/api/health-metrics/user/${testUserId}`, {
       headers,
     })
       .then((r) => r.json())
@@ -240,13 +242,13 @@ const MedicalInfoSection = () => {
 
   useEffect(() => {
     Promise.all([
-      fetch(`http://localhost:5000/api/medical-history/user/${testUserId}`, {
+      fetch(`${apiBackendURL}/api/medical-history/user/${testUserId}`, {
         headers,
       }).then((r) => r.json()),
-      fetch(`http://localhost:5000/api/prescriptions/user/${testUserId}`, {
+      fetch(`${apiBackendURL}/api/prescriptions/user/${testUserId}`, {
         headers,
       }).then((r) => r.json()),
-      fetch(`http://localhost:5000/api/userinfo/test?userId=${testUserId}`, {
+      fetch(`${apiBackendURL}/api/userinfo/test?userId=${testUserId}`, {
         headers,
       }).then((r) => r.json()),
     ]).then(([a, b, c]) => {
