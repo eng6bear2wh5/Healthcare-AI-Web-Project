@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { verifyOtpForgotPassword, verifyOtpRegister, sendOtp } from "../../api/auth";
 
 const EmailVerificationForm = () => {
   const navigate = useNavigate();
@@ -10,73 +11,44 @@ const EmailVerificationForm = () => {
   const [email] = useState(emailToVerify || "");
   const [otp, setOtp] = useState("");
 
-  const sendRequestToVerifyOTP = async (to) => {
-    try {
-      const res = await fetch(`http://localhost:3000/auth/${to}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, otp }),
-        credentials: "include",
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        console.log(
-          `Xác minh OTP thành công. Tài khoản đã được kích hoạt: : ${data.message}`
-        );
-        return true;
-      } else {
-        console.log(`Xác minh thất bại: ${data.message || "Sai mã OTP"}`);
-        alert(`Xác minh thất bại`);
-        return false;
-      }
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  };
-
+  // Xác thực OTP đúng endpoint, dùng hàm import từ api/auth.js
   const sendToVerifyCode = async (e) => {
     e.preventDefault();
     try {
+      let result;
       if (from === "signup") {
-        const result = await sendRequestToVerifyOTP("verify-otp-register");
-        if (result) {
+        result = await verifyOtpRegister({ email, otp });
+        if (result.ok) {
           navigate("/login");
+        } else {
+          alert(`Xác minh thất bại: ${result.data.message || "Sai mã OTP"}`);
         }
       } else if (from === "forgot-password") {
-        const result = await sendRequestToVerifyOTP(
-          "verify-otp-forgot-password"
-        );
-        if (result) {
+        result = await verifyOtpForgotPassword({ email, otp });
+        if (result.ok) {
           navigate(`/reset-password?email=${encodeURIComponent(email)}`);
+        } else {
+          alert(`Xác minh thất bại: ${result.data.message || "Sai mã OTP"}`);
         }
       } else {
         navigate("/");
       }
     } catch (error) {
-      console.log(`Có lỗi khi fetch xác minh OTP: ${error.message}`);
+      alert(`Có lỗi khi xác minh OTP: ${error.message}`);
     }
   };
 
+  // Gửi lại OTP dùng hàm import từ api/auth.js
   const handleResendOTP = async () => {
     try {
-      const res = await fetch("http://localhost:3000/auth/send-otp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-        credentials: "include",
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        console.log(`Đã gửi lại mã otp: ${data.message}`);
+      const result = await sendOtp({ email });
+      if (result.ok) {
+        alert(`Đã gửi lại mã OTP: ${result.message}`);
       } else {
-        console.log(`Gửi lại otp không thành công: ${data.message}`);
+        alert(`Gửi lại OTP không thành công: ${result.message}`);
       }
     } catch (error) {
-      console.log(`Có lỗi khi yêu cầu gửi lại otp code: ${error.message}`);
+      alert(`Có lỗi khi gửi lại OTP: ${error.message}`);
     }
   };
 
@@ -92,8 +64,6 @@ const EmailVerificationForm = () => {
           <span className="font-medium">{email || "...."}</span>
         </p>
       </div>
-
-      {/* OTP Code */}
       <div>
         <label
           htmlFor="otp"
@@ -112,8 +82,6 @@ const EmailVerificationForm = () => {
           onChange={(e) => setOtp(e.target.value)}
         />
       </div>
-
-      {/* Verify OTP code */}
       <div className="mt-5">
         <button
           type="submit"
@@ -122,8 +90,6 @@ const EmailVerificationForm = () => {
           Tiếp tục
         </button>
       </div>
-
-      {/* Resend email button */}
       <div className="text-center">
         <button
           id="resend-email-btn"
