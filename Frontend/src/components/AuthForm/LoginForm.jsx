@@ -3,11 +3,14 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Toggle from "./Toggle";
 import { login } from "../../api/auth"
+import { useAuth } from "../../contexts/AuthContext"; // import hook
+
 
 const LoginForm = () => {
   useEffect(() => {
     document.title = "Đăng nhập | HealthTrust";
   }, []);
+  const { setUser } = useAuth(); // lấy hàm setUser
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -19,6 +22,7 @@ const LoginForm = () => {
 
     if (result.ok) {
       console.log(`Đăng nhập thành công, đây là token của bạn: ${result.data.token}`);
+      setUser(result.data.user);
       navigate(`/`);
     } else {
       console.log(`Sai mật khẩu hoặc email chưa đăng ký: ${result.data.message}`);
@@ -28,7 +32,7 @@ const LoginForm = () => {
 
   const loginGoogle = async () => {
     try {
-      window.location.href = "http://localhost:5000/auth/google";
+      window.location.href = "/auth/google";
     } catch (error) {
       console.log(`Có lỗi khi đăng nhập google: ${error.message}`);
     }

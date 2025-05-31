@@ -31,7 +31,7 @@ const SignupForm = () => {
 
   const loginGoogle = async () => {
     try {
-      window.location.href = "http://localhost:3000/auth/google";
+      window.location.href = "/auth/google";
     } catch (error) {
       console.log(`Có lỗi khi đăng nhập google: ${error.message}`);
     }

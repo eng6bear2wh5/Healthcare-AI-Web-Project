@@ -2,30 +2,27 @@ import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/medical-icon-png.png";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { useAuth } from "../contexts/AuthContext"; // Sử dụng context để lấy thông tin đăng nhập
+import defaultimage from '../assets/avatars/uit_avatar.png'
 
 export default function Navbar() {
   const [open, setOpen] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const timeoutRef = useRef(null);
   const navigate = useNavigate();
+  const { user } = useAuth(); // Lấy user từ context
+  console.log(user);
 
   const navItems = [
     { label: "Trang chủ", path: "/" },
     { label: "Chuyên mục bệnh", path: "Category/CategoryHome" },
-    {
-      label: "Thông tin dược", path: "/PharmaInformation/MedicineList" },
+    { label: "Thông tin dược", path: "/PharmaInformation/MedicineList" },
     {
       label: "Kiểm tra sức khỏe",
       children: [
         { label: "BMI", path: "/HealthCheck/BMI" },
-        {
-          label: "Lượng calo cần mỗi ngày",
-          path: "/HealthCheck/TDEECalculator",
-        },
-        {
-          label: " Cân nặng lý tưởng",
-          path: "/HealthCheck/IdealWeightCalculator",
-        },
+        { label: "Lượng calo cần mỗi ngày", path: "/HealthCheck/TDEECalculator" },
+        { label: " Cân nặng lý tưởng", path: "/HealthCheck/IdealWeightCalculator" },
         { label: "Tỉ lệ mỡ cơ thể", path: "/HealthCheck/BodyFatCalculator" },
       ],
     },
@@ -40,10 +37,7 @@ export default function Navbar() {
       label: "Về Health Trust",
       children: [
         { label: "Tầm nhìn và sứ mệnh", path: "/AboutHealthTrust/Mission" },
-        {
-          label: "Thành tựu và giải thưởng",
-          path: "/AboutHealthTrust/Achievement",
-        },
+        { label: "Thành tựu và giải thưởng", path: "/AboutHealthTrust/Achievement" },
         { label: "Đối tác", path: "/AboutHealthTrust/Partner" },
       ],
     },
@@ -66,7 +60,7 @@ export default function Navbar() {
         onClick={() => navigate("/")}
       >
         <img
-          src={logo} // Nếu dùng public folder
+          src={logo}
           alt="Logo"
           className="w-8 h-8 object-contain"
         />
@@ -91,7 +85,6 @@ export default function Navbar() {
               >
                 {item.label}
               </span>
-
               {item.children && open === index && (
                 <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 bg-white rounded shadow-lg w-56 z-50 transition-all duration-300 ease-in-out">
                   {item.children.map((child, i) => (
@@ -124,13 +117,27 @@ export default function Navbar() {
           </span>
         </div>
 
-        {/* Login Button */}
-        <button
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition cursor-pointer"
-          onClick={() => navigate("/login")}
-        >
-          Đăng nhập
-        </button>
+        {/* Login/Avatar Button */}
+        {user ? (
+          <button
+            className="ml-4 rounded-full w-10 h-10 overflow-hidden border border-blue-300"
+            onClick={() => navigate("/personal-tracker")}
+            title="Personal Tracker"
+          >
+            <img
+              src={user.avatar || {defaultimage}}
+              alt="Avatar"
+              className="w-full h-full object-cover"
+            />
+          </button>
+        ) : (
+          <button
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition cursor-pointer"
+            onClick={() => navigate("/login")}
+          >
+            Đăng nhập
+          </button>
+        )}
       </div>
 
       {/* Mobile button */}
@@ -159,7 +166,6 @@ export default function Navbar() {
               >
                 {item.label}
               </div>
-
               {item.children && (
                 <div className="pl-4 space-y-1 mt-1">
                   {item.children.map((child, i) => (
@@ -188,15 +194,32 @@ export default function Navbar() {
             <span className="absolute left-3 top-2.5 text-gray-400">🔍</span>
           </div>
 
-          <button
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg w-full transition"
-            onClick={() => {
-              navigate("/login");
-              setMenuOpen(false);
-            }}
-          >
-            Đăng nhập
-          </button>
+          {user ? (
+            <button
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg w-full transition flex items-center gap-2"
+              onClick={() => {
+                navigate("/personal-tracker");
+                setMenuOpen(false);
+              }}
+            >
+              <img
+                src={user.avatar || {defaultimage} }
+                alt="Avatar"
+                className="w-7 h-7 rounded-full"
+              />
+              Cá nhân
+            </button>
+          ) : (
+            <button
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg w-full transition"
+              onClick={() => {
+                navigate("/login");
+                setMenuOpen(false);
+              }}
+            >
+              Đăng nhập
+            </button>
+          )}
         </div>
       )}
     </nav>
