@@ -8,13 +8,14 @@ export default function Articles() {
   const [error, setError] = useState(null);
 
   // 1. Fetch articles + diseases đồng thời
+  const API_BASE = 'http://localhost:5000';
   useEffect(() => {
     Promise.all([
-      fetch("/api/articles").then(res => {
+      fetch(`${API_BASE}/api/articles`).then(res => {
         if (!res.ok) throw new Error("Không thể tải bài báo");
         return res.json();
       }),
-      fetch("/api/diseases").then(res => {
+      fetch(`${API_BASE}/api/diseases`).then(res => {
         if (!res.ok) throw new Error("Không thể tải bệnh");
         return res.json();
       })
@@ -105,7 +106,7 @@ export default function Articles() {
                 <h3 className="text-lg font-semibold text-blue-600 mb-2">
                   {a.article_name}
                 </h3>
-                <button className="text-sm text-blue-500 hover:underline">
+                <button className="text-sm text-blue-500 hover:underline min-h-[48px] min-w-[48px] px-4 py-2 my-2">
                   Đọc thêm →
                 </button>
               </div>

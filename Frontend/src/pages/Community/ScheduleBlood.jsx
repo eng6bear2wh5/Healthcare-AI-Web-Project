@@ -170,8 +170,8 @@ export default function Event() {
                                     {event.title}
                                 </a>
                             </h2>
-                            <p className="text-sm text-gray-500 mt-1">{event.date}</p>
-                            <p className="text-sm text-gray-500 mt-1">
+                            <p className="text-sm text-black-500 mt-1">{event.date}</p>
+                            <p className="text-sm text-black-500 mt-1">
                                 <a
                                     href={event.addressLink}
                                     target="_blank"

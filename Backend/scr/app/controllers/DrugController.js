@@ -54,7 +54,7 @@ const getDrugById = async (req, res) => {
     if (!drug) {
       return res.status(404).json({ message: 'Drug not found' });
     }
-    res.status(201).json(drug);
+    res.status(200).json(drug);
   } catch (error) {
     next(error);
   }

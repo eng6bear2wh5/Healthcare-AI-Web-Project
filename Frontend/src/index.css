@@ -5,7 +5,8 @@
 @import "slick-carousel/slick/slick-theme.css";
 
 body {
-  @apply bg-gradient-to-b from-white via-blue-50 to-slate-100;
+  /* @apply bg-gradient-to-b from-white via-blue-50 to-slate-100; */
+  @apply bg-blue-50;
   font-family: 'Nunito', sans-serif;
   /* Hoặc bg-fixed bg-cover bg-center bg-[url('/path/to/image.jpg')] */
 }
@@ -16,4 +17,18 @@ body {
 
 .box-modern:hover {
   @apply shadow-lg;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body, #root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+body {
+  font-family: system-ui, Arial, sans-serif;
 }
