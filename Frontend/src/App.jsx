@@ -23,8 +23,6 @@ import BMI from "./pages/HealthCheck/BMI";
 import TDEECalculator from "./pages/HealthCheck/TDEECalculator";
 import IdealWeightCalculator from "./pages/HealthCheck/IdealWeightCalculator";
 import BodyFatCalculator from "./pages/HealthCheck/BodyFatCalculator";
-import Dashboard from './pages/PersonalTracker/Dashboard'
-import EditProfile from './pages/PersonalTracker/EditProfile'
 import WeeklyHealthInput from './pages/PersonalTracker/WeeklyHealthInput';
 import "./App.css";
 
