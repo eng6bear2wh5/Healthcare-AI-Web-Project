@@ -9,13 +9,13 @@ export default function Footer() {
 
                 {/* Các liên kết (tuỳ chọn) */}
                 <div className="flex gap-4">
-                    <a href="#" className="hover:text-blue-500 transition">
+                    <a href="#" className="hover:text-blue-500 transition px-3 py-2 min-w-[48px] min-h-[48px] flex items-center justify-center rounded">
                         Chính sách
                     </a>
-                    <a href="#" className="hover:text-blue-500 transition">
+                    <a href="#" className="hover:text-blue-500 transition px-3 py-2 min-w-[48px] min-h-[48px] flex items-center justify-center rounded">
                         Điều khoản
                     </a>
-                    <a href="#" className="hover:text-blue-500 transition">
+                    <a href="#" className="hover:text-blue-500 transition px-3 py-2 min-w-[48px] min-h-[48px] flex items-center justify-center rounded">
                         Liên hệ
                     </a>
                 </div>

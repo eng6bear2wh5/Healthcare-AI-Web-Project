@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Toggle from "./Toggle";
 import { useToast } from "../ToastContext";
+import { login } from "../../api/auth"
+import { useAuth } from "../../contexts/AuthContext"; // import hook
 
 const LoginForm = () => {
-  // const [username, setUsername] = useState("");
+  useEffect(() => {
+    document.title = "Đăng nhập | HealthTrust";
+  }, []);
+  const { setUser } = useAuth(); // lấy hàm setUser
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -16,33 +21,23 @@ const LoginForm = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    try {
-      const res = await fetch(`http://localhost:3000/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-        credentials: "include",
-      });
+    const result = await login({ email, password });
 
-      const data = await res.json();
+    if (result.ok) {
+      console.log(`Đăng nhập thành công, đây là token của bạn: ${result.data.token}`);
+      setUser(result.data.user);
+      showToast("Đăng nhập thành công!", "success");
+      navigate(`/`);
+    } else {
+      console.log(`Sai mật khẩu hoặc email chưa đăng ký: ${result.data.message}`);
+      showToast("Đăng nhập thất bại!", "fail");
 
-      if (res.ok) {
-        console.log(`Đăng nhập thành công, đây là token của bạn: ${data.token}`);
-        showToast("Đăng nhập thành công!", "success");
-        navigate(`/`);
-      } else {
-        console.log(`Sai mật khẩu hoặc email chưa đăng ký: ${data.message}`);
-        showToast("Đăng nhập thất bại!", "fail");
-      }
-    } catch (error) {
-      console.log(`Có lỗi khi fetch đăng nhập: ${error.message}`);
-      showToast("Có lỗi xảy ra!", "fail");
     }
   };
 
   const loginGoogle = async () => {
     try {
-      window.location.href = "http://localhost:3000/auth/google";
+      window.location.href = "/auth/google";
     } catch (error) {
       console.log(`Có lỗi khi đăng nhập google: ${error.message}`);
       showToast("Có lỗi xảy ra!", "fail");

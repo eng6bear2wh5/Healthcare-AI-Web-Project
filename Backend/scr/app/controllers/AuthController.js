@@ -87,14 +87,17 @@ class AuthController {
 
             const token = generateToken(user);
 
-            res.cookie("token", token, {
+            res.cookie("jwt", token, {
                 httpOnly: true,
                 secure: false,
                 sameSite: "Strict",
-                maxAge: 24 * 60 * 60 * 1000,
+                maxAge: 7 * 24 * 60 * 60 * 1000,
+                httpOnly: true,
             });
 
-            res.status(201).json({ message: 'Đăng nhập thành công', token });
+            const { password: pwd, ...userData } = user._doc;
+
+            res.status(200).json({ message: 'Đăng nhập thành công', user: userData });
         } catch (error) {
             next(error);
         }

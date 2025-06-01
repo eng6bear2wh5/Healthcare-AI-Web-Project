@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Toggle from "./Toggle";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "../ToastContext";
+import { register } from "../../api/auth"
 
 const SignupForm = () => {
+  
+  useEffect(() => {
+    document.title = "Đăng ký | HealthTrust";
+  }, []);
+  
   const [name, setName] = useState("");
-  // const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -16,33 +21,21 @@ const SignupForm = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    try {
-      const res = await fetch("http://localhost:3000/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
-        credentials: "include",
-      });
+      const result = await register({ name, email, password });
 
-      const data = await res.json();
-
-      if (res.ok) {
-        console.log(`Server đã nhận được thông tin đăng ký, tiến hành gửi OTP để xác thực: ${data.message}`);
+      if (result.ok) {
+        console.log(`Server đã nhận được thông tin đăng ký, tiến hành gửi OTP để xác thực: ${result.data.message}`);
         // Điều hướng tới trang "/email-verification"
         navigate(`/email-verification?email=${encodeURIComponent(email)}&from=signup`);
       } else {
-        console.log(`Đăng ký thất bại: ${data.message || "Lỗi không xác định"}`);
+        console.log(`Đăng ký thất bại: ${result.data.message || "Lỗi không xác định"}`);
         showToast("Đăng ký thất bại!", "fail");
       }
-    } catch (error) {
-      console.log(`Có lỗi khi fetch đăng ký: ${error.message}`);
-      showToast("Xảy ra lỗi!", "fail");
-    }
   };
 
   const loginGoogle = async () => {
     try {
-      window.location.href = "http://localhost:3000/auth/google";
+      window.location.href = "/auth/google";
     } catch (error) {
       console.log(`Có lỗi khi đăng nhập google: ${error.message}`);
       showToast("Xảy ra lỗi!", "fail");

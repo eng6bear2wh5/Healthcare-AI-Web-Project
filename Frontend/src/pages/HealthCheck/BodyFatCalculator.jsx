@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function BodyFatCalculator() {
+  useEffect(() => {
+    document.title = "Tỉ lệ mỡ | HealthTrust";
+  }, []);
   const [gender, setGender] = useState("male");
   const [height, setHeight] = useState("");
   const [neck, setNeck] = useState("");
@@ -63,8 +66,9 @@ export default function BodyFatCalculator() {
 
       <div className="space-y-4">
         <div>
-          <label className="block font-medium mb-1">Giới tính:</label>
+          <label htmlFor="gender" className="block font-medium mb-1">Giới tính:</label>
           <select
+            id="gender"
             className="w-full p-2 border rounded"
             value={gender}
             onChange={(e) => setGender(e.target.value)}

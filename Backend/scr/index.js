@@ -12,6 +12,7 @@ const cors = require('cors');
 const session = require('express-session');
 const passport = require('./config/passport');
 const errorHandler = require('./middleware/handleError');
+const compression = require('compression');
 
 
 // 4. Import DB connectors
@@ -34,8 +35,7 @@ const { checkElasticsearchConnection } = require('./config/db/elasticsearch');
   app.use(cookieParser());                                    // Cookie parser
   app.use(bodyParser.json());                                 // Parser body form
   app.use(methodOverride('_method'));                         // Override methods
-  app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
-  app.use(express.static(path.join(__dirname, 'public')));     // Serve static files
+  app.use(cors({ origin: ['http://localhost:5173', 'http://localhost:3000'], credentials: true }));
 
   // 8. Session & Passport
   app.use(
@@ -49,11 +49,12 @@ const { checkElasticsearchConnection } = require('./config/db/elasticsearch');
   app.use(passport.initialize());
   app.use(passport.session());
 
-  // 9. API routes
   // 3. Import routes
   const route = require('./routes');
+  app.use(compression());
   route(app); // Initialize routes
 
+  
   // 11. Error handling (should be last)
   app.use(errorHandler);
 
