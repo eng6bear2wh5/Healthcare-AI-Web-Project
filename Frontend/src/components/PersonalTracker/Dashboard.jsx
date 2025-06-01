@@ -6,7 +6,7 @@ import {
   Bar,
   AreaChart,
   Area,
-  ComposedChart,
+  //ComposedChart, // Do không dùng đến nên tạm thời không import nó vô
   CartesianGrid,
   XAxis,
   YAxis,
@@ -14,7 +14,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { motion } from "framer-motion";
-import { li } from "framer-motion/client";
+//import { li } from "framer-motion/client"; do không có dùng đến nên tạm thời không import
 
 const apiBackendURL = import.meta.env.VITE_API_BACKEND;
 
@@ -76,7 +76,7 @@ const PersonalInfoCard = () => {
       .catch((err) => console.error(err));
   }, []);
 
-  // if (!nameUser) return <div>Loading...</div>;
+  // if (!nameUser){}
 
   const avatars = {
     male: "/src/assets/avatars/male_avatar.jpg",
@@ -139,6 +139,7 @@ const PersonalInfoCard = () => {
 
 const RecentHealthMetrics = () => {
   const [healthMetric, setHealthMetric] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch(`${apiBackendURL}/api/health-metrics/me`, {
@@ -148,8 +149,12 @@ const RecentHealthMetrics = () => {
       .then((r) => r.json())
       .then((data) => {
         setHealthMetric(data?.weekly_data[0]);
+        setLoading(false);
       })
-      .catch((err) => console.error(err));
+      .catch((err) =>{
+        console.error(err);
+        setLoading(false);
+      });
   }, []);
 
   const metrics = [
@@ -234,6 +239,23 @@ const RecentHealthMetrics = () => {
     },
   ];
 
+  if (loading) {
+    // Skeleton giữ chỗ cho 8 card
+    return (
+      <div>
+        <h2 className="text-black text-xl font-semibold mb-4">📈 Chỉ số sức khỏe</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {[...Array(8)].map((_, i) => (
+            <div key={i} className="bg-white rounded-2xl shadow-lg p-6 animate-pulse h-32 flex flex-col items-center justify-center">
+              <div className="h-5 w-1/2 bg-gray-200 rounded mb-3"></div>
+              <div className="h-8 w-1/3 bg-gray-200 rounded"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -283,8 +305,10 @@ const RecentHealthMetrics = () => {
 const MedicalInfoSection = () => {
   const [medicalHistory, setMedicalHistory] = useState({});
   const [userInfo, setUserInfo] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     Promise.all([
       fetch(`${apiBackendURL}/api/medical-history/me`, {
         headers,
@@ -298,9 +322,23 @@ const MedicalInfoSection = () => {
       .then(([a, b]) => {
         setMedicalHistory(a);
         setUserInfo(b);
+        setLoading(false);
       })
-      .catch((err) => console.error(err));
+      .catch((err) =>{ 
+        console.error(err)
+        setLoading(false);
+      });
   }, []);
+
+  if (loading) {
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {[...Array(4)].map((_, i) => (
+          <div key={i} className="bg-white rounded-2xl shadow-lg p-6 animate-pulse h-40"></div>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <motion.div
@@ -383,8 +421,17 @@ const HealthTrendsCharts = () => {
       .finally(() => setLoading(false));
   }, []);
 
+  // if (loading) {
+  //   return <p className="text-center text-gray-500">Đang tải dữ liệu...</p>;
+  // }
   if (loading) {
-    return <p className="text-center text-gray-500">Đang tải dữ liệu...</p>;
+    return (
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {[...Array(4)].map((_, i) => (
+          <div key={i} className="bg-white rounded-2xl shadow-lg p-6 animate-pulse h-[320px]"></div>
+        ))}
+      </div>
+    );
   }
 
   return (
@@ -479,7 +526,7 @@ const HealthTrendsCharts = () => {
 
 const Dashboard = () => {
   return (
-    <div className="max-w-7xl mx-auto p-4 space-y-6">
+    <div className="max-w-7xl mx-auto p-4 space-y-6 min-h-[1600px]">
       <PersonalInfoCard />
       <RecentHealthMetrics />
       <MedicalInfoSection />

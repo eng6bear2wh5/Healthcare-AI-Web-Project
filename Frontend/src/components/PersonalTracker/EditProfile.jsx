@@ -368,7 +368,7 @@ function EditProfile() {
 
           {/* Mức độ hoạt động và Sinh hoạt hằng ngày bên phải */}
           <div className="w-full md:w-1/2 flex flex-col">
-            <Label htmlFor="conditionNote">
+            <Label htmlFor="drugs">
               Các loại thuốc đã dùng (nếu có)
             </Label>
             <Textarea

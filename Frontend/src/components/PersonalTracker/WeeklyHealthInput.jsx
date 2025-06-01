@@ -37,7 +37,6 @@ function Button({ children, className = "", ...props }) {
 const weeks = [1, 2, 3, 4];
 const fields = [
   { label: "BMI", name: "bmi", unit: "", type: "number", step: "0.1" },
-
   {
     label: "Huyết áp",
     name: "blood_pressure",
@@ -48,7 +47,6 @@ const fields = [
       { name: "diastolic", label: "tâm trương" },
     ],
   },
-
   { label: "Nhịp tim", name: "heart_rate", unit: "bpm", type: "number" },
   {
     label: "Đường huyết",
@@ -63,8 +61,6 @@ const fields = [
     type: "number",
     step: "0.1",
   },
-
-  // Trường 2 giá trị:
   {
     label: "Cholesterol",
     name: "cholesterol",
@@ -97,6 +93,8 @@ const fields = [
   },
 ];
 
+const apiBackendURL = import.meta.env.VITE_API_BACKEND;
+
 export default function WeeklyHealthInput() {
   const [data, setData] = useState({
     1: {},
@@ -115,21 +113,16 @@ export default function WeeklyHealthInput() {
       .then((r) => r.json())
       .then((response) => {
         const newData = { 1: {}, 2: {}, 3: {}, 4: {} };
-
-        // Gán dữ liệu theo tuần
         response?.weekly_data?.forEach((weekItem) => {
           const week = weekItem.week;
           if (week >= 1 && week <= 4) {
             newData[week] = weekItem;
           }
         });
-
         setData(newData);
       })
       .catch((err) => console.error(err));
   }, []);
-
-  const apiBackendURL = import.meta.env.VITE_API_BACKEND;
 
   const { showToast } = useToast();
 
@@ -205,37 +198,50 @@ export default function WeeklyHealthInput() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {fields.map((field) => (
                   <div key={field.name}>
-                    <label className="block text-gray-700 mb-1">
-                      {field.label}
-                    </label>
-
                     {field.type === "double" ? (
-                      <div className="grid grid-cols-2 gap-2">
-                        {field.subFields.map((sub) => (
-                          <Input
-                            key={sub.name}
-                            type="number"
-                            placeholder={sub.label}
-                            value={data[week][field.name]?.[sub.name] || ""}
-                            onChange={(e) =>
-                              handleChange(week, field.name, {
-                                ...data[week][field.name],
-                                [sub.name]: e.target.value,
-                              })
-                            }
-                          />
-                        ))}
-                      </div>
+                      <>
+                        <div className="block text-gray-700 mb-1">{field.label}</div>
+                        <div className="grid grid-cols-2 gap-2">
+                          {field.subFields.map((sub) => {
+                            const inputId = `week${week}-${field.name}-${sub.name}`;
+                            return (
+                              <div key={sub.name}>
+                                <label htmlFor={inputId} className="sr-only">
+                                  {field.label} {sub.label}
+                                </label>
+                                <Input
+                                  id={inputId}
+                                  type="number"
+                                  placeholder={sub.label}
+                                  value={data[week][field.name]?.[sub.name] || ""}
+                                  onChange={(e) =>
+                                    handleChange(week, field.name, {
+                                      ...data[week][field.name],
+                                      [sub.name]: e.target.value,
+                                    })
+                                  }
+                                />
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </>
                     ) : (
-                      <Input
-                        type={field.type}
-                        step={field.step}
-                        placeholder={field.placeholder || ""}
-                        value={data[week][field.name] || ""}
-                        onChange={(e) =>
-                          handleChange(week, field.name, e.target.value)
-                        }
-                      />
+                      <>
+                        <label htmlFor={`week${week}-${field.name}`} className="block text-gray-700 mb-1">
+                          {field.label}
+                        </label>
+                        <Input
+                          id={`week${week}-${field.name}`}
+                          type={field.type}
+                          step={field.step}
+                          placeholder={field.placeholder || ""}
+                          value={data[week][field.name] || ""}
+                          onChange={(e) =>
+                            handleChange(week, field.name, e.target.value)
+                          }
+                        />
+                      </>
                     )}
 
                     {field.unit && (
