@@ -19,21 +19,21 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// TEST MODE: upload dùng userId query
-router.post(
-  '/avatar-test',
-  upload.single('avatarFile'),
-  async (req, res, next) => {
-    try {
-      const user = await User.findByIdAndUpdate(
-        req.query.userId,
-        { avatar: `/uploads/${req.file.filename}` },
-        { new: true }
-      ).lean();
-      res.json(user);
-    } catch (err) { next(err); }
-  }
-);
+// // TEST MODE: upload dùng userId query
+// router.post(
+//   '/avatar-test',
+//   upload.single('avatarFile'),
+//   async (req, res, next) => {
+//     try {
+//       const user = await User.findByIdAndUpdate(
+//         req.query.userId,
+//         { avatar: `/uploads/${req.file.filename}` },
+//         { new: true }
+//       ).lean();
+//       res.json(user);
+//     } catch (err) { next(err); }
+//   }
+// );
 
 // PROD MODE: upload dùng JWT
 router.post(

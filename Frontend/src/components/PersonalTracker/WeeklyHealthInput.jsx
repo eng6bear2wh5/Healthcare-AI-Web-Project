@@ -1,5 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { useToast } from "../ToastContext";
+import { useNavigate } from "react-router-dom";
+
+const apiBackendURL = import.meta.env.VITE_API_BACKEND;
+let hasShownAuthAlert = false; // Đặt ngoài component để chỉ alert 1 lần
+
+function useAuthFetch(navigate) {
+  return async (...args) => {
+    const res = await fetch(...args);
+    if (res.status === 401) {
+      if (!hasShownAuthAlert) {
+        hasShownAuthAlert = true;
+        alert("Bạn chưa đăng nhập! Vui lòng đăng nhập để sử dụng chức năng này.");
+        navigate("/", { replace: true });
+      }
+      throw new Error("Unauthorized");
+    }
+    return res;
+  };
+}
 
 function Card({ children, className = "" }) {
   return (
@@ -93,18 +112,25 @@ const fields = [
   },
 ];
 
-const apiBackendURL = import.meta.env.VITE_API_BACKEND;
-
 export default function WeeklyHealthInput() {
+  const navigate = useNavigate();
+  const authFetch = useAuthFetch(navigate);
+
+  useEffect(() => {
+    document.title = "PersonalTracker | HealthTrust";
+  }, []);
   const [data, setData] = useState({
     1: {},
     2: {},
     3: {},
     4: {},
   });
+  const [isAuthChecked, setIsAuthChecked] = useState(false);
+  const { showToast } = useToast();
 
+  // Kiểm tra đăng nhập trước khi render nội dung
   useEffect(() => {
-    fetch(`${apiBackendURL}/api/health-metrics/me`, {
+    authFetch(`${apiBackendURL}/api/health-metrics/me`, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -120,11 +146,13 @@ export default function WeeklyHealthInput() {
           }
         });
         setData(newData);
+        setIsAuthChecked(true); // Đã xác thực xong, cho phép render
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        // Nếu bị 401 thì đã alert và điều hướng, không cần setIsAuthChecked
+        // Nếu lỗi khác thì vẫn không render
+      });
   }, []);
-
-  const { showToast } = useToast();
 
   const handleChange = (week, field, value) => {
     setData((prev) => ({
@@ -162,7 +190,7 @@ export default function WeeklyHealthInput() {
 
     const body = { weekly_data };
 
-    fetch(`${apiBackendURL}/api/health-metrics`, {
+    authFetch(`${apiBackendURL}/api/health-metrics`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -177,6 +205,9 @@ export default function WeeklyHealthInput() {
       })
       .catch((err) => console.error(err));
   };
+
+  // Nếu chưa xác thực xong thì không render gì cả
+  if (!isAuthChecked) return null;
 
   return (
     <div className="w-full px-4 md:px-6 py-6 bg-white dark:bg-gray-900">

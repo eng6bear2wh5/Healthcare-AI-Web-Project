@@ -87,7 +87,7 @@ class AuthController {
 
             const token = generateToken(user);
 
-            res.cookie("jwt", token, {
+            res.cookie("token", token, {
                 httpOnly: true,
                 secure: false,
                 sameSite: "Strict",

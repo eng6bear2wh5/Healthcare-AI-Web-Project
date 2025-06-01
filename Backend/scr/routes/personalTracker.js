@@ -1,6 +1,8 @@
 const express = require('express');
 const router  = express.Router();
 const PT      = require('../app/models/PersonalTracker');
+const { protect, authorize } = require('../middleware/auth');
+router.use(protect, authorize('user'));
 router.get('/',        async (req, res, next) => { try { res.json(await PT.find()); } catch(e){next(e);} });
 router.get('/:id',     async (req, res, next) => { try { res.json(await PT.findById(req.params.id)); } catch(e){next(e);} });
 router.post('/',       async (req, res, next) => { try { res.status(201).json(await PT.create(req.body)); } catch(e){next(e);} });
