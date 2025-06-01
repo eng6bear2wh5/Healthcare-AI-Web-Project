@@ -5,8 +5,7 @@
 @import "slick-carousel/slick/slick-theme.css";
 
 body {
-  /* @apply bg-gradient-to-b from-white via-blue-50 to-slate-100; */
-  @apply bg-blue-50;
+  @apply bg-gradient-to-b from-white via-blue-50 to-slate-100;
   font-family: 'Nunito', sans-serif;
   /* Hoặc bg-fixed bg-cover bg-center bg-[url('/path/to/image.jpg')] */
 }
@@ -27,8 +26,4 @@ body, #root {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-}
-
-body {
-  font-family: system-ui, Arial, sans-serif;
 }

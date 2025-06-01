@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Toggle from "./Toggle";
 import { useNavigate } from "react-router-dom";
+import { register } from "../../api/auth"
 
 const SignupForm = () => {
   
