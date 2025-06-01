@@ -8,11 +8,13 @@ export default function Navbar() {
   const [open, setOpen] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileSubmenus, setMobileSubmenus] = useState({});
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false); // Dropdown for account
   const timeoutRef = useRef(null);
   const menuRef = useRef(null);
   const menuBtnRef = useRef(null);
+  const profileRef = useRef(null);
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
 
   const navItems = [
     { label: "Trang chủ", path: "/" },
@@ -61,6 +63,19 @@ export default function Navbar() {
     return () =>
       document.removeEventListener("mousedown", handleClickOutside);
   }, [menuOpen]);
+
+  // Đóng profile dropdown khi click ra ngoài
+  useEffect(() => {
+    if (!profileMenuOpen) return;
+    function handleClickOutside(event) {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setProfileMenuOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () =>
+      document.removeEventListener("mousedown", handleClickOutside);
+  }, [profileMenuOpen]);
 
   const handleMouseEnter = (index) => {
     clearTimeout(timeoutRef.current);
@@ -129,20 +144,45 @@ export default function Navbar() {
           </ul>
         </div>
 
-        {/* Nút đăng nhập/avatar - luôn ở phải */}
-        <div className="hidden md:flex items-center min-w-[120px] justify-end">
+        {/* Nút đăng nhập/avatar + dropdown - luôn ở phải */}
+        <div className="hidden md:flex items-center min-w-[120px] justify-end relative">
           {user ? (
-            <button
-              className="rounded-full w-10 h-10 overflow-hidden border border-blue-300"
-              onClick={() => navigate("/personal-tracker")}
-              title="Personal Tracker"
-            >
-              <img
-                src={user.avatar || defaultimage}
-                alt="Avatar"
-                className="w-full h-full object-cover"
-              />
-            </button>
+            <div ref={profileRef} className="relative">
+              <button
+                className="rounded-full w-10 h-10 overflow-hidden border border-blue-300 flex items-center justify-center"
+                onClick={() => setProfileMenuOpen((prev) => !prev)}
+                title="Tài khoản"
+              >
+                <img
+                  src={user.avatar || defaultimage}
+                  alt="Avatar"
+                  className="w-8 h-8 object-cover rounded-full"
+                />
+                <span className="ml-1 text-gray-500 text-xs">▼</span>
+              </button>
+              {profileMenuOpen && (
+                <div className="absolute right-0 mt-2 w-44 bg-white rounded shadow-md border z-50 text-base">
+                  <button
+                    className="block w-full text-left px-4 py-2 hover:bg-blue-50"
+                    onClick={() => {
+                      navigate("/personal-tracker");
+                      setProfileMenuOpen(false);
+                    }}
+                  >
+                    Cá nhân
+                  </button>
+                  <button
+                    className="block w-full text-left px-4 py-2 hover:bg-blue-50 text-red-600"
+                    onClick={() => {
+                      logout();
+                      setProfileMenuOpen(false);
+                    }}
+                  >
+                    Đăng xuất
+                  </button>
+                </div>
+              )}
+            </div>
           ) : (
             <button
               className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition cursor-pointer"
@@ -213,20 +253,31 @@ export default function Navbar() {
             ))}
 
             {user ? (
-              <button
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg w-full transition flex items-center gap-2"
-                onClick={() => {
-                  navigate("/personal-tracker");
-                  setMenuOpen(false);
-                }}
-              >
-                <img
-                  src={user.avatar || defaultimage}
-                  alt="Avatar"
-                  className="w-7 h-7 rounded-full"
-                />
-                Cá nhân
-              </button>
+              <>
+                <button
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg w-full transition flex items-center gap-2"
+                  onClick={() => {
+                    navigate("/personal-tracker");
+                    setMenuOpen(false);
+                  }}
+                >
+                  <img
+                    src={user.avatar || defaultimage}
+                    alt="Avatar"
+                    className="w-7 h-7 rounded-full"
+                  />
+                  Cá nhân
+                </button>
+                <button
+                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg w-full transition mt-2"
+                  onClick={() => {
+                    logout();
+                    setMenuOpen(false);
+                  }}
+                >
+                  Đăng xuất
+                </button>
+              </>
             ) : (
               <button
                 className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg w-full transition"
