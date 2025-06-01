@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Toggle from "./Toggle";
 import { useNavigate } from "react-router-dom";
-import { useToast } from "../ToastContext";
 import { register } from "../../api/auth"
 
 const SignupForm = () => {
@@ -14,7 +13,6 @@ const SignupForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { showToast } = useToast();
 
   const navigate = useNavigate();
 
@@ -29,7 +27,7 @@ const SignupForm = () => {
         navigate(`/email-verification?email=${encodeURIComponent(email)}&from=signup`);
       } else {
         console.log(`Đăng ký thất bại: ${result.data.message || "Lỗi không xác định"}`);
-        showToast("Đăng ký thất bại!", "fail");
+        alert("Đăng ký thất bại!");
       }
   };
 
@@ -38,7 +36,7 @@ const SignupForm = () => {
       window.location.href = "/auth/google";
     } catch (error) {
       console.log(`Có lỗi khi đăng nhập google: ${error.message}`);
-      showToast("Xảy ra lỗi!", "fail");
+      alert("Xảy ra lỗi!");
     }
   };
 
