@@ -28,12 +28,42 @@ export default function DiseaseDetail() {
   // Xác định ảnh LCP
   const lcpImage = disease?.image_url;
 
-  if (ld || la) {
+   if (ld || la) {
     return (
-      <section className="max-w-4xl mx-auto p-6">
-        {/* Skeleton giữ chỗ cho ảnh */}
-        <div className="w-full h-[300px] bg-gray-200 rounded mb-8 animate-pulse"></div>
-        <p className="text-center text-gray-500">Đang tải...</p>
+      <section className="max-w-4xl mx-auto p-6 space-y-8">
+        {/* Skeleton ảnh bệnh */}
+        <div className="w-full h-[600px] bg-gray-200 rounded mb-8 animate-pulse"></div>
+        {/* Skeleton tên bệnh */}
+        <div className="h-10 w-2/3 bg-gray-200 rounded mb-6 animate-pulse"></div>
+        {/* Skeleton mô tả bệnh */}
+        <div>
+          <div className="h-6 w-1/3 bg-gray-200 rounded mb-2 animate-pulse"></div>
+          <div className="h-4 w-full bg-gray-200 rounded mb-1 animate-pulse"></div>
+          <div className="h-4 w-5/6 bg-gray-200 rounded mb-1 animate-pulse"></div>
+          <div className="h-4 w-2/3 bg-gray-200 rounded mb-1 animate-pulse"></div>
+        </div>
+        {/* Skeleton thông tin chung */}
+        <div>
+          <div className="h-6 w-1/4 bg-gray-200 rounded mb-2 animate-pulse"></div>
+          <div className="h-4 w-full bg-gray-200 rounded mb-1 animate-pulse"></div>
+          <div className="h-4 w-4/6 bg-gray-200 rounded mb-1 animate-pulse"></div>
+          <div className="h-4 w-3/5 bg-gray-200 rounded mb-1 animate-pulse"></div>
+        </div>
+        {/* Skeleton bài báo liên quan */}
+        <div>
+          <div className="h-6 w-1/3 bg-gray-200 rounded mb-4 animate-pulse"></div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[1,2,3].map(i => (
+              <div key={i} className="border border-gray-200 rounded-lg p-5 shadow-sm flex flex-col gap-2 animate-pulse">
+                <div className="h-6 w-2/3 bg-gray-200 rounded mb-2"></div>
+                <div className="h-4 w-full bg-gray-200 rounded mb-1"></div>
+                <div className="h-4 w-3/4 bg-gray-200 rounded mb-1"></div>
+                <div className="h-4 w-1/2 bg-gray-200 rounded mb-1"></div>
+                <div className="h-4 w-1/3 bg-gray-200 rounded"></div>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
     );
   }

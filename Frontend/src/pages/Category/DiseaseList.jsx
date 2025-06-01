@@ -29,14 +29,14 @@ export default function DiseaseList() {
   );
 
   const filteredDiseases = diseases.filter(d =>
-    d.name_diseases.toLowerCase().includes(searchTerm.toLowerCase())
+    (d.name_diseases || "").toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   // LCP: Ảnh đầu tiên của danh sách bệnh đã lọc
   const lcpImage = filteredDiseases[0]?.image_url;
 
   return (
-    <div className="max-w-2xl mx-auto p-4">
+    <div className="max-w-2xl mx-auto p-4 min-h-[1200px]">
       {/* Preload ảnh LCP */}
       <Helmet>
         {lcpImage && (
@@ -60,16 +60,26 @@ export default function DiseaseList() {
 
       {/* Skeleton giữ chỗ khi loading */}
       {isLoading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[1, 2, 3].map(i => (
-            <div key={i} className="bg-white rounded-lg shadow-md h-[320px] animate-pulse">
-              <div className="w-full h-48 bg-gray-200 rounded-t-lg"></div>
-              <div className="p-4">
-                <div className="h-6 bg-gray-200 rounded w-2/3 mb-2"></div>
-                <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+        <div>
+          {/* Skeleton tiêu đề */}
+          <div className="h-8 w-2/3 mx-auto bg-gray-200 rounded mb-6 animate-pulse"></div>
+          {/* Skeleton thanh tìm kiếm */}
+          <div className="mb-6 max-w-md mx-auto">
+            <div className="w-full h-12 bg-gray-200 rounded-lg shadow-sm animate-pulse"></div>
+          </div>
+          {/* Skeleton danh sách bệnh */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[...Array(9)].map((_, i) => (
+              <div key={i} className="bg-white rounded-lg shadow-md h-[320px] animate-pulse">
+                <div className="w-full h-48 bg-gray-200 rounded-t-lg"></div>
+                <div className="p-4">
+                  <div className="h-6 bg-gray-200 rounded w-2/3 mb-2"></div>
+                  <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+                  <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       ) : error ? (
         <p className="text-center text-red-600">

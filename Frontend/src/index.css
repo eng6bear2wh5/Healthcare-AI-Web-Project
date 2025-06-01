@@ -17,13 +17,3 @@ body {
 .box-modern:hover {
   @apply shadow-lg;
 }
-
-html, body, #root {
-  height: 100%;
-}
-
-body, #root {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}

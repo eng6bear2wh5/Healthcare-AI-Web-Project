@@ -1,7 +1,9 @@
 // pages/PharmaInformation/MedicineList.jsx
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getAllDrugs, searchDrugs } from "../../api/drugApi";
+import { getAllDrugs } from "../../api/drugApi";
+
+const API_BASE = process.env.REACT_APP_API_BASE || "";
 
 function MedicineList() {
   useEffect(() => {
@@ -11,7 +13,8 @@ function MedicineList() {
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState("");
   const [error, setError] = useState(null);
-  const [suggestions, setSuggestions] = useState([]);
+  const [selectedLetter, setSelectedLetter] = useState(""); // Thêm state lọc chữ cái
+  const [filteredDrugs, setFilteredDrugs] = useState([]);   // Thêm state danh sách đã lọc
 
   // 1) Load danh sách thuốc từ MongoDB khi component mount
   useEffect(() => {
@@ -20,6 +23,7 @@ function MedicineList() {
       try {
         const all = await getAllDrugs();
         setDrugs(all);
+        setFilteredDrugs(all); // ban đầu hiển thị tất cả
       } catch (err) {
         console.error(err);
         setError("Không thể tải danh sách thuốc");
@@ -30,85 +34,83 @@ function MedicineList() {
     fetchAll();
   }, []);
 
-  //Khi nào dùng ElasticSearch thì dùng cái này
-  // // 2) Khi search form submit, gọi Elasticsearch
-  // const handleSearch = async (e) => {
-  //   e.preventDefault();
-  //   const q = e.target.elements.search.value.trim();
-  //   setQuery(q);
-  //   if (!q) {
-  //     // nếu bỏ trống, load lại toàn bộ
-  //     setLoading(true);
-  //     try {
-  //       const all = await getAllDrugs();
-  //       setDrugs(all);
-  //     } catch (err) {
-  //       console.error(err);
-  //       setError("Không thể tải danh sách thuốc");
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //     return;
-  //   }
-
-  //   setLoading(true);
-  //   setError(null);
-  //   try {
-  //     const results = await searchDrugs(q);
-  //     setDrugs(results);
-  //   } catch (err) {
-  //     console.error(err);
-  //     setError("Tìm kiếm thất bại");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-  //Khi dùng ElasticSearch thì xóa cái này đi
-  // Gợi ý tên thuốc khi người dùng gõ
-  const handleInputChange = (e) => {
-    const value = e.target.value;
-    setQuery(value);
-    if (!value) {
-      setSuggestions([]);
+  // 2) Khi search form submit, gọi Elasticsearch
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    const q = e.target.elements.search.value.trim();
+    setQuery(q);
+    if (!q) {
+      setLoading(true);
+      try {
+        const all = await getAllDrugs();
+        setDrugs(all);
+        setFilteredDrugs(all);
+      } catch (err) {
+        setError("Không thể tải danh sách thuốc");
+      } finally {
+        setLoading(false);
+      }
       return;
     }
-    // Lọc danh sách thuốc theo tên
-    const filtered = drugs.filter((drug) =>
-      drug.name.toLowerCase().includes(value.toLowerCase())
-    );
-    setSuggestions(filtered.slice(0, 8)); // chỉ gợi ý tối đa 8 thuốc
+    setLoading(true);
+    setError(null);
+    try {
+      // Gọi API Elasticsearch
+      const res = await fetch(`${API_BASE}/health/search?q=${q}`);
+      const results = await res.json();
+      setDrugs(results);
+      setFilteredDrugs(results);
+    } catch (err) {
+      setError("Tìm kiếm thất bại");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  // Khi chọn gợi ý
-  const handleSuggestionClick = (name) => {
-    setQuery(name);
-    setSuggestions([]);
-    // Lọc danh sách thuốc chỉ còn thuốc được chọn
-    setDrugs(drugs.filter((drug) => drug.name === name));
+  // Lọc theo tên và chữ cái
+  useEffect(() => {
+    let filtered = drugs;
+    if (query) {
+      filtered = filtered.filter((drug) =>
+        drug.name?.toLowerCase().includes(query.toLowerCase())
+      );
+    }
+    if (selectedLetter) {
+      filtered = filtered.filter((drug) =>
+        drug.name?.toUpperCase().startsWith(selectedLetter)
+      );
+    }
+    setFilteredDrugs(filtered);
+  }, [query, selectedLetter, drugs]);
+
+  const handleLetterClick = (letter) => {
+    setSelectedLetter(letter === selectedLetter ? "" : letter); // toggle chọn
   };
 
-return (
+  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
+  return (
     <div className="p-4">
       <h2 className="text-2xl font-bold mb-4 text-blue-700">Danh sách thuốc</h2>
 
-      {/* Thanh tìm kiếm chỉ dùng ES */}
-      {/* <form onSubmit={handleSearch} className="mb-4 flex">
+      {/* Thanh tìm kiếm dùng Elasticsearch */}
+      <form onSubmit={handleSearch} className="mb-4 flex">
         <input
-            name="search"
-            type="text"
-            placeholder="Tìm kiếm thuốc bằng Elasticsearch..."
-            className="border rounded-l px-3 py-2 flex-grow"
-          />
-          <button
-            type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded-r hover:bg-blue-600"
-          >
-            Tìm
-          </button>
-        </form> */}
+          name="search"
+          type="text"
+          placeholder="Tìm kiếm thuốc..."
+          className="border rounded-l px-3 py-2 flex-grow"
+        />
+        <button
+          type="submit"
+          className="bg-blue-500 text-white px-4 py-2 rounded-r hover:bg-blue-600"
+        >
+          Tìm
+        </button>
+      </form>
 
-      {/* Thanh tìm kiếm gợi ý */}
+      {/* Thanh tìm kiếm dùng gợi ý */}
+      {/*
       <div className="mb-4 max-w-md relative">
         <input
           type="text"
@@ -128,6 +130,7 @@ return (
               try {
                 const all = await getAllDrugs();
                 setDrugs(all);
+                setFilteredDrugs(all);
               } catch (err) {
                 setError("Không thể tải danh sách thuốc");
               } finally {
@@ -154,7 +157,33 @@ return (
           </ul>
         )}
       </div>
- 
+      */}
+
+      {/* A-Z filter */}
+      <div className="flex flex-wrap gap-2 justify-center mb-6">
+        <button
+          onClick={() => setSelectedLetter("")}
+          className={`w-16 h-8 rounded-full font-bold flex items-center justify-center cursor-pointer ${
+            selectedLetter === "" ? "bg-blue-600 text-white" : "bg-gray-300 text-gray-700"
+          } hover:bg-blue-500 hover:text-white transition`}
+          aria-label="Tất cả"
+          title="Hiện tất cả"
+        >
+          Tất cả
+        </button>
+        {alphabet.map((letter) => (
+          <button
+            key={letter}
+            onClick={() => handleLetterClick(letter)}
+            className={`w-8 h-8 rounded-full text-white font-bold cursor-pointer ${
+              selectedLetter === letter ? "bg-blue-600" : "bg-gray-400"
+            } hover:bg-blue-500 transition`}
+          >
+            {letter}
+          </button>
+        ))}
+      </div>
+
       {loading && (
         <div>
           <p className="text-center text-gray-500 mb-2">Đang tải...</p>
@@ -172,7 +201,7 @@ return (
 
       {!loading && !error && (
         <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {drugs.map((drug) => (
+          {filteredDrugs.map((drug) => (
             <li
               key={drug._id || drug.id_mongoDB}
               className="border p-4 rounded shadow hover:shadow-lg transition"
@@ -195,9 +224,8 @@ return (
           ))}
         </ul>
       )}
-      </div>
+    </div>
   );
 }
 
 export default MedicineList;
-  
