@@ -18,7 +18,7 @@ router.post('/', protect, authorize('user'), async (req, res, next) => {
 
 // PUT update (body chỉ { meals, notes })
 router.put('/', protect, authorize('user'), async (req, res, next) => {
-  try { res.json(await UD.findOneAndUpdate(req.user.id, { ...req.body, user_id: req.user.id }, { new: true, upsert: true, setDefaultsOnInsert: true }).sort({ updateAt: -1 }).lean()); }
+  try { res.json(await UD.findOneAndUpdate({user_id: req.user.id}, { ...req.body, user_id: req.user.id }, { new: true, upsert: true, setDefaultsOnInsert: true }).sort({ updateAt: -1 }).lean()); }
   catch (e) { next(e); }
 });
 

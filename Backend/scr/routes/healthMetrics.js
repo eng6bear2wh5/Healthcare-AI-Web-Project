@@ -18,9 +18,19 @@ router.post('/', protect, authorize('user'), async (req, res, next) => {
 
 // PUT update (body chỉ các số liệu, không user_id/date)
 router.put('/', protect, authorize('user'), async (req, res, next) => {
-  try { res.json(await HM.findOneAndUpdate(req.user.id, { ...req.body, user_id: req.user.id }, { new: true, upsert: true, setDefaultsOnInsert: true }).sort({ updateAt: -1 }).lean()); }
-  catch (e) { next(e); }
+  try {
+    const updated = await HM.findOneAndUpdate(
+      { user_id: req.user.id }, // ✅ đúng filter
+      { ...req.body, user_id: req.user.id }, // cập nhật dữ liệu
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    ).lean();
+
+    res.json(updated);
+  } catch (e) {
+    next(e);
+  }
 });
+
 
 // DELETE
 router.delete('/', protect, authorize('user'), async (req, res, next) => {

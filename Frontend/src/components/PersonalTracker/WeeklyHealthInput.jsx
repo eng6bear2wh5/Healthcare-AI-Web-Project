@@ -1,7 +1,5 @@
-import React, { useState } from "react";
-// import { Card, CardContent } from "@/components/ui/card";
-// import { Input } from "@/components/ui/input";
-// import { Button } from "@/components/ui/button";
+import React, { useState, useEffect } from "react";
+import { useToast } from "../ToastContext";
 
 function Card({ children, className = "" }) {
   return (
@@ -28,7 +26,7 @@ function Input({ type = "text", className = "", ...props }) {
 function Button({ children, className = "", ...props }) {
   return (
     <button
-      className={`bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition ${className}`}
+      className={`bg-[#0180CC] text-white font-medium py-2.5 px-4 rounded-md hover:bg-[#0063A3] focus:outline-none focus:ring-2 focus:ring-[#0180CC] focus:ring-offset-2 transition-colors duration-200 ${className}`}
       {...props}
     >
       {children}
@@ -38,17 +36,102 @@ function Button({ children, className = "", ...props }) {
 
 const weeks = [1, 2, 3, 4];
 const fields = [
-  { label: "BMI", name: "bmi", unit: "" },
-  { label: "Huyết áp", name: "blood_pressure", unit: "mmHg", placeholder: "VD: 120/80" },
-  { label: "Nhịp tim", name: "heart_rate", unit: "bpm" },
-  { label: "Đường huyết", name: "blood_glucose", unit: "mg/dL" },
-  { label: "Tỷ lệ mỡ cơ thể", name: "body_fat", unit: "%" },
+  { label: "BMI", name: "bmi", unit: "", type: "number", step: "0.1" },
+
+  {
+    label: "Huyết áp",
+    name: "blood_pressure",
+    unit: "mmHg",
+    type: "double",
+    subFields: [
+      { name: "systolic", label: "tâm thu" },
+      { name: "diastolic", label: "tâm trương" },
+    ],
+  },
+
+  { label: "Nhịp tim", name: "heart_rate", unit: "bpm", type: "number" },
+  {
+    label: "Đường huyết",
+    name: "blood_glucose",
+    unit: "mg/dL",
+    type: "number",
+  },
+  {
+    label: "Tỷ lệ mỡ cơ thể",
+    name: "body_fat",
+    unit: "%",
+    type: "number",
+    step: "0.1",
+  },
+
+  // Trường 2 giá trị:
+  {
+    label: "Cholesterol",
+    name: "cholesterol",
+    unit: "mg/dL",
+    type: "double",
+    subFields: [
+      { name: "ldl", label: "LDL" },
+      { name: "hdl", label: "HDL" },
+    ],
+  },
+  {
+    label: "Men gan",
+    name: "liver_enzymes",
+    unit: "U/L",
+    type: "double",
+    subFields: [
+      { name: "sgpt", label: "SGPT" },
+      { name: "sgot", label: "SGOT" },
+    ],
+  },
+  {
+    label: "Chỉ số thận",
+    name: "kidney_index",
+    unit: "mg/dL - mL/min/1.73m²",
+    type: "double",
+    subFields: [
+      { name: "creatinine", label: "Creatinine" },
+      { name: "eGFR", label: "eGFR" },
+    ],
+  },
 ];
 
 export default function WeeklyHealthInput() {
   const [data, setData] = useState({
-    1: {}, 2: {}, 3: {}, 4: {},
+    1: {},
+    2: {},
+    3: {},
+    4: {},
   });
+
+  useEffect(() => {
+    fetch(`${apiBackendURL}/api/health-metrics/me`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    })
+      .then((r) => r.json())
+      .then((response) => {
+        const newData = { 1: {}, 2: {}, 3: {}, 4: {} };
+
+        // Gán dữ liệu theo tuần
+        response?.weekly_data?.forEach((weekItem) => {
+          const week = weekItem.week;
+          if (week >= 1 && week <= 4) {
+            newData[week] = weekItem;
+          }
+        });
+
+        setData(newData);
+      })
+      .catch((err) => console.error(err));
+  }, []);
+
+  const apiBackendURL = import.meta.env.VITE_API_BACKEND;
+
+  const { showToast } = useToast();
 
   const handleChange = (week, field, value) => {
     setData((prev) => ({
@@ -57,39 +140,104 @@ export default function WeeklyHealthInput() {
     }));
   };
 
-  const handleSubmit = () => {
-    console.log("Dữ liệu 4 tuần:", data);
-    // gửi dữ liệu lên server tại đây (axios/fetch)
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const weekly_data = Object.entries(data).map(([week, values]) => ({
+      week: parseInt(week),
+      bmi: parseFloat(values.bmi),
+      blood_pressure: {
+        systolic: parseInt(values.blood_pressure?.systolic),
+        diastolic: parseInt(values.blood_pressure?.diastolic),
+      },
+      heart_rate: parseInt(values.heart_rate),
+      blood_glucose: parseFloat(values.blood_glucose),
+      body_fat: parseFloat(values.body_fat),
+      cholesterol: {
+        ldl: parseFloat(values.cholesterol?.ldl),
+        hdl: parseFloat(values.cholesterol?.hdl),
+      },
+      liver_enzymes: {
+        sgpt: parseFloat(values.liver_enzymes?.sgpt),
+        sgot: parseFloat(values.liver_enzymes?.sgot),
+      },
+      kidney_index: {
+        creatinine: parseFloat(values.kidney_index?.creatinine),
+        eGFR: parseFloat(values.kidney_index?.eGFR),
+      },
+    }));
+
+    const body = { weekly_data };
+
+    fetch(`${apiBackendURL}/api/health-metrics`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(body),
+    })
+      .then((res) => res.text())
+      .then((data) => {
+        console.log("Thành công " + data);
+        showToast("Đã cập nhật 4 tuần!", "success");
+      })
+      .catch((err) => console.error(err));
   };
 
   return (
-    <div className="flex flex-col gap-4 p-4 md:p-6 w-full bg-white dark:bg-white">
-      <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
+    <div className="w-full px-4 md:px-6 py-6 bg-white dark:bg-gray-900">
+      <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
         📝 Nhập chỉ số sức khỏe theo tuần
       </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <form
+        className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full"
+        onSubmit={handleSubmit}
+      >
         {weeks.map((week) => (
-          <Card key={week} className="rounded-2xl shadow-md p-4">
+          <Card key={week}>
             <CardContent>
               <h3 className="text-xl font-semibold text-blue-600 mb-4">
                 Tuần {week}
               </h3>
-              <div className="space-y-3">
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {fields.map((field) => (
                   <div key={field.name}>
                     <label className="block text-gray-700 mb-1">
                       {field.label}
                     </label>
-                    <Input
-                      type="text"
-                      placeholder={field.placeholder || ""}
-                      value={data[week][field.name] || ""}
-                      onChange={(e) =>
-                        handleChange(week, field.name, e.target.value)
-                      }
-                      className="w-full"
-                    />
+
+                    {field.type === "double" ? (
+                      <div className="grid grid-cols-2 gap-2">
+                        {field.subFields.map((sub) => (
+                          <Input
+                            key={sub.name}
+                            type="number"
+                            placeholder={sub.label}
+                            value={data[week][field.name]?.[sub.name] || ""}
+                            onChange={(e) =>
+                              handleChange(week, field.name, {
+                                ...data[week][field.name],
+                                [sub.name]: e.target.value,
+                              })
+                            }
+                          />
+                        ))}
+                      </div>
+                    ) : (
+                      <Input
+                        type={field.type}
+                        step={field.step}
+                        placeholder={field.placeholder || ""}
+                        value={data[week][field.name] || ""}
+                        onChange={(e) =>
+                          handleChange(week, field.name, e.target.value)
+                        }
+                      />
+                    )}
+
                     {field.unit && (
                       <p className="text-xs text-gray-500 mt-1">
                         Đơn vị: {field.unit}
@@ -101,13 +249,13 @@ export default function WeeklyHealthInput() {
             </CardContent>
           </Card>
         ))}
-      </div>
 
-      <div className="text-center mt-8">
-        <Button onClick={handleSubmit} className="px-6 py-2 text-lg">
-          Lưu thông tin
-        </Button>
-      </div>
+        <div className="text-right mt-4 md:col-span-2">
+          <Button type="submit" className="px-6 py-2 text-lg">
+            Lưu thông tin
+          </Button>
+        </div>
+      </form>
     </div>
   );
 }

@@ -54,7 +54,7 @@ function EditProfile() {
     diet: "",
     activity: "",
     lifestyle: "",
-    drug: "",
+    drugs: "",
   });
 
   const { showToast } = useToast();
@@ -68,7 +68,7 @@ function EditProfile() {
           "Content-Type": "application/json",
         },
         credentials: "include",
-      }).then((r) => r.json()), 
+      }).then((r) => r.json()),
       fetch(`${apiBackendURL}/api/userinfo`, {
         headers: {
           "Content-Type": "application/json",
@@ -102,9 +102,10 @@ function EditProfile() {
           lifestyle: ui.daily_routine || "",
           condition: medical_history.disease_name || "",
           conditionNote: medical_history.notes || "",
+          drugs: medical_history.drugs || "",
         }));
       })
-      .catch(console.error);
+      .catch((err) => console.error(err));
   }, []);
 
   const avatars = {
@@ -140,13 +141,8 @@ function EditProfile() {
       disease_name: formData?.condition,
       diagnosis_date: new Date(),
       notes: formData?.conditionNote,
+      drugs: formData?.drugs,
     };
-
-    // const bodyPrescription = {
-    //   medical_history_id: mhSelect.value,
-    //   prescribed_date: pForm.prescribed_date.value,
-    //   meds,
-    // };
 
     fetch(`${apiBackendURL}/api/user`, {
       method: "PUT",
@@ -376,10 +372,10 @@ function EditProfile() {
               Các loại thuốc đã dùng (nếu có)
             </Label>
             <Textarea
-              id="drug"
+              id="drugs"
               rows={6}
               className="h-full min-h-[150px] flex-grow"
-              value={formData?.drug}
+              value={formData?.drugs}
               onChange={handleChange}
             />
           </div>
