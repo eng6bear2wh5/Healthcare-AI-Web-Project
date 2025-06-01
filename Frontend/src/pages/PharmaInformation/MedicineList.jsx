@@ -5,6 +5,7 @@ import { getAllDrugs } from "../../api/drugApi";
 
 const API_BASE = import.meta.env.VITE_REACT_APP_API_BASE || "";
 
+
 function MedicineList() {
   useEffect(() => {
     document.title = "Danh sách thuốc | HealthTrust";
