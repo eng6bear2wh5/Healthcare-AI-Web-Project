@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Toggle from "./Toggle";
+import { useToast } from "../ToastContext";
 import { login } from "../../api/auth"
 import { useAuth } from "../../contexts/AuthContext"; // import hook
-
 
 const LoginForm = () => {
   useEffect(() => {
@@ -14,19 +14,24 @@ const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const { showToast } = useToast();
+
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
     const result = await login({ email, password });
 
     if (result.ok) {
       console.log(`Đăng nhập thành công, đây là token của bạn: ${result.data.token}`);
       setUser(result.data.user);
+      showToast("Đăng nhập thành công!", "success");
       navigate(`/`);
     } else {
       console.log(`Sai mật khẩu hoặc email chưa đăng ký: ${result.data.message}`);
-      alert(`Sai mật khẩu hoặc email chưa đăng ký`);
+      showToast("Đăng nhập thất bại!", "fail");
+
     }
   };
 
@@ -35,6 +40,7 @@ const LoginForm = () => {
       window.location.href = "/auth/google";
     } catch (error) {
       console.log(`Có lỗi khi đăng nhập google: ${error.message}`);
+      showToast("Có lỗi xảy ra!", "fail");
     }
   };
 

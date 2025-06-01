@@ -1,50 +1,62 @@
 const express = require('express');
-const router  = express.Router();
-const MH      = require('../app/models/MedicalHistory');
+const router = express.Router();
+const MH = require('../app/models/MedicalHistory');
+const { protect, authorize } = require('../middleware/auth');
 
-// GET all (admin)
-router.get('/', async (req, res, next) => {
+
+// ✅ GET by current logged-in user (use req.user.id)
+router.get('/me', protect, authorize('user'), async (req, res, next) => {
   try {
-    res.json(await MH.find());
-  } catch(e){ next(e); }
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    res.json(await MH.findOne({ user_id: req.user.id }).sort({ updateAt: -1 }).lean());
+  } catch (e) { next(e); }
 });
 
-// GET by ID (admin)
-router.get('/:id', async (req, res, next) => {
+// POST new entry
+router.post('/', protect, authorize('user'), async (req, res, next) => {
   try {
-    res.json(await MH.findById(req.params.id));
-  } catch(e){ next(e); }
-});
-
-// GET by user
-router.get('/user/:userId', async (req, res, next) => {
-  try {
-    res.json(await MH.find({ user_id: req.params.userId }));
-  } catch(e){ next(e); }
-});
-
-// POST new entry (Test/Prod JS sẽ pass đúng user_id nội bộ, không qua form)
-router.post('/', async (req, res, next) => {
-  try {
-    // req.body: { user_id, disease_name, diagnosis_date, notes }
-    res.status(201).json(await MH.create(req.body));
-  } catch(e){ next(e); }
+    // req.body: { disease_name, diagnosis_date, notes }
+    const data = { ...req.body, user_id: req.user.id };
+    res.status(201).json(await MH.create(data));
+  } catch (e) { next(e); }
 });
 
 // PUT update
-router.put('/:id', async (req, res, next) => {
+router.put('/', protect, authorize('user'), async (req, res, next) => {
   try {
-    // req.body chỉ chứa { disease_name, diagnosis_date, notes } – KHÔNG user_id
-    res.json(await MH.findByIdAndUpdate(req.params.id, req.body, { new: true }));
-  } catch(e){ next(e); }
+    const data = { ...req.body, user_id: req.user.id };
+    const ui = await MH.findOneAndUpdate(
+      { user_id: req.user.id },
+      data,
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    ).sort({ updateAt: -1 }).lean();
+    res.json(ui);
+  } catch (err) { next(err); }
 });
 
 // DELETE
-router.delete('/:id', async (req, res, next) => {
+router.delete('/', protect, authorize('user'), async (req, res, next) => {
   try {
-    await MH.findByIdAndDelete(req.params.id);
+    await MH.findOneAndDelete({ user_id: req.user.id }).sort({ updateAt: -1 });
     res.json({ success: true });
-  } catch(e){ next(e); }
+  } catch (e) { next(e); }
 });
+
+// // GET all (admin)
+// router.get('/', async (req, res, next) => {
+//   try {
+//     res.json(await MH.find());
+//   } catch (e) { next(e); }
+// });
+
+// // GET by ID (admin)
+// router.get('/:id', async (req, res, next) => {
+//   try {
+//     res.json(await MH.findById(req.params.id));
+//   } catch (e) { next(e); }
+// });
 
 module.exports = router;

@@ -26,6 +26,7 @@ function route(app) {
   app.use('/api/prescriptions', require('./prescriptions'));
   app.use('/api/health-metrics', require('./healthMetrics'));
   app.use('/api/user-diets', require('./userDiets'));
+  
   app.use('/api/personal-tracker', require('./personalTracker'));
   app.use('/api/avatar', require('./avatar'));
 }

@@ -14,8 +14,6 @@ const passport = require('./config/passport');
 const errorHandler = require('./middleware/handleError');
 const compression = require('compression');
 
-// 3. Import routes
-const route = require('./routes');
 
 // 4. Import DB connectors
 const connectDB = require('./config/db/mongoDB');
@@ -50,9 +48,9 @@ const { checkElasticsearchConnection } = require('./config/db/elasticsearch');
   );
   app.use(passport.initialize());
   app.use(passport.session());
-  
-  // 9. API routes
-  // Đóng gói
+
+  // 3. Import routes
+  const route = require('./routes');
   app.use(compression());
   route(app); // Initialize routes
 
