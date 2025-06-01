@@ -7,6 +7,7 @@ const DiseaseDetectButton = lazy(() => import("../components/DiseaseDetectButton
 const AboutHealthTrust = lazy(() => import("../components/AboutHealthTrust"));
 const Specialties = lazy(() => import("../components/Specialties"));
 const PromotionsAndEvents = lazy(() => import("../components/PromotionsAndEvents"));
+import WeatherHealthToast from "../components/WeatherNotification/WeatherHealthToast";
 
 function Home() {
     useEffect(() => {
@@ -21,7 +22,7 @@ function Home() {
                     content="Trang chủ của HealthTrust - nền tảng chăm sóc sức khỏe thông minh với AI, cung cấp thông tin bệnh, thuốc và hỗ trợ chẩn đoán."
                 />
             </Helmet>
-
+            <WeatherHealthToast />
             <HeroSection />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
                 <Suspense fallback={<div>Đang tải...</div>}>
