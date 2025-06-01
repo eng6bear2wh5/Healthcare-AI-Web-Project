@@ -1,5 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { useToast } from "../ToastContext";
+import { useNavigate } from "react-router-dom";
+
+let hasShownAuthAlert = false; 
+
+function useAuthFetch() {
+  const navigate = useNavigate();
+  return async (...args) => {
+    const res = await fetch(...args);
+    if (res.status === 401) {
+      if (!hasShownAuthAlert) {
+        hasShownAuthAlert = true;
+        alert("Bạn chưa đăng nhập! Vui lòng đăng nhập để sử dụng chức năng này!");
+        navigate("/", { replace: true });
+      }
+      throw new Error("Unauthorized");
+    }
+    return res;
+  };
+}
 
 function Input({ className = "", ...props }) {
   return (
@@ -42,6 +61,10 @@ function Label({ htmlFor, children, className = "" }) {
 }
 
 function EditProfile() {
+  useEffect(() => {
+    document.title = "PersonalTracker | HealthTrust";
+  }, []);
+  
   const [formData, setFormData] = useState({
     fullname: "",
     dob: "",
@@ -56,20 +79,22 @@ function EditProfile() {
     lifestyle: "",
     drugs: "",
   });
+  const [isAuthChecked, setIsAuthChecked] = useState(false);
 
   const { showToast } = useToast();
 
   const apiBackendURL = import.meta.env.VITE_API_BACKEND;
+  const authFetch = useAuthFetch();
 
   useEffect(() => {
     Promise.all([
-      fetch(`${apiBackendURL}/api/user`, {
+      authFetch(`${apiBackendURL}/api/user`, {
         headers: {
           "Content-Type": "application/json",
         },
         credentials: "include",
       }).then((r) => r.json()),
-      fetch(`${apiBackendURL}/api/userinfo`, {
+      authFetch(`${apiBackendURL}/api/userinfo`, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -78,7 +103,7 @@ function EditProfile() {
         if (r.status === 404) return {};
         return r.json();
       }),
-      fetch(`${apiBackendURL}/api/medical-history/me`, {
+      authFetch(`${apiBackendURL}/api/medical-history/me`, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -104,8 +129,11 @@ function EditProfile() {
           conditionNote: medical_history.notes || "",
           drugs: medical_history.drugs || "",
         }));
+        setIsAuthChecked(true); // Chỉ render khi đã xác thực xong
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        // Nếu bị 401 thì đã navigate rồi, không cần setIsAuthChecked
+      });
   }, []);
 
   const avatars = {
@@ -144,7 +172,7 @@ function EditProfile() {
       drugs: formData?.drugs,
     };
 
-    fetch(`${apiBackendURL}/api/user`, {
+    authFetch(`${apiBackendURL}/api/user`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -156,7 +184,7 @@ function EditProfile() {
       .then((data) => console.log("Thành công " + data))
       .catch((err) => console.error(err));
 
-    fetch(`${apiBackendURL}/api/userinfo`, {
+    authFetch(`${apiBackendURL}/api/userinfo`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -168,7 +196,7 @@ function EditProfile() {
       .then((data) => console.log("Thành công " + data))
       .catch((err) => console.error(err));
 
-    fetch(`${apiBackendURL}/api/medical-history`, {
+    authFetch(`${apiBackendURL}/api/medical-history`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -182,6 +210,9 @@ function EditProfile() {
 
     showToast("Đã cập nhập profile!", "success");
   };
+
+  // Chỉ render khi đã xác thực xong
+  if (!isAuthChecked) return null;
 
   return (
     <div className="flex flex-col gap-4 p-4 md:p-6 w-full bg-white dark:bg-white">

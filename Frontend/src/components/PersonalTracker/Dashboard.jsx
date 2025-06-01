@@ -14,9 +14,27 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 //import { li } from "framer-motion/client"; do không có dùng đến nên tạm thời không import
 
 const apiBackendURL = import.meta.env.VITE_API_BACKEND;
+let hasShownAuthAlert = false; // Đặt ngoài component
+
+function useAuthFetch() {
+  const navigate = useNavigate();
+  return async (...args) => {
+    const res = await fetch(...args);
+    if (res.status === 401) {
+      if (!hasShownAuthAlert) {
+        hasShownAuthAlert = true;
+        alert("Bạn chưa đăng nhập! Vui lòng đăng nhập để sử dụng chức năng này!");
+        navigate("/", { replace: true });
+      }
+      throw new Error("Unauthorized");
+    }
+    return res;
+  };
+}
 
 // const bmiData = [
 //   { week: "Tuần 1", bmi: 23 },
@@ -54,14 +72,15 @@ const fmt = (d) => new Date(d).toLocaleDateString("vi-VN");
 const PersonalInfoCard = () => {
   const [nameUser, setNameUser] = useState(null);
   const [userInfo, setUserInfo] = useState({});
+  const authFetch = useAuthFetch();
 
   useEffect(() => {
     Promise.all([
-      fetch(`${apiBackendURL}/api/user`, {
+      authFetch(`${apiBackendURL}/api/user`, {
         headers,
         credentials: "include",
       }).then((r) => r.json()),
-      fetch(`${apiBackendURL}/api/userinfo`, {
+      authFetch(`${apiBackendURL}/api/userinfo`, {
         headers,
         credentials: "include",
       }).then((r) => (r.status === 404 ? {} : r.json())),
@@ -140,9 +159,10 @@ const PersonalInfoCard = () => {
 const RecentHealthMetrics = () => {
   const [healthMetric, setHealthMetric] = useState({});
   const [loading, setLoading] = useState(true);
+  const authFetch = useAuthFetch();
 
   useEffect(() => {
-    fetch(`${apiBackendURL}/api/health-metrics/me`, {
+    authFetch(`${apiBackendURL}/api/health-metrics/me`, {
       headers,
       credentials: "include",
     })
@@ -151,7 +171,7 @@ const RecentHealthMetrics = () => {
         setHealthMetric(data?.weekly_data[0]);
         setLoading(false);
       })
-      .catch((err) =>{
+      .catch((err) => {
         console.error(err);
         setLoading(false);
       });
@@ -306,15 +326,16 @@ const MedicalInfoSection = () => {
   const [medicalHistory, setMedicalHistory] = useState({});
   const [userInfo, setUserInfo] = useState({});
   const [loading, setLoading] = useState(true);
+  const authFetch = useAuthFetch();
 
   useEffect(() => {
     setLoading(true);
     Promise.all([
-      fetch(`${apiBackendURL}/api/medical-history/me`, {
+      authFetch(`${apiBackendURL}/api/medical-history/me`, {
         headers,
         credentials: "include",
       }).then((r) => r.json()),
-      fetch(`${apiBackendURL}/api/userinfo`, {
+      authFetch(`${apiBackendURL}/api/userinfo`, {
         headers,
         credentials: "include",
       }).then((r) => r.json()),
@@ -324,7 +345,7 @@ const MedicalInfoSection = () => {
         setUserInfo(b);
         setLoading(false);
       })
-      .catch((err) =>{ 
+      .catch((err) => {
         console.error(err)
         setLoading(false);
       });
@@ -394,9 +415,10 @@ const MedicalInfoSection = () => {
 const HealthTrendsCharts = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const authFetch = useAuthFetch();
 
   useEffect(() => {
-    fetch(`${apiBackendURL}/api/health-metrics/me`, {
+    authFetch(`${apiBackendURL}/api/health-metrics/me`, {
       headers: { "Content-Type": "application/json" },
       credentials: "include",
     })
@@ -524,7 +546,40 @@ const HealthTrendsCharts = () => {
   );
 };
 
+// -------------------------------------------------------------------------------------------
+
 const Dashboard = () => {
+  useEffect(() => {
+    document.title = "PersonalTracker | HealthTrust";
+  }, []);
+  
+  // Thêm state kiểm tra xác thực
+  const [isAuthChecked, setIsAuthChecked] = useState(false);
+
+  // Kiểm tra đăng nhập 1 lần duy nhất khi vào Dashboard
+  useEffect(() => {
+    fetch(`${apiBackendURL}/api/user`, {
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    })
+      .then((res) => {
+        if (res.status === 401) {
+          if (!hasShownAuthAlert) {
+            hasShownAuthAlert = true;
+            alert("Bạn chưa đăng nhập! Vui lòng đăng nhập để sử dụng chức năng này!");
+            window.location.href = "/";
+          }
+          setIsAuthChecked(false);
+        } else {
+          setIsAuthChecked(true);
+        }
+      })
+      .catch(() => setIsAuthChecked(false));
+  }, []);
+
+  // Nếu chưa xác thực xong thì không render gì cả
+  if (!isAuthChecked) return null;
+
   return (
     <div className="max-w-7xl mx-auto p-4 space-y-6 min-h-[1600px]">
       <PersonalInfoCard />
