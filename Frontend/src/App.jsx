@@ -23,6 +23,9 @@ import BMI from "./pages/HealthCheck/BMI";
 import TDEECalculator from "./pages/HealthCheck/TDEECalculator";
 import IdealWeightCalculator from "./pages/HealthCheck/IdealWeightCalculator";
 import BodyFatCalculator from "./pages/HealthCheck/BodyFatCalculator";
+import Dashboard from './pages/PersonalTracker/Dashboard'
+import EditProfile from './pages/PersonalTracker/EditProfile'
+import WeeklyHealthInput from './pages/PersonalTracker/WeeklyHealthInput';
 import "./App.css";
 
 // Thêm lazy load cho Dashboard và EditProfile
@@ -45,7 +48,7 @@ function App() {
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/email-verification" element={<EmailVerification />} />
-
+              <Route path="/personal-tracker/health-log" element={<WeeklyHealthInput />} />
               {/* Lazy load Dashboard và EditProfile */}
               <Route path="/personal-tracker/dashboard" element={
                 <Suspense fallback={<div>Đang tải...</div>}>

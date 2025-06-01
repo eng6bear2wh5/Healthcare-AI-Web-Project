@@ -3,11 +3,10 @@ const { verifyToken } = require('../helpers/tokenHelper');
 const User = require('../app/models/user');
 
 exports.protect = async (req, res, next) => {
-  const token = req.cookies.token || req.headers.authorization?.split(' ')[1]; 
+  const token = req.cookies.token; 
   if (!token) {
-    return res.status(401).json({ message: 'Not authenticated' });
+    return res.status(401).json({ message: 'Not authenticated hahahahah' });
   }
-  console.log(token);
   try {
     const decoded = verifyToken(token); 
     // Lấy thông tin user (không chứa password)

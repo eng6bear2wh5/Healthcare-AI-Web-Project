@@ -6,6 +6,7 @@ import {
   Bars3Icon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  PencilIcon,
 } from "@heroicons/react/24/outline";
 import { Link, useLocation } from "react-router-dom";
 
@@ -16,8 +17,17 @@ function PersonalLayout({ children }) {
 
   const menuItems = [
     { name: "Home", to: "/", icon: HomeIcon },
-    { name: "Dashboard", to: "/personal-tracker/dashboard", icon: Squares2X2Icon },
+    {
+      name: "Dashboard",
+      to: "/personal-tracker/dashboard",
+      icon: Squares2X2Icon,
+    },
     { name: "Profile", to: "/personal-tracker/edit-profile", icon: UserIcon },
+    {
+      name: "Weekly Health Input",
+      to: "/personal-tracker/health-log",
+      icon: PencilIcon,
+    },
   ];
 
   useEffect(() => {
@@ -36,7 +46,11 @@ function PersonalLayout({ children }) {
           style={{ width: collapsed ? 80 : 220 }}
           className="bg-gray-100 dark:bg-gray-900 p-4 transition-all duration-300 hidden md:flex flex-col"
         >
-          <div className={`flex ${collapsed ? "justify-center" : "justify-between"} items-center mb-6 mt-4`}>
+          <div
+            className={`flex ${
+              collapsed ? "justify-center" : "justify-between"
+            } items-center mb-6 mt-4`}
+          >
             {!collapsed && (
               <h1 className="text-2xl font-bold text-blue-600 dark:text-blue-400">
                 HealthCare
@@ -79,13 +93,10 @@ function PersonalLayout({ children }) {
         </aside>
       )}
 
-      <main className={`flex-1"}`}>
-        <div className="p-4 pb-20 md:pb-4">
-          <div className="bg-white min-h-screen rounded-xl shadow-sm">
-            <div className="p-2 sm:p-4 md:p-6">
-              {/* Breadcrumb đã được xoá */}
-              {children}
-            </div>
+      <main className="flex-1 w-full">
+        <div className="p-4 pb-20 md:pb-4 w-full">
+          <div className="bg-white min-h-screen rounded-xl shadow-sm w-full max-w-none">
+            <div className="p-2 sm:p-4 md:p-6 w-full">{children}</div>
           </div>
         </div>
       </main>
