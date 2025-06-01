@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getAllDrugs } from "../../api/drugApi";
 
-const API_BASE = process.env.REACT_APP_API_BASE || "";
+// const API_BASE = process.env.REACT_APP_API_BASE || "";
+const apiURL = import.meta.env.VITE_API_URL;
 
 function MedicineList() {
   useEffect(() => {
