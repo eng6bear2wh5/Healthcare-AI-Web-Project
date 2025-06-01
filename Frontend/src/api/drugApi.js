@@ -16,7 +16,7 @@ export const getDrugById = async (id) => {
 
 // Tìm kiếm thuốc (Elasticsearch)
 export const searchDrugs = async (q) => {
-  const res = await fetch(`${API_BASE}/health/search?q=${encodeURIComponent(q)}`);
+  const res = await fetch(`${API_BASE}/health/search?q=${keyword}`);
   if (!res.ok) throw new Error("Tìm kiếm thất bại");
   return await res.json();
 };
