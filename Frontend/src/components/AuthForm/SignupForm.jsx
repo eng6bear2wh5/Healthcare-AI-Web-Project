@@ -22,11 +22,11 @@ const SignupForm = () => {
       const result = await register({ name, email, password });
 
       if (result.ok) {
-        console.log(`Server đã nhận được thông tin đăng ký, tiến hành gửi OTP để xác thực: ${result.data.message}`);
+        console.log(`Server đã nhận được thông tin đăng ký, tiến hành gửi OTP để xác thực: ${result.message}`);
         // Điều hướng tới trang "/email-verification"
         navigate(`/email-verification?email=${encodeURIComponent(email)}&from=signup`);
       } else {
-        console.log(`Đăng ký thất bại: ${result.data.message || "Lỗi không xác định"}`);
+        console.log(`Đăng ký thất bại: ${result.message || "Lỗi không xác định"}`);
         alert("Đăng ký thất bại!");
       }
   };
