@@ -8,7 +8,7 @@ exports.protect = async (req, res, next) => {
     return res.status(401).json({ message: 'Bạn chưa đăng nhập.' });
   }
   try {
-    const decoded = jwt.verify(jwt, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     if (!decoded) {
       return res.status(401).json({ message: "Bạn không có quyền truy cập trang này"});

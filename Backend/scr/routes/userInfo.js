@@ -39,7 +39,7 @@ const { protect, authorize } = require('../middleware/auth');
 // GET /api/userinfo
 router.get('/', protect, authorize('user'), async (req, res, next) => {
   try {
-    const ui = await UserInfo.findOne({ user_id: req.user.id }).sort({ updateAt: -1 }).lean();
+    const ui = await UserInfo.findOne({ user_id: req.user.id }).lean();
     if (!ui) return res.status(404).json({ message: 'Chưa có thông tin UserInfo' });
     res.json(ui);
   } catch (err) { next(err); }
@@ -52,7 +52,7 @@ router.put('/', protect, authorize('user'), async (req, res, next) => {
       { user_id: req.user.id },
       { ...req.body, user_id: req.user.id },
       { new: true, upsert: true, setDefaultsOnInsert: true }
-    ).sort({ updateAt: -1 }).lean();
+    ).lean();
     res.json(ui);
   } catch (err) { next(err); }
 });

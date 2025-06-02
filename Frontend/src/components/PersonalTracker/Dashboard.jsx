@@ -90,6 +90,12 @@ const PersonalInfoCard = () => {
         setUserInfo((prev) => ({
           ...prev,
           ...ui,
+          sex:
+            ui.sex === "male"
+              ? "male"
+              : ui.sex === "female"
+              ? "female"
+              : "other",
         }));
       })
       .catch((err) => console.error(err));
@@ -98,9 +104,9 @@ const PersonalInfoCard = () => {
   // if (!nameUser){}
 
   const avatars = {
-    male: "/src/assets/avatars/male_avatar.jpg",
-    female: "/src/assets/avatars/female_avatar.jpg",
-    other: "/src/assets/avatars/uit_avatar.png",
+    male: "/avatars/male_avatar.jpg",
+    female: "/avatars/female_avatar.jpg",
+    other: "/avatars/uit_avatar.png",
   };
 
   return (
@@ -130,7 +136,7 @@ const PersonalInfoCard = () => {
         {/* Phần phải */}
         <div className="grid grid-cols-2 gap-x-6 gap-y-4 text-sm w-full md:w-3/4">
           {[
-            ["Giới tính", userInfo?.sex],
+            ["Giới tính", userInfo?.sex === "male" ? "Nam" : userInfo?.sex === "female" ? "Nữ" : "Khác"],
             ["Ngày sinh", fmt(userInfo?.birth_date)],
             [
               "Tuổi",
@@ -157,9 +163,25 @@ const PersonalInfoCard = () => {
 };
 
 const RecentHealthMetrics = () => {
-  const [healthMetric, setHealthMetric] = useState({});
+  // const [healthMetric, setHealthMetric] = useState({});
+  const [weeklyData, setWeeklyData] = useState([]);
   const [loading, setLoading] = useState(true);
   const authFetch = useAuthFetch();
+
+  // Hàm tính trung bình
+  function calcAvg(arr, key) {
+    const valid = arr.map(item => item?.[key]).filter(v => typeof v === "number" && !isNaN(v));
+    if (!valid.length) return null;
+    return Math.round(valid.reduce((a, b) => a + b, 0) / valid.length); // làm tròn số nguyên
+  }
+  
+  function calcAvgBloodPressure(arr) {
+    const valid = arr.map(item => item?.blood_pressure).filter(Boolean);
+    if (!valid.length) return null;
+    const avgSys = Math.round(valid.reduce((a, b) => a + b.systolic, 0) / valid.length);
+    const avgDia = Math.round(valid.reduce((a, b) => a + b.diastolic, 0) / valid.length);
+    return `${avgSys}/${avgDia}`;
+  }
 
   useEffect(() => {
     authFetch(`${apiBackendURL}/api/health-metrics/me`, {
@@ -168,7 +190,7 @@ const RecentHealthMetrics = () => {
     })
       .then((r) => r.json())
       .then((data) => {
-        setHealthMetric(data?.weekly_data[0]);
+        setWeeklyData(data?.weekly_data || []);
         setLoading(false);
       })
       .catch((err) => {
@@ -177,44 +199,52 @@ const RecentHealthMetrics = () => {
       });
   }, []);
 
-  const metrics = [
+  const avgMetrics = [
     {
       label: "🩸 Huyết áp",
-      value: healthMetric?.blood_pressure
-        ? `${healthMetric?.blood_pressure.systolic}/${healthMetric?.blood_pressure.diastolic}`
-        : "N/A",
+      value: calcAvgBloodPressure(weeklyData) || "N/A",
       unit: "mmHg",
     },
     {
       label: "❤️ Nhịp tim",
-      value: healthMetric?.heart_rate,
+      value: calcAvg(weeklyData, "heart_rate") ?? "N/A",
       unit: "bpm",
     },
     {
       label: "⚖️ BMI",
-      value: healthMetric?.bmi,
+      value: calcAvg(weeklyData, "bmi") ?? "N/A",
       unit: "",
     },
     {
       label: "🍬 Đường huyết",
-      value: healthMetric?.blood_glucose,
+      value: calcAvg(weeklyData, "blood_glucose") ?? "N/A",
       unit: "mg/dL",
     },
     {
       label: "💪 Tỷ lệ mỡ cơ thể",
-      value: healthMetric?.body_fat,
+      value: calcAvg(weeklyData, "body_fat") ?? "N/A",
       unit: "%",
     },
     {
       label: "🧪 Cholesterol",
       value: [
         [
-          `LDL: `,
-          `${healthMetric?.cholesterol ? healthMetric?.cholesterol.ldl : ""}`,
+          "LDL: ",
+          calcAvg(
+            weeklyData.map(item => ({
+              ldl: item?.cholesterol?.ldl
+            })),
+            "ldl"
+          ) ?? "N/A"
         ],
         [
-          `HDL: `,
-          `${healthMetric?.cholesterol ? healthMetric?.cholesterol.hdl : ""}`,
+          "HDL: ",
+          calcAvg(
+            weeklyData.map(item => ({
+              hdl: item?.cholesterol?.hdl
+            })),
+            "hdl"
+          ) ?? "N/A"
         ],
       ],
       unit: "mg/dL",
@@ -223,16 +253,22 @@ const RecentHealthMetrics = () => {
       label: "🧫 Men gan",
       value: [
         [
-          `SGPT: `,
-          `${
-            healthMetric?.liver_enzymes ? healthMetric?.liver_enzymes.sgpt : ""
-          }`,
+          "SGPT: ",
+          calcAvg(
+            weeklyData.map(item => ({
+              sgpt: item?.liver_enzymes?.sgpt
+            })),
+            "sgpt"
+          ) ?? "N/A"
         ],
         [
-          `SGOT: `,
-          `${
-            healthMetric?.liver_enzymes ? healthMetric?.liver_enzymes.sgot : ""
-          }`,
+          "SGOT: ",
+          calcAvg(
+            weeklyData.map(item => ({
+              sgot: item?.liver_enzymes?.sgot
+            })),
+            "sgot"
+          ) ?? "N/A"
         ],
       ],
       unit: "U/L",
@@ -241,21 +277,25 @@ const RecentHealthMetrics = () => {
       label: "📉 Chỉ số thận",
       value: [
         [
-          `Creatinine: `,
-          `${
-            healthMetric?.kidney_index
-              ? healthMetric?.kidney_index.creatinine
-              : ""
-          }`,
+          "Creatinine: ",
+          calcAvg(
+            weeklyData.map(item => ({
+              creatinine: item?.kidney_index?.creatinine
+            })),
+            "creatinine"
+          ) ?? "N/A"
         ],
         [
-          `eGFR: `,
-          `${
-            healthMetric?.kidney_index ? healthMetric?.kidney_index.eGFR : ""
-          }`,
+          "eGFR: ",
+          calcAvg(
+            weeklyData.map(item => ({
+              eGFR: item?.kidney_index?.eGFR
+            })),
+            "eGFR"
+          ) ?? "N/A"
         ],
       ],
-      unit: ["mg/dL", "mL/min/1.73m²"], // Vì mỗi chỉ số đã có đơn vị riêng
+      unit: ["mg/dL", "mL/min/1.73m²"],
     },
   ];
 
@@ -283,29 +323,27 @@ const RecentHealthMetrics = () => {
       transition={{ delay: 0.2, duration: 0.5 }}
       className="flex flex-col gap-4"
     >
-      <h2 className="text-black text-xl font-semibold">📈 Chỉ số sức khỏe</h2>
+      <h2 className="text-black text-xl font-semibold mb-4">📈 Chỉ số sức khỏe</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {metrics.map((item, idx) => (
+        {avgMetrics.map((item, idx) => (
           <Card
             key={idx}
-            className="text-center hover:shadow-xl transition p-4"
+            className="text-center hover:shadow-xl transition p-4 flex flex-col justify-center items-center"
           >
-            <p className="text-blue-600 font-medium">{item.label}</p>
+            <p className="text-blue-600 font-medium mb-2">{item.label}</p>
             <div className="mt-2 text-2xl font-bold text-gray-700">
               {Array.isArray(item.value) ? (
-                <>
+                <div className="space-y-1">
                   {item.value.map((val, i) => (
-                    <p key={i}>
-                      <span className="text-sm text-gray-700 space-y-1">
-                        {val[0]}
-                      </span>
-                      {val[1]}{" "}
-                      <span className="text-gray-500 text-base font-normal">
+                    <div key={i} className="flex items-baseline justify-center gap-1">
+                      <span className="text-sm text-gray-700">{val[0]}</span>
+                      <span>{val[1]}</span>
+                      <span className="text-gray-500 text-base font-normal ml-1">
                         {Array.isArray(item.unit) ? item.unit[i] : item.unit}
                       </span>
-                    </p>
+                    </div>
                   ))}
-                </>
+                </div>
               ) : (
                 <>
                   {item.value}{" "}
@@ -320,7 +358,8 @@ const RecentHealthMetrics = () => {
       </div>
     </motion.div>
   );
-};
+}
+
 
 const MedicalInfoSection = () => {
   const [medicalHistory, setMedicalHistory] = useState({});

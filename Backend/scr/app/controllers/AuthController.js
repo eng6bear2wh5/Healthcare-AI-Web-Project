@@ -10,14 +10,16 @@ const hashPassword = async (password) => bcrypt.hash(password, 10);
 const setAndSendOTP = async (req, email) => {
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
   req.session.otp = otp;
+  req.session.otpExpires = Date.now() + 5 * 60 * 1000; // 5 phút
   sendOTP(email, otp);
 };
 
 const verifyOTP = (req, email, otp) => {
-  if (!req.session.otp || req.session.otp !== otp) {
+  if (!req.session.otp || req.session.otp !== otp || !req.session.otpExpires || Date.now() > req.session.otpExpires) {
     return false;
   }
   delete req.session.otp;
+  delete req.session.otpExpires;
   return true;
 };
 
@@ -102,7 +104,7 @@ class AuthController {
         secure: false,
         sameSite: "strict",
         maxAge: 15 * 60 * 1000,
-        httpOnly: true,
+        path: "/",
       });
 
       const { password: pwd, ...userData } = user._doc;
@@ -114,7 +116,12 @@ class AuthController {
   }
 
   static logout(req, res, next) {
-    res.clearCookie("jwt");
+    res.clearCookie("jwt", {
+      httpOnly: true,
+      secure: false, // hoặc true nếu dùng HTTPS
+      sameSite: "strict",
+      path: "/",     // thêm path nếu lúc set có path
+    });
     res.status(200).json({
         success: true, message: "Đăng xuất thành công"
     });
@@ -124,7 +131,7 @@ class AuthController {
     res.status(201).json({
       message: "Bạn đã đăng nhập",
       user: req.user,
-      token: req.cookies.token,
+      token: req.cookies.jwt,
     });
   }
 

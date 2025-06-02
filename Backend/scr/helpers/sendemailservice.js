@@ -16,7 +16,7 @@ const sendOTP = async (email, otp) => {
         from: process.env.EMAIL_USER,
         to: email,
         subject: 'Mã xác thực OTP',
-        text: `Mã OTP của bạn là: ${otp}`
+        text: `Mã OTP của bạn là: ${otp}. \nMã OTP của bạn sẽ hết hạn sau 5 phút!`
     });
 };
 

@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from 'react';
+const apiBackendURL = import.meta.env.VITE_API_BACKEND;
 
 const AuthContext = createContext(null);
 
@@ -7,7 +8,8 @@ export function AuthProvider({ children }) {
 
   const logout = async () => {
     try {
-      await fetch('/auth/logout', {
+      // await fetch('/auth/logout', {
+      await fetch(`${apiBackendURL}/auth/logout`, { 
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -19,7 +21,7 @@ export function AuthProvider({ children }) {
     }
     setUser(null);
     localStorage.removeItem('token');
-    navigate(`/`);
+    // navigate(`/`);
   }
 
   return (

@@ -288,7 +288,7 @@ export default function WeeklyHealthInput() {
         ))}
 
         <div className="text-right mt-4 md:col-span-2">
-          <Button type="submit" className="px-6 py-2 text-lg">
+          <Button type="submit" className="px-6 py-2 text-lg cursor-pointer">
             Lưu thông tin
           </Button>
         </div>
