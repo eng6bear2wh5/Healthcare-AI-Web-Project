@@ -8,32 +8,32 @@ import { useEffect } from "react";
 
 const achievements = [
   {
-    title: "Giải thưởng Y tế Quốc gia 2022",
+    title: "Giải thưởng Y tế Thông minh 2024",
     description:
       "Health Trust được vinh danh với giải thưởng cao quý vì những đóng góp nổi bật trong chăm sóc sức khỏe cộng đồng.",
     image:
-      "https://hcdc.vn/public/img/02bf8460bf0d6384849ca010eda38cf8e9dbc4c7/images/dangbai1/images/le-trao-giai-thanh-tuu-y-khoa-viet-nam-2022-vinh-danh-nhung-cong-trinh-y-hoc-tieu-bieu-cua-y-te-cong-dong/images/image015.jpg",
+      "https://nhakhoakim.com/wp-content/uploads/2025/02/Thanh-tuu-Y-khoa-Viet-Nam-2024.jpg",
   },
   {
     title: "Top 10 Dịch vụ Sức khỏe Sáng tạo",
     description:
       "Nằm trong top 10 đơn vị cung cấp dịch vụ sức khỏe sáng tạo nhất năm 2023 theo bình chọn từ người dùng.",
     image:
-      "https://www.panamamaritimeconference.com/wp-content/uploads/2022/06/top-10-dich-vu-y-te-tai-nha-tot-nhat-tp-hcm.jpg",
+      "https://image.viettimes.vn/w800/Uploaded/2025/livospwi/2022_02_03/chuyen-doi-so-y-te-3669.jpg",
   },
   {
     title: "Chứng nhận ISO 9001:2015",
     description:
       "Health Trust đạt tiêu chuẩn quản lý chất lượng quốc tế trong vận hành và cung cấp dịch vụ y tế.",
     image:
-      "https://knacert.com.vn/storage/mau-chung-nhan-isso-9001-2015-1234.jpg",
+      "https://icert.vn/pic/New/iso-9001-_637033763634983600.jpg",
   },
   {
     title: "Đối tác chiến lược của Bộ Y tế",
     description:
       "Được lựa chọn làm đối tác trong nhiều chiến dịch nâng cao nhận thức sức khỏe quốc gia.",
     image:
-      "https://suckhoedoisong.qltns.mediacdn.vn/zoom/720_450/324455921873985536/2025/3/9/dsc8486-17415130732371303477485-0-0-4046-6474-crop-174151311055259910059.jpg",
+      "https://moh.gov.vn/documents/174521/1538901/21.4.2023+BT+DHL+phat+bieu+1.jpg/3f836aa5-8647-450e-87c2-11098cee3f0d?t=1682171873797",
   },
 ];
 

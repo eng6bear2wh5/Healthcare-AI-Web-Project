@@ -85,6 +85,14 @@ function EditProfile() {
 
   const apiBackendURL = import.meta.env.VITE_API_BACKEND;
   const authFetch = useAuthFetch();
+  const [userId, setUserId] = useState("");
+
+  const avatarKey =
+    formData.gender === "Nam"
+      ? "male"
+      : formData.gender === "Nữ"
+      ? "female"
+      : "other";
 
   useEffect(() => {
     Promise.all([
@@ -114,10 +122,18 @@ function EditProfile() {
       }),
     ])
       .then(([user, ui, medical_history]) => {
+        setUserId(user._id || "");
         setFormData((prev) => ({
           ...prev,
           fullname: user.name || "",
-          gender: ui.sex || "",
+          gender:
+            ui.sex === "male"
+              ? "Nam"
+              : ui.sex === "female"
+              ? "Nữ"
+              : ui.sex === "other"
+              ? "Khác"
+              : "",
           dob: ui.birth_date ? ui.birth_date.slice(0, 10) : "",
           blood: ui.blood_type || "",
           height: ui.height || "",
@@ -125,9 +141,9 @@ function EditProfile() {
           diet: ui.diet_type || "",
           activity: ui.activity_level || "",
           lifestyle: ui.daily_routine || "",
-          condition: medical_history.disease_name || "",
-          conditionNote: medical_history.notes || "",
-          drugs: medical_history.drugs || "",
+          condition: medical_history?.disease_name || "",
+          conditionNote: medical_history?.notes || "",
+          drugs: medical_history?.drugs || "",
         }));
         setIsAuthChecked(true); // Chỉ render khi đã xác thực xong
       })
@@ -137,9 +153,9 @@ function EditProfile() {
   }, []);
 
   const avatars = {
-    male: "/src/assets/avatars/male_avatar.jpg",
-    female: "/src/assets/avatars/female_avatar.jpg",
-    other: "/src/assets/avatars/uit_avatar.png",
+    male: "/avatars/male_avatar.jpg",
+    female: "/avatars/female_avatar.jpg",
+    other: "/avatars/uit_avatar.png",
   };
 
   const handleChange = (e) => {
@@ -149,13 +165,22 @@ function EditProfile() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!userId) {
+      showToast("Không xác định được user. Vui lòng thử lại!", "error");
+      return;
+    }
 
     const bodyUser = {
       name: formData?.fullname,
     };
 
     const bodyInfo = {
-      sex: formData?.gender,
+      sex:
+        formData?.gender === "Nam"
+          ? "male"
+          : formData?.gender === "Nữ"
+          ? "female"
+          : "other",
       birth_date: formData?.dob,
       blood_type: formData?.blood,
       height: formData?.height ? parseFloat(formData.height) : "",
@@ -166,48 +191,49 @@ function EditProfile() {
     };
 
     const bodyMedicalHistory = {
+      user_id: userId, // BỔ SUNG DÒNG NÀY
       disease_name: formData?.condition,
-      diagnosis_date: new Date(),
+      diagnosis_date: new Date().toISOString(), // chuyển sang chuỗi ISO
       notes: formData?.conditionNote,
       drugs: formData?.drugs,
     };
 
-    authFetch(`${apiBackendURL}/api/user`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify(bodyUser),
-    })
-      .then((res) => res.text())
-      .then((data) => console.log("Thành công " + data))
-      .catch((err) => console.error(err));
-
-    authFetch(`${apiBackendURL}/api/userinfo`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify(bodyInfo),
-    })
-      .then((res) => res.text())
-      .then((data) => console.log("Thành công " + data))
-      .catch((err) => console.error(err));
-
-    authFetch(`${apiBackendURL}/api/medical-history`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify(bodyMedicalHistory),
-    })
-      .then((res) => res.text())
-      .then((data) => console.log("Thành công " + data))
-      .catch((err) => console.error(err));
-
+    console.log("bodyUser:", bodyUser);
+    console.log("bodyInfo:", bodyInfo);
+    console.log("bodyMedicalHistory:", bodyMedicalHistory);
+    
+    Promise.all([
+      authFetch(`${apiBackendURL}/api/user`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(bodyUser),
+      }),
+      authFetch(`${apiBackendURL}/api/userinfo`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(bodyInfo),
+      }),
+      authFetch(`${apiBackendURL}/api/medical-history`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(bodyMedicalHistory),
+      }),
+    ])
+      .then((responses) => {
+        // Kiểm tra tất cả đều thành công
+        if (responses.every((res) => res.ok)) {
+          showToast("Đã cập nhập profile!", "success");
+        } else {
+          throw new Error("Có lỗi khi cập nhật thông tin!");
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        showToast("Cập nhật thông tin thất bại!", "error");
+      });
     showToast("Đã cập nhập profile!", "success");
   };
 
@@ -223,7 +249,7 @@ function EditProfile() {
       {/* Avatar */}
       <div className="flex items-center gap-4">
         <img
-          src={formData?.gender === "female" ? avatars.female : avatars.male}
+          src={avatars[avatarKey]}
           alt="Avatar Preview"
           className="w-24 h-24 rounded-full object-cover border"
         />
@@ -270,7 +296,7 @@ function EditProfile() {
             onChange={handleChange}
             className="w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <option value="">-- Chọn --</option>
+            {!formData.gender && <option value="">-- Chọn --</option>}
             <option value="Nam">Nam</option>
             <option value="Nữ">Nữ</option>
             <option value="Khác">Khác</option>
@@ -286,7 +312,7 @@ function EditProfile() {
             className="w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="">-- Chọn --</option>
-            {["A", "B", "AB", "O"].map((type) => (
+            {["A", "B", "AB", "O", "A-", "B-", "AB-", "O-", "other"].map((type) => (
               <option key={type} value={type}>
                 {type}
               </option>
@@ -478,7 +504,7 @@ function EditProfile() {
         </div>
 
         <div className="md:col-span-2 text-right">
-          <Button type="submit">Lưu thông tin</Button>
+          <Button type="submit" className="cursor-pointer">Lưu thông tin</Button>
         </div>
       </form>
     </div>

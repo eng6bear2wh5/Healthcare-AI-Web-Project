@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import logo from "../assets/medical-icon-png.png";
 import { useAuth } from "../contexts/AuthContext";
 import defaultimage from '../assets/avatars/uit_avatar.png';
+const apiBackendURL = import.meta.env.VITE_API_BACKEND; // nếu dùng biến môi trường
 
 export default function Navbar() {
   const [open, setOpen] = useState(null);
@@ -14,7 +15,35 @@ export default function Navbar() {
   const menuBtnRef = useRef(null);
   const profileRef = useRef(null);
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
+  const { user, setUser, logout } = useAuth();
+
+  useEffect(() => {
+    if (!user) {
+      fetch(`${apiBackendURL}/api/userinfo`, { credentials: "include" })
+        .then(res => {
+          if (!res.ok) throw new Error("Not logged in");
+          return res.json();
+        })
+        .then(userInfo => {
+          setUser(userInfo);
+        })
+        .catch(() => {});
+    }
+  }, [user, setUser]);
+
+
+  const avatars = {
+    male: "/avatars/male_avatar.jpg",
+    female: "/avatars/female_avatar.jpg",
+    other: "/avatars/uit_avatar.png",
+  };
+
+  const avatarKey =
+    user?.sex === "male"
+      ? "male"
+      : user?.sex === "female"
+      ? "female"
+      : "other";
 
   const navItems = [
     { label: "Trang chủ", path: "/" },
@@ -154,16 +183,16 @@ export default function Navbar() {
                 title="Tài khoản"
               >
                 <img
-                  src={user.avatar || defaultimage}
+                  src={avatars[avatarKey]}
                   alt="Avatar"
-                  className="w-8 h-8 object-cover rounded-full"
+                  className="w-8 h-8 object-cover rounded-full cursor-pointer"
                 />
                 <span className="ml-1 text-gray-500 text-xs">▼</span>
               </button>
               {profileMenuOpen && (
                 <div className="absolute right-0 mt-2 w-44 bg-white rounded shadow-md border z-50 text-base">
                   <button
-                    className="block w-full text-left px-4 py-2 hover:bg-blue-50"
+                    className="block w-full text-left px-4 py-2 hover:bg-blue-50 cursor-pointer"
                     onClick={() => {
                       navigate("/personal-tracker");
                       setProfileMenuOpen(false);
@@ -172,10 +201,11 @@ export default function Navbar() {
                     Cá nhân
                   </button>
                   <button
-                    className="block w-full text-left px-4 py-2 hover:bg-blue-50 text-red-600"
-                    onClick={() => {
-                      logout();
+                    className="block w-full text-left px-4 py-2 hover:bg-blue-50 text-red-600 cursor-pointer"
+                    onClick={async () => {
+                      await logout();
                       setProfileMenuOpen(false);
+                      navigate("/");
                     }}
                   >
                     Đăng xuất
@@ -262,7 +292,7 @@ export default function Navbar() {
                   }}
                 >
                   <img
-                    src={user.avatar || defaultimage}
+                    src={avatars[avatarKey]}
                     alt="Avatar"
                     className="w-7 h-7 rounded-full"
                   />
@@ -270,9 +300,10 @@ export default function Navbar() {
                 </button>
                 <button
                   className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg w-full transition mt-2"
-                  onClick={() => {
-                    logout();
+                  onClick={async () => {
+                    await logout();
                     setMenuOpen(false);
+                    navigate("/");
                   }}
                 >
                   Đăng xuất

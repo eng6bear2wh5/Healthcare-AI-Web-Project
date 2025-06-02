@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Toggle from "./Toggle";
 import { login } from "../../api/auth"
 import { useAuth } from "../../contexts/AuthContext"; // import hook
+const apiBackendURL = import.meta.env.VITE_API_BACKEND;
 
 const LoginForm = () => {
   useEffect(() => {
@@ -21,10 +22,21 @@ const LoginForm = () => {
     const result = await login({ email, password });
 
     if (result.ok) {
+      // Gọi thêm API lấy user info (bao gồm giới tính)
+      setTimeout(async () => {
+      const res = await fetch(`${apiBackendURL}/api/userinfo`, { credentials: "include" });
+      const userInfo = await res.json();
+
+      // Gộp thông tin user và giới tính vào context
+      setUser({
+        ...result.data.user,
+        sex: userInfo.sex, // Thêm trường sex vào user context
+      });
+      
       console.log(`Đăng nhập thành công, đây là token của bạn: ${result.data.token}`);
-      setUser(result.data.user);
       alert("Đăng nhập thành công!");
       navigate(`/`);
+      }, 10);
     } else {
       console.log(`Sai mật khẩu hoặc email chưa đăng ký: ${result.data.message}`)
       alert("Đăng nhập thất bại, sai mật khẩu hoặc email chưa đăng ký");

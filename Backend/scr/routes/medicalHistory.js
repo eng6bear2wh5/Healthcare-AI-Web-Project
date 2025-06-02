@@ -11,7 +11,7 @@ router.get('/me', protect, authorize('user'), async (req, res, next) => {
       return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    res.json(await MH.findOne({ user_id: req.user.id }).sort({ updateAt: -1 }).lean());
+    res.json(await MH.findOne({ user_id: req.user.id }).lean());
   } catch (e) { next(e); }
 });
 
@@ -32,7 +32,7 @@ router.put('/', protect, authorize('user'), async (req, res, next) => {
       { user_id: req.user.id },
       data,
       { new: true, upsert: true, setDefaultsOnInsert: true }
-    ).sort({ updateAt: -1 }).lean();
+    ).lean();
     res.json(ui);
   } catch (err) { next(err); }
 });
@@ -40,7 +40,7 @@ router.put('/', protect, authorize('user'), async (req, res, next) => {
 // DELETE
 router.delete('/', protect, authorize('user'), async (req, res, next) => {
   try {
-    await MH.findOneAndDelete({ user_id: req.user.id }).sort({ updateAt: -1 });
+    await MH.findOneAndDelete({ user_id: req.user.id });
     res.json({ success: true });
   } catch (e) { next(e); }
 });
