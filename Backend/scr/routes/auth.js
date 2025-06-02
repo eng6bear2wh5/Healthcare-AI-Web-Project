@@ -24,7 +24,7 @@ router.post('/send-otp', validateMiddleware.validateEmail, AuthController.sendOT
 // router.get('/me', authenticate, AuthController.me);
 
 // Đăng xuất
-router.get('/logout', AuthController.logout);
+router.post('/logout', AuthController.logout);
 
 // Đăng nhập bằng Google
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));

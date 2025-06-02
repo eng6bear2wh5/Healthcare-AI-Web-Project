@@ -1,14 +1,19 @@
 // middleware/auth.js
-const { verifyToken } = require('../helpers/tokenHelper');
 const User = require('../app/models/user');
+const jwt = require('jsonwebtoken') ;
 
 exports.protect = async (req, res, next) => {
-  const token = req.cookies.token;
+  const token = req.cookies.jwt;
   if (!token) {
     return res.status(401).json({ message: 'Bạn chưa đăng nhập.' });
   }
   try {
-    const decoded = verifyToken(token);
+    const decoded = jwt.verify(jwt, process.env.JWT_SECRET);
+
+    if (!decoded) {
+      return res.status(401).json({ message: "Bạn không có quyền truy cập trang này"});
+    }
+
     const user = await User.findById(decoded.id).select('-password');
     if (!user) {
       return res.status(401).json({ message: 'Tài khoản không tồn tại.' });
@@ -16,7 +21,8 @@ exports.protect = async (req, res, next) => {
     req.user = user;
     next();
   } catch (err) {
-    res.status(401).json({ message: 'Token không hợp lệ.' });
+      console.log("Error in protectRoute middleware", err);
+      res.status(500).json({ message: "Internal Server Error" });
   }
 };
 

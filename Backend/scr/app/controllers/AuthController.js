@@ -97,11 +97,11 @@ class AuthController {
 
       const token = generateToken(user);
 
-      res.cookie("token", token, {
+      res.cookie("jwt", token, {
         httpOnly: true,
         secure: false,
-        sameSite: "Strict",
-        maxAge: 15 * 60,
+        sameSite: "strict",
+        maxAge: 15 * 60 * 1000,
         httpOnly: true,
       });
 
@@ -114,18 +114,18 @@ class AuthController {
   }
 
   static logout(req, res, next) {
-    res.clearCookie("token");
-    res.status(201).json({ message: "Đăng xuất thành công" });
+    res.clearCookie("jwt");
+    res.status(200).json({
+        success: true, message: "Đăng xuất thành công"
+    });
   }
 
   static me(req, res, next) {
-    res
-      .status(201)
-      .json({
-        message: "Bạn đã đăng nhập",
-        user: req.user,
-        token: req.cookies.token,
-      });
+    res.status(201).json({
+      message: "Bạn đã đăng nhập",
+      user: req.user,
+      token: req.cookies.token,
+    });
   }
 
   static async sendOTP(req, res, next) {

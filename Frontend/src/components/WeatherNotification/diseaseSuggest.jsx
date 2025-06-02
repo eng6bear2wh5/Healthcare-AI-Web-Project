@@ -25,7 +25,6 @@ export const diseaseSuggestions = [
       "Dị ứng thời tiết",
       "Hen phế quản (thường nặng hơn khi thời tiết thay đổi)",
       "Đau nhức xương khớp (do thay đổi áp suất không khí)",
-      "Trầm cảm theo mùa (SAD - nếu có)",
     ],
   },
   {
