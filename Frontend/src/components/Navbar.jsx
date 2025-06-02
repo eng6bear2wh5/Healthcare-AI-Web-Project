@@ -3,17 +3,18 @@ import { useNavigate } from "react-router-dom";
 import logo from "../assets/medical-icon-png.png";
 import { useAuth } from "../contexts/AuthContext";
 import defaultimage from '../assets/avatars/uit_avatar.png';
-const apiBackendURL = import.meta.env.VITE_API_BACKEND; // nếu dùng biến môi trường
+const apiBackendURL = import.meta.env.VITE_API_BACKEND;
 
 export default function Navbar() {
   const [open, setOpen] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileSubmenus, setMobileSubmenus] = useState({});
-  const [profileMenuOpen, setProfileMenuOpen] = useState(false); // Dropdown for account
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const timeoutRef = useRef(null);
   const menuRef = useRef(null);
   const menuBtnRef = useRef(null);
-  const profileRef = useRef(null);
+  const avatarBtnRef = useRef(null);
+  const arrowBtnRef = useRef(null);
   const navigate = useNavigate();
   const { user, setUser, logout } = useAuth();
 
@@ -30,7 +31,6 @@ export default function Navbar() {
         .catch(() => {});
     }
   }, [user, setUser]);
-
 
   const avatars = {
     male: "/avatars/male_avatar.jpg",
@@ -97,7 +97,10 @@ export default function Navbar() {
   useEffect(() => {
     if (!profileMenuOpen) return;
     function handleClickOutside(event) {
-      if (profileRef.current && !profileRef.current.contains(event.target)) {
+      if (
+        avatarBtnRef.current && !avatarBtnRef.current.contains(event.target) &&
+        arrowBtnRef.current && !arrowBtnRef.current.contains(event.target)
+      ) {
         setProfileMenuOpen(false);
       }
     }
@@ -176,42 +179,57 @@ export default function Navbar() {
         {/* Nút đăng nhập/avatar + dropdown - luôn ở phải */}
         <div className="hidden md:flex items-center min-w-[120px] justify-end relative">
           {user ? (
-            <div ref={profileRef} className="relative">
+            // Avatar và mũi tên ngoài ảnh, dropdown sát mũi tên
+            <div className="flex items-center gap-0.5">
               <button
+                ref={avatarBtnRef}
                 className="rounded-full w-10 h-10 overflow-hidden border border-blue-300 flex items-center justify-center"
                 onClick={() => setProfileMenuOpen((prev) => !prev)}
                 title="Tài khoản"
+                tabIndex={0}
               >
                 <img
                   src={avatars[avatarKey]}
                   alt="Avatar"
                   className="w-8 h-8 object-cover rounded-full cursor-pointer"
                 />
-                <span className="ml-1 text-gray-500 text-xs">▼</span>
               </button>
-              {profileMenuOpen && (
-                <div className="absolute right-0 mt-2 w-44 bg-white rounded shadow-md border z-50 text-base">
-                  <button
-                    className="block w-full text-left px-4 py-2 hover:bg-blue-50 cursor-pointer"
-                    onClick={() => {
-                      navigate("/personal-tracker");
-                      setProfileMenuOpen(false);
-                    }}
+              <div className="relative">
+                <button
+                  ref={arrowBtnRef}
+                  className="ml-2 text-gray-500 text-xs px-2 py-1 rounded focus:outline-none hover:bg-gray-100"
+                  onClick={() => setProfileMenuOpen((prev) => !prev)}
+                  tabIndex={0}
+                  aria-label="Mở menu tài khoản"
+                >
+                  ▼
+                </button>
+                {profileMenuOpen && (
+                  <div
+                    className="absolute right-0 top-full w-44 bg-white rounded shadow-md border z-50 text-base"
                   >
-                    Cá nhân
-                  </button>
-                  <button
-                    className="block w-full text-left px-4 py-2 hover:bg-blue-50 text-red-600 cursor-pointer"
-                    onClick={async () => {
-                      await logout();
-                      setProfileMenuOpen(false);
-                      navigate("/");
-                    }}
-                  >
-                    Đăng xuất
-                  </button>
-                </div>
-              )}
+                    <button
+                      className="block w-full text-left px-4 py-2 hover:bg-blue-50 cursor-pointer"
+                      onClick={() => {
+                        navigate("/personal-tracker");
+                        setProfileMenuOpen(false);
+                      }}
+                    >
+                      Cá nhân
+                    </button>
+                    <button
+                      className="block w-full text-left px-4 py-2 hover:bg-blue-50 text-red-600 cursor-pointer"
+                      onClick={async () => {
+                        await logout();
+                        setProfileMenuOpen(false);
+                        navigate("/");
+                      }}
+                    >
+                      Đăng xuất
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           ) : (
             <button
