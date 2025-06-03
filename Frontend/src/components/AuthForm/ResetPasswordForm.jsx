@@ -1,15 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { resetPassword } from "../../api/auth";
-<<<<<<< HEAD
+
 
 const ResetPasswordForm = () => {
-=======
-import { useToast } from "../ToastContext"; // chỉnh đúng path
 
-const ResetPasswordForm = () => {
-  const { showToast } = useToast();
->>>>>>> a03675c (add elastic remote and AI chatbot)
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const emailToReset = searchParams.get("email");
@@ -21,19 +16,11 @@ const ResetPasswordForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!password || !confirmPassword) {
-<<<<<<< HEAD
       alert("Vui lòng nhập đầy đủ mật khẩu mới và xác nhận mật khẩu!");
       return;
     }
     if (password !== confirmPassword) {
       alert("Mật khẩu xác nhận không khớp!");
-=======
-      showToast("Vui lòng nhập đầy đủ mật khẩu mới và xác nhận mật khẩu!", "fail");
-      return;
-    }
-    if (password !== confirmPassword) {
-      showToast("Mật khẩu xác nhận không khớp!", "fail");
->>>>>>> a03675c (add elastic remote and AI chatbot)
       return;
     }
     try {
@@ -42,17 +29,10 @@ const ResetPasswordForm = () => {
         // alert("Đặt lại mật khẩu thành công, bạn có thể đăng nhập lại");
         navigate("/login");
       } else {
-<<<<<<< HEAD
         alert(`Đặt lại mật khẩu thất bại: ${result.data.message}`);
       }
     } catch (error) {
       alert(`Có lỗi khi đặt lại mật khẩu: ${error.message}`);
-=======
-        showToast(`Đặt lại mật khẩu thất bại: ${result.data.message}`, "fail");
-      }
-    } catch (error) {
-      showToast(`Có lỗi khi đặt lại mật khẩu: ${error.message}`, "fail");
->>>>>>> a03675c (add elastic remote and AI chatbot)
     }
   };
 

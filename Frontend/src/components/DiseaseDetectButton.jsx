@@ -1,10 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useMotionValue } from "framer-motion";
 import { predictDisease } from "../api/AI_API";
-<<<<<<< HEAD
-=======
 import ChatbotAI from "./ChatbotAI/ChatbotAI";
->>>>>>> a03675c (add elastic remote and AI chatbot)
 
 function DiseaseDetectButton() {
   const [showMenu, setShowMenu] = useState(false);
@@ -61,15 +58,7 @@ function DiseaseDetectButton() {
     // eslint-disable-next-line
   }, [showMenu]);
 
-<<<<<<< HEAD
-=======
-  // useEffect(() => {
-  //   if (selectedOption === 2) {
-  //     setShowMenu(false);
-  //   }
-  // }, [selectedOption]);
 
->>>>>>> a03675c (add elastic remote and AI chatbot)
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
@@ -86,11 +75,7 @@ function DiseaseDetectButton() {
       const result = await predictDisease(image);
       setResult(result);
     } catch (error) {
-<<<<<<< HEAD
       setResult({ success: false, error: 'Không thể đọc dữ liệu từ server.' });
-=======
-      setResult({ success: false, error: "Không thể đọc dữ liệu từ server." });
->>>>>>> a03675c (add elastic remote and AI chatbot)
     } finally {
       setLoading(false);
     }
@@ -244,14 +229,10 @@ function DiseaseDetectButton() {
               {/* Chatbot */}
               {selectedOption === 2 && (
                 <div className="flex flex-col flex-1">
-<<<<<<< HEAD
-                  <div className="p-4 font-bold text-lg border-b">AI Chatbot</div>
-=======
                   {/* <div className="p-4 font-bold text-lg border-b">
                     AI Chatbot
                   </div>
 
->>>>>>> a03675c (add elastic remote and AI chatbot)
                   <div className="flex-1 p-4 overflow-y-auto text-sm space-y-2">
                     {messages.map((msg, index) => (
                       <div
@@ -266,10 +247,6 @@ function DiseaseDetectButton() {
                       </div>
                     ))}
                   </div>
-<<<<<<< HEAD
-=======
-
->>>>>>> a03675c (add elastic remote and AI chatbot)
                   <div className="border-t p-2 flex items-center">
                     <input
                       type="text"
@@ -285,13 +262,9 @@ function DiseaseDetectButton() {
                     >
                       Gửi
                     </button>
-<<<<<<< HEAD
-                  </div>
-=======
                   </div> */}
 
                   <ChatbotAI />
->>>>>>> a03675c (add elastic remote and AI chatbot)
                 </div>
               )}
             </motion.div>
@@ -322,8 +295,4 @@ function DiseaseDetectButton() {
   );
 }
 
-<<<<<<< HEAD
 export default DiseaseDetectButton;
-=======
-export default DiseaseDetectButton;
->>>>>>> a03675c (add elastic remote and AI chatbot)

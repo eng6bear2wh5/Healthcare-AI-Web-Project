@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { sendOtp } from "../../api/auth";
-<<<<<<< HEAD
-=======
-import { useToast } from "../ToastContext"; // chỉnh đúng path
->>>>>>> a03675c (add elastic remote and AI chatbot)
+
 
 const ForgotPasswordForm = () => {
   useEffect(() => {
@@ -13,19 +10,12 @@ const ForgotPasswordForm = () => {
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
 
-<<<<<<< HEAD
-=======
-  const { showToast } = useToast();
->>>>>>> a03675c (add elastic remote and AI chatbot)
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       if (!email) {
-<<<<<<< HEAD
         alert("Vui lòng nhập địa chỉ email!");
-=======
-        showToast("Vui lòng nhập địa chỉ email!", "fail");
->>>>>>> a03675c (add elastic remote and AI chatbot)
         return;
       }
 
@@ -33,11 +23,7 @@ const ForgotPasswordForm = () => {
 
       if (!result.ok) {
         console.log(`Gửi otp không thành công: ${result.data.message}`);
-<<<<<<< HEAD
         alert(`Gửi otp không thành công`);
-=======
-        showToast(`Gửi otp không thành công`, "fail");
->>>>>>> a03675c (add elastic remote and AI chatbot)
       }
 
       navigate(
@@ -46,13 +32,9 @@ const ForgotPasswordForm = () => {
         )}&from=forgot-password`
       );
     } catch (error) {
-<<<<<<< HEAD
-      console.log(`Có lỗi khi fetch send otp forgot password: ${error.message}`);
-=======
       console.log(
         `Có lỗi khi fetch send otp forgot password: ${error.message}`
       );
->>>>>>> a03675c (add elastic remote and AI chatbot)
     }
   };
 
@@ -94,8 +76,6 @@ const ForgotPasswordForm = () => {
   );
 };
 
-<<<<<<< HEAD
+
 export default ForgotPasswordForm;
-=======
-export default ForgotPasswordForm;
->>>>>>> a03675c (add elastic remote and AI chatbot)
+

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Toggle from "./Toggle";
 import { useNavigate } from "react-router-dom";
-<<<<<<< HEAD
 import { register } from "../../api/auth"
 
 const SignupForm = () => {
@@ -10,32 +9,16 @@ const SignupForm = () => {
     document.title = "Đăng ký | HealthTrust";
   }, []);
   
-=======
-import { register } from "../../api/auth";
-import { useToast } from "../ToastContext"; // chỉnh đúng path
 
-const SignupForm = () => {
-  const { showToast } = useToast();
-
-  useEffect(() => {
-    document.title = "Đăng ký | HealthTrust";
-  }, []);
-
->>>>>>> a03675c (add elastic remote and AI chatbot)
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-<<<<<<< HEAD
-
-=======
->>>>>>> a03675c (add elastic remote and AI chatbot)
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
 
-<<<<<<< HEAD
+
       const result = await register({ name, email, password });
 
       if (result.ok) {
@@ -46,39 +29,14 @@ const SignupForm = () => {
         console.log(`Đăng ký thất bại: ${result.message || "Lỗi không xác định"}`);
         alert("Đăng ký thất bại!");
       }
-=======
-    const result = await register({ name, email, password });
-
-    if (result.ok) {
-      console.log(
-        `Server đã nhận được thông tin đăng ký, tiến hành gửi OTP để xác thực: ${result.message}`
-      );
-      // Điều hướng tới trang "/email-verification"
-      navigate(
-        `/email-verification?email=${encodeURIComponent(email)}&from=signup`
-      );
-    } else {
-      showToast("Đăng ký thất bại!", "fail");
-      console.log(
-        `Đăng ký thất bại: ${result.message || "Lỗi không xác định"}`
-      );
-    }
->>>>>>> a03675c (add elastic remote and AI chatbot)
   };
 
   const loginGoogle = async () => {
     try {
-<<<<<<< HEAD
       window.location.href = "/auth/google";
     } catch (error) {
       console.log(`Có lỗi khi đăng nhập google: ${error.message}`);
       alert("Xảy ra lỗi!");
-=======
-      window.location.href = `${import.meta.env.VITE_API_BACKEND}/auth/google`;
-    } catch (error) {
-      console.log(`Có lỗi khi đăng nhập google: ${error.message}`);
-      showToast("Xảy ra lỗi!", "fail");
->>>>>>> a03675c (add elastic remote and AI chatbot)
     }
   };
 

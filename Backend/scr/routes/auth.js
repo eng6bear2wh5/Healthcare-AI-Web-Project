@@ -31,15 +31,9 @@ router.get('/google', passport.authenticate('google', { scope: ['profile', 'emai
 router.get('/google/callback',
     passport.authenticate('google', { session: false, failureRedirect: '/' }),
     (req, res) => {
-<<<<<<< HEAD
-        res.cookie('authToken', req.user.token, {
-            httpOnly: true,     // không cho JS truy cập
-            secure: true,       // chỉ gửi qua HTTPS
-=======
         res.cookie('jwt', req.user.token, {
             httpOnly: true,     // không cho JS truy cập
             secure: false,       // chỉ gửi qua HTTPS
->>>>>>> a03675c (add elastic remote and AI chatbot)
             sameSite: 'Lax',    // chống CSRF cơ bản
             maxAge: 60 * 60 * 1000 // 1h
           });

@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { verifyOtpForgotPassword, verifyOtpRegister, sendOtp } from "../../api/auth";
-<<<<<<< HEAD
-=======
-import { useToast } from "../ToastContext"; // chỉnh đúng path
->>>>>>> a03675c (add elastic remote and AI chatbot)
+
 
 const EmailVerificationForm = () => {
   const navigate = useNavigate();
@@ -15,11 +12,8 @@ const EmailVerificationForm = () => {
   const [email] = useState(emailToVerify || "");
   const [otp, setOtp] = useState("");
 
-<<<<<<< HEAD
-=======
-  const { showToast } = useToast();
 
->>>>>>> a03675c (add elastic remote and AI chatbot)
+
   // Xác thực OTP đúng endpoint, dùng hàm import từ api/auth.js
   const sendToVerifyCode = async (e) => {
     e.preventDefault();
@@ -30,32 +24,21 @@ const EmailVerificationForm = () => {
         if (result.ok) {
           navigate("/login");
         } else {
-<<<<<<< HEAD
           alert(`Xác minh thất bại: ${result.data.message || "Sai mã OTP"}`);
-=======
-          showToast(`Xác minh thất bại: ${result.data.message || "Sai mã OTP"}`, "fail");
->>>>>>> a03675c (add elastic remote and AI chatbot)
         }
       } else if (from === "forgot-password") {
         result = await verifyOtpForgotPassword({ email, otp });
         if (result.ok) {
           navigate(`/reset-password?email=${encodeURIComponent(email)}`);
         } else {
-<<<<<<< HEAD
           alert(`Xác minh thất bại: ${result.data.message || "Sai mã OTP"}`);
-=======
-          showToast(`Xác minh thất bại: ${result.data.message || "Sai mã OTP"}`, "fail");
->>>>>>> a03675c (add elastic remote and AI chatbot)
+
         }
       } else {
         navigate("/");
       }
     } catch (error) {
-<<<<<<< HEAD
       alert(`Có lỗi khi xác minh OTP: ${error.message}`);
-=======
-      showToast(`Có lỗi khi xác minh OTP: ${error.message}`, "fail");
->>>>>>> a03675c (add elastic remote and AI chatbot)
     }
   };
 
@@ -64,21 +47,12 @@ const EmailVerificationForm = () => {
     try {
       const result = await sendOtp({ email });
       if (result.ok) {
-<<<<<<< HEAD
         alert(`Đã gửi lại mã OTP: ${result.message}`);
       } else {
         alert(`Gửi lại OTP không thành công: ${result.message}`);
       }
     } catch (error) {
       alert(`Có lỗi khi gửi lại OTP: ${error.message}`);
-=======
-        showToast(`Đã gửi lại mã OTP: ${result.message}`, "success");
-      } else {
-        showToast(`Gửi lại OTP không thành công: ${result.message}`, "fail");
-      }
-    } catch (error) {
-      showToast(`Có lỗi khi gửi lại OTP: ${error.message}`, "fail");
->>>>>>> a03675c (add elastic remote and AI chatbot)
     }
   };
 

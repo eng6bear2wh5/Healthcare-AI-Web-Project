@@ -25,12 +25,8 @@ import IdealWeightCalculator from "./pages/HealthCheck/IdealWeightCalculator";
 import BodyFatCalculator from "./pages/HealthCheck/BodyFatCalculator";
 import WeeklyHealthInput from './pages/PersonalTracker/WeeklyHealthInput';
 import "./App.css";
-
-<<<<<<< HEAD
-=======
 import Chatbot from "./components/ChatbotAI/ChatbotAI"
 
->>>>>>> a03675c (add elastic remote and AI chatbot)
 // Thêm lazy load cho Dashboard và EditProfile
 import { lazy, Suspense } from "react";
 const Dashboard = lazy(() => import('./pages/PersonalTracker/Dashboard'));
@@ -45,12 +41,7 @@ function App() {
           <CategoryProvider>
             <ScrollToTop />
             <Routes>
-<<<<<<< HEAD
-=======
-
               <Route path="/chatbot" element={<Chatbot />} />
-
->>>>>>> a03675c (add elastic remote and AI chatbot)
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />

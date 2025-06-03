@@ -5,21 +5,14 @@ import { useNavigate } from "react-router-dom";
 let hasShownAuthAlert = false; 
 
 function useAuthFetch() {
-<<<<<<< HEAD
-=======
   const { showToast } = useToast();
->>>>>>> a03675c (add elastic remote and AI chatbot)
   const navigate = useNavigate();
   return async (...args) => {
     const res = await fetch(...args);
     if (res.status === 401) {
       if (!hasShownAuthAlert) {
         hasShownAuthAlert = true;
-<<<<<<< HEAD
-        alert("Bạn chưa đăng nhập! Vui lòng đăng nhập để sử dụng chức năng này!");
-=======
         showToast("Bạn chưa đăng nhập! Vui lòng đăng nhập để sử dụng chức năng này!", "fail");
->>>>>>> a03675c (add elastic remote and AI chatbot)
         navigate("/", { replace: true });
       }
       throw new Error("Unauthorized");

@@ -1,10 +1,6 @@
 const { searchDrugs } = require('../../services/elasticsearchService');
 
-<<<<<<< HEAD
-const search = async (req, res) => {
-=======
 const search = async (req, res, next) => {
->>>>>>> a03675c (add elastic remote and AI chatbot)
   const { q } = req.query;
   if (!q) {
     return res.status(400).json({ message: 'Search query is required' });
