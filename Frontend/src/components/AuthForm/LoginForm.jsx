@@ -16,6 +16,32 @@ const LoginForm = () => {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch(`${apiBackendURL}/api/userinfo`, {
+          method: "GET",
+          credentials: "include",
+        });
+        if (res.ok) {
+          // Nếu backend trả về 200, nghĩa là đã có cookie JWT hợp lệ (người dùng đã login)
+          const userInfo = await res.json();
+          // Set thông tin user vào context
+          setUser({
+            ...userInfo,
+            sex: userInfo.sex ?? "other",
+            // userInfo có thể chứa { name, email, sex, ... }
+          });
+          // Redirect về trang chủ
+          navigate("/");
+        }
+        // Nếu res không ok (ví dụ 401), ta không làm gì, user vẫn ở trang /login
+      } catch (err) {
+        console.error("Lỗi khi tự động fetch userinfo:", err);
+      }
+    })();
+  }, [navigate, setUser]);
+
   const handleLogin = async (e) => {
     e.preventDefault();
 
