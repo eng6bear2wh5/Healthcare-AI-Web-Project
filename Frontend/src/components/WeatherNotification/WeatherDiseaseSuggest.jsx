@@ -22,11 +22,8 @@ export function WeatherDiseaseSuggest() {
         try {
           //Gọi API thời tiết
           const url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`;
-          console.log("Gọi API:", url);
           const res = await fetch(url);
           const data = await res.json();
-
-          console.log("Kết quả API thời tiết:", data);
 
           if (data.cod && data.cod !== 200) {
             // Nếu API trả về lỗi
@@ -45,14 +42,12 @@ export function WeatherDiseaseSuggest() {
           );
           setDisease(found ? found.diseases : []);
         } catch (e) {
-          console.error("Lỗi khi gọi API thời tiết:", e);
           setError("Không lấy được dữ liệu thời tiết (lỗi fetch)");
         } finally {
           setLoading(false);
         }
       },
       (err) => {
-        console.error("Lỗi lấy vị trí:", err);
         setError("Không lấy được vị trí: " + err.message);
         setLoading(false);
       }

@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/medical-icon-png.png";
 import { useAuth } from "../contexts/AuthContext";
-import defaultimage from '../assets/avatars/uit_avatar.png';
+import defaultimage from "../assets/avatars/uit_avatar.png";
 const apiBackendURL = import.meta.env.VITE_API_BACKEND;
 
 export default function Navbar() {
@@ -21,11 +21,11 @@ export default function Navbar() {
   useEffect(() => {
     if (!user) {
       fetch(`${apiBackendURL}/api/userinfo`, { credentials: "include" })
-        .then(res => {
+        .then((res) => {
           if (!res.ok) throw new Error("Not logged in");
           return res.json();
         })
-        .then(userInfo => {
+        .then((userInfo) => {
           setUser(userInfo);
         })
         .catch(() => {});
@@ -39,11 +39,7 @@ export default function Navbar() {
   };
 
   const avatarKey =
-    user?.sex === "male"
-      ? "male"
-      : user?.sex === "female"
-      ? "female"
-      : "other";
+    user?.sex === "male" ? "male" : user?.sex === "female" ? "female" : "other";
 
   const navItems = [
     { label: "Trang chủ", path: "/" },
@@ -53,8 +49,14 @@ export default function Navbar() {
       label: "Kiểm tra sức khỏe",
       children: [
         { label: "BMI", path: "/HealthCheck/BMI" },
-        { label: "Lượng calo cần mỗi ngày", path: "/HealthCheck/TDEECalculator" },
-        { label: " Cân nặng lý tưởng", path: "/HealthCheck/IdealWeightCalculator" },
+        {
+          label: "Lượng calo cần mỗi ngày",
+          path: "/HealthCheck/TDEECalculator",
+        },
+        {
+          label: " Cân nặng lý tưởng",
+          path: "/HealthCheck/IdealWeightCalculator",
+        },
         { label: "Tỉ lệ mỡ cơ thể", path: "/HealthCheck/BodyFatCalculator" },
       ],
     },
@@ -69,7 +71,10 @@ export default function Navbar() {
       label: "Về Health Trust",
       children: [
         { label: "Tầm nhìn và sứ mệnh", path: "/AboutHealthTrust/Mission" },
-        { label: "Thành tựu và giải thưởng", path: "/AboutHealthTrust/Achievement" },
+        {
+          label: "Thành tựu và giải thưởng",
+          path: "/AboutHealthTrust/Achievement",
+        },
         { label: "Đối tác", path: "/AboutHealthTrust/Partner" },
       ],
     },
@@ -89,8 +94,7 @@ export default function Navbar() {
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
-    return () =>
-      document.removeEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [menuOpen]);
 
   // Đóng profile dropdown khi click ra ngoài
@@ -98,15 +102,16 @@ export default function Navbar() {
     if (!profileMenuOpen) return;
     function handleClickOutside(event) {
       if (
-        avatarBtnRef.current && !avatarBtnRef.current.contains(event.target) &&
-        arrowBtnRef.current && !arrowBtnRef.current.contains(event.target)
+        avatarBtnRef.current &&
+        !avatarBtnRef.current.contains(event.target) &&
+        arrowBtnRef.current &&
+        !arrowBtnRef.current.contains(event.target)
       ) {
         setProfileMenuOpen(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
-    return () =>
-      document.removeEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [profileMenuOpen]);
 
   const handleMouseEnter = (index) => {
@@ -205,21 +210,19 @@ export default function Navbar() {
                   ▼
                 </button>
                 {profileMenuOpen && (
-                  <div
-                    className="absolute right-0 top-full w-44 bg-white rounded shadow-md border z-50 text-base"
-                  >
+                  <div className="absolute right-0 top-full w-44 bg-white rounded shadow-md border z-50 text-base">
                     <button
-                      className="block w-full text-left px-4 py-2 hover:bg-blue-50 cursor-pointer"
-                      onClick={() => {
-                        navigate("/personal-tracker");
+                      className="block w-full text-left px-4 py-2 cursor-pointer transition-colors hover:bg-gray-100"
+                      onMouseDown={() => {
+                        navigate("/personal-tracker/dashboard");
                         setProfileMenuOpen(false);
                       }}
                     >
                       Cá nhân
                     </button>
                     <button
-                      className="block w-full text-left px-4 py-2 hover:bg-blue-50 text-red-600 cursor-pointer"
-                      onClick={async () => {
+                      className="block w-full text-left px-4 py-2 cursor-pointer transition-colors text-red-600 hover:bg-gray-100"
+                      onMouseDown={async () => {
                         await logout();
                         setProfileMenuOpen(false);
                         navigate("/");

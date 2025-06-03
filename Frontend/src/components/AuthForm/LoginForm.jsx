@@ -33,7 +33,6 @@ const LoginForm = () => {
         sex: userInfo.sex, // Thêm trường sex vào user context
       });
       
-      console.log(`Đăng nhập thành công, đây là token của bạn: ${result.data.token}`);
       alert("Đăng nhập thành công!");
       navigate(`/`);
       }, 10);
