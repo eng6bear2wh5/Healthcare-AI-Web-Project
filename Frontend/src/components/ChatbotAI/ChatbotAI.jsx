@@ -211,6 +211,7 @@ const Chatbot = () => {
   const handleSendMessage = (e) => {
     if (e && e.preventDefault) e.preventDefault();
     const text = messageText.trim();
+    console.log(text);
     const imgFileExists = fileData.data !== null;
 
     if (!text && !imgFileExists) {
@@ -256,7 +257,8 @@ const Chatbot = () => {
           .then(({ status, data }) => {
             setMessages((prev) => {
               const updated = [...prev];
-              const responseObject = data.answer;
+              // const responseObject = data.answer;
+              const responseObject = typeof data.answer === "string" ? { answer: data.answer } : data.answer;
               let displayMessage = "";
 
               if (status !== 200 || responseObject.error) {
@@ -308,9 +310,11 @@ const Chatbot = () => {
             res.json().then((data) => ({ status: res.status, data }))
           )
           .then(({ status, data }) => {
+            console.log(data)
             setMessages((prev) => {
               const updated = [...prev];
-              const responseObject = data.answer;
+              // const responseObject = data.answer;
+              const responseObject = typeof data.answer === "string" ? { answer: data.answer } : data.answer;
               let displayMessage = "";
 
               if (status !== 200 || responseObject.error) {
