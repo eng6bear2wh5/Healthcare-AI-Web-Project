@@ -1,8 +1,6 @@
-<<<<<<< HEAD
 torch
 torchvision
 pillow
-=======
 sentence-transformers
 qdrant-client
 google-generativeai
@@ -12,5 +10,3 @@ torch
 torchvision
 pillow
 Flask
-
->>>>>>> a03675c (add elastic remote and AI chatbot)
