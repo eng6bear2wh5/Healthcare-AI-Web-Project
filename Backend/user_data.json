@@ -1,0 +1,131 @@
+{
+    "session_1748770269243_a9qwsrr7": {
+        "medical_info": [
+            {
+                "timestamp": "2025-06-01 16:32:31",
+                "info": "Thông tin từ ảnh: Huyết áp 150, Cân nặng 90"
+            },
+            {
+                "timestamp": "2025-06-01 16:32:31",
+                "info": "Thông tin từ câu hỏi: Huyết áp"
+            },
+            {
+                "timestamp": "2025-06-01 16:37:34",
+                "info": "Thông tin từ câu hỏi: Không có thông tin y tế nào."
+            },
+            {
+                "timestamp": "2025-06-01 16:38:56",
+                "info": "Thông tin từ câu hỏi: Không có thông tin y tế."
+            },
+            {
+                "timestamp": "2025-06-01 16:39:07",
+                "info": "Thông tin từ câu hỏi: Không có thông tin y tế."
+            }
+        ],
+        "chat_history": [
+            {
+                "role": "user",
+                "content": "huyết áp này có cao không"
+            },
+            {
+                "role": "assistant",
+                "content": "Chào bạn, dựa trên thông tin bạn cung cấp trước đó, chỉ số huyết áp được ghi nhận là 150. [1]\n\nVới chỉ số huyết áp tâm thu (số trên) là 150 mmHg, đây được xem là mức huyết áp cao. [2], [3]\n\nTheo phân loại của Tổ chức Y tế Thế giới (WHO) và Hội Tim mạch Hoa Kỳ (AHA/ACC), huyết áp được phân loại như sau:\n*   **Huyết áp bình thường:** Dưới 120/80 mmHg\n*   **Tiền tăng huyết áp (Elevated):** Huyết áp tâm thu 120-129 mmHg và tâm trương dưới 80 mmHg\n*   **Tăng huyết áp Độ 1 (Stage 1 Hypertension):** Huyết áp tâm thu 130-139 mmHg HOẶC tâm trương 80-89 mmHg\n*   **Tăng huyết áp Độ 2 (Stage 2 Hypertension):** Huyết áp tâm thu từ 140 mmHg trở lên HOẶC tâm trương từ 90 mmHg trở lên [2], [3]\n\nNhư vậy, với huyết áp tâm thu 150 mmHg, chỉ số này nằm trong mức Tăng huyết áp Độ 2. [2], [3]\n\nĐể có kết quả chính xác nhất, bạn nên đo huyết áp đúng cách sau khi nghỉ ngơi và theo dõi huyết áp nhiều lần vào các thời điểm khác nhau. Nếu chỉ số huyết áp thường xuyên ở mức 150/x mmHg (với x là huyết áp tâm trương), bạn nên đi khám bác sĩ để được tư vấn, chẩn đoán và có kế hoạch điều trị phù hợp (nếu cần).\n\nThông tin này chỉ mang tính tham khảo, không thay thế cho chẩn đoán hoặc chỉ định của bác sĩ. Hãy tham khảo ý kiến chuyên gia y tế để được tư vấn cụ thể.\n\n**Nguồn tham khảo:**\n[1] Thông tin Y tế đã lưu. (2025). Huyết áp 150.\n[2] World Health Organization. (n.d.). *Hypertension*. Truy cập từ [https://www.who.int/news-room/fact-sheets/detail/hypertension](https://www.who.int/news-room/fact-sheets/detail/hypertension)\n[3] American Heart Association. (2017). *Understanding Blood Pressure Readings*. Truy cập từ [https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings](https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings)"
+            },
+            {
+                "role": "user",
+                "content": "thật ko"
+            },
+            {
+                "role": "assistant",
+                "content": "Chào bạn,\n\nVâng, thông tin về việc huyết áp 150 mmHg được xem là cao và thuộc nhóm Tăng huyết áp Độ 2 là đúng và dựa trên các hướng dẫn y tế được chấp nhận rộng rãi.\n\nNhư tôi đã chia sẻ trước đó, theo phân loại của Tổ chức Y tế Thế giới (WHO) và Hội Tim mạch Hoa Kỳ (AHA/ACC):\n\n*   **Tăng huyết áp Độ 2 (Stage 2 Hypertension)** được định nghĩa khi huyết áp tâm thu (số trên) từ 140 mmHg trở lên HOẶC huyết áp tâm trương (số dưới) từ 90 mmHg trở lên [1], [2].\n\nVì chỉ số huyết áp tâm thu của bạn là 150 mmHg, con số này lớn hơn 140 mmHg, do đó nó nằm trong tiêu chí của Tăng huyết áp Độ 2 [1], [2].\n\nCác phân loại này được sử dụng rộng rãi bởi các chuyên gia y tế để đánh giá mức độ huyết áp của một người. Tuy nhiên, điều quan trọng là huyết áp cần được đo chính xác và theo dõi qua thời gian để đưa ra chẩn đoán cuối cùng.\n\nNếu bạn còn băn khoăn, cách tốt nhất là thảo luận trực tiếp với bác sĩ. Bác sĩ sẽ đo huyết áp cho bạn, xem xét các yếu tố khác về sức khỏe của bạn và đưa ra lời khuyên cũng như chẩn đoán chính xác nhất.\n\nThông tin này chỉ mang tính tham khảo, không thay thế cho chẩn đoán hoặc chỉ định của bác sĩ. Hãy tham khảo ý kiến chuyên gia y tế để được tư vấn cụ thể.\n\n**Nguồn tham khảo:**\n[1] World Health Organization. (n.d.). *Hypertension*. Truy cập từ [https://www.who.int/news-room/fact-sheets/detail/hypertension](https://www.who.int/news-room/fact-sheets/detail/hypertension)\n[2] American Heart Association. (2017). *Understanding Blood Pressure Readings*. Truy cập từ [https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings](https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings)"
+            },
+            {
+                "role": "user",
+                "content": "tin juan khong ban"
+            },
+            {
+                "role": "assistant",
+                "content": "Chào bạn,\n\nVâng, bạn hoàn toàn có thể tin tưởng vào thông tin tôi đã cung cấp. Thông tin về phân loại huyết áp, cụ thể là việc huyết áp tâm thu 150 mmHg được xếp vào mức Tăng huyết áp Độ 2, là thông tin chuẩn xác, dựa trên các hướng dẫn y tế được công nhận rộng rãi bởi các tổ chức sức khỏe hàng đầu thế giới.\n\nNhư tôi đã đề cập trước đó, các nguồn thông tin mà tôi sử dụng để đưa ra phân loại này bao gồm:\n\n*   **Tổ chức Y tế Thế giới (WHO)**: WHO là cơ quan chuyên môn hàng đầu của Liên Hợp Quốc về y tế công cộng. [1]\n*   **Hội Tim mạch Hoa Kỳ (AHA) và Đại học Tim mạch Hoa Kỳ (ACC)**: AHA/ACC là các hiệp hội chuyên ngành hàng đầu về bệnh tim mạch tại Hoa Kỳ, có ảnh hưởng lớn đến các hướng dẫn y tế toàn cầu. [2]\n\nCác phân loại và hướng dẫn về huyết áp cao từ những tổ chức này được cập nhật thường xuyên dựa trên các nghiên cứu khoa học và được các bác sĩ trên toàn thế giới sử dụng để chẩn đoán và quản lý tăng huyết áp.\n\nVì vậy, khi tôi thông báo rằng huyết áp tâm thu 150 mmHg của bạn nằm trong mức Tăng huyết áp Độ 2, đây là sự phân loại dựa trên tiêu chuẩn y tế chính thống. [1], [2]\n\nTuy nhiên, như tôi luôn nhấn mạnh, việc phân loại này chỉ là một bước đầu tiên. Để có chẩn đoán chính xác và kế hoạch hành động phù hợp, bạn cần được bác sĩ thăm khám trực tiếp. Bác sĩ sẽ xem xét tình trạng sức khỏe tổng thể, tiền sử bệnh và thực hiện các xét nghiệm cần thiết.\n\nThông tin này chỉ mang tính tham khảo, không thay thế cho chẩn đoán hoặc chỉ định của bác sĩ. Hãy tham khảo ý kiến chuyên gia y tế để được tư vấn cụ thể.\n\n**Nguồn tham khảo:**\n[1] World Health Organization. (n.d.). *Hypertension*. Truy cập từ [https://www.who.int/news-room/fact-sheets/detail/hypertension](https://www.who.int/news-room/fact-sheets/detail/hypertension)\n[2] American Heart Association. (2017). *Understanding Blood Pressure Readings*. Truy cập từ [https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings](https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings)"
+            },
+            {
+                "role": "user",
+                "content": "ai"
+            },
+            {
+                "role": "assistant",
+                "content": "Chào bạn,\n\nTôi là một trợ lý AI, được thiết kế để giúp bạn tìm kiếm thông tin và trả lời các câu hỏi liên quan đến sức khỏe dựa trên dữ liệu và kiến thức y tế.\n\nVai trò của tôi là cung cấp thông tin tham khảo và giải đáp thắc mắc của bạn trong lĩnh vực y tế, dựa trên những nguồn đáng tin cậy. Tuy nhiên, tôi không phải là bác sĩ và không thể đưa ra chẩn đoán hay chỉ định điều trị y khoa.\n\nNếu bạn có bất kỳ câu hỏi cụ thể nào về tình trạng sức khỏe của mình, chẳng hạn như về huyết áp, cân nặng (dựa trên thông tin bạn đã cung cấp), hoặc bất kỳ vấn đề y tế nào khác, xin vui lòng cho tôi biết chi tiết hơn. Tôi sẽ cố gắng hỗ trợ bạn tốt nhất có thể.\n\nThông tin này chỉ mang tính tham khảo, không thay thế cho chẩn đoán hoặc chỉ định của bác sĩ. Hãy tham khảo ý kiến chuyên gia y tế để được tư vấn cụ thể."
+            }
+        ]
+    },
+    "session_1748770807872_ixg4dro8": {
+        "medical_info": [
+            {
+                "timestamp": "2025-06-01 16:40:52",
+                "info": "Thông tin từ câu hỏi: (Không có thông tin y tế)"
+            }
+        ],
+        "chat_history": [
+            {
+                "role": "user",
+                "content": "ai"
+            },
+            {
+                "role": "assistant",
+                "content": "Tôi không tìm thấy thông tin đáng tin cậy về thuật ngữ \"ai\" trong ngữ cảnh y tế từ các nguồn được cung cấp hoặc kiến thức y khoa chung.\n\nNếu bạn có câu hỏi cụ thể hơn về một vấn đề sức khỏe hoặc thuật ngữ y tế, xin vui lòng cung cấp thêm chi tiết để tôi có thể hỗ trợ bạn tốt hơn.\n\nThông tin này chỉ mang tính tham khảo, không thay thế cho chẩn đoán hoặc chỉ định của bác sĩ. Hãy tham khảo ý kiến chuyên gia y tế để được tư vấn cụ thể."
+            }
+        ]
+    },
+    "session_1748786732922_j2zeelss": {
+        "medical_info": [
+            {
+                "timestamp": "2025-06-01 21:07:09",
+                "info": "Thông tin từ câu hỏi: Đau bụng"
+            }
+        ],
+        "chat_history": [
+            {
+                "role": "user",
+                "content": "Tôi bị đau bụng"
+            },
+            {
+                "role": "assistant",
+                "content": "Chào bạn, đau bụng là một triệu chứng rất phổ biến và có thể do nhiều nguyên nhân khác nhau gây ra, từ những vấn đề nhẹ nhàng như đầy hơi, khó tiêu cho đến những tình trạng nghiêm trọng hơn cần được bác sĩ thăm khám [1], [2].\n\nĐể xác định nguyên nhân chính xác của cơn đau bụng, bác sĩ thường dựa vào các yếu tố như:\n*   **Vị trí đau:** Đau ở vùng thượng vị (trên rốn), quanh rốn, vùng bụng dưới, đau âm ỉ, đau quặn từng cơn... [1].\n*   **Tính chất cơn đau:** Đau đột ngột, đau âm ỉ, đau dữ dội, đau quặn [1].\n*   **Thời gian đau:** Đau cấp tính (xuất hiện đột ngột trong vài giờ hoặc vài ngày) hay đau mạn tính (kéo dài trong nhiều tuần hoặc tháng) [1], [2].\n*   **Các triệu chứng đi kèm:** Buồn nôn, nôn mửa, tiêu chảy, táo bón, sốt, chướng bụng, vàng da, sút cân... [1], [2].\n\nMột số nguyên nhân phổ biến gây đau bụng có thể bao gồm:\n*   Khó tiêu, đầy hơi [1].\n*   Táo bón hoặc tiêu chảy [1].\n*   Ngộ độc thực phẩm [2].\n*   Viêm dạ dày, viêm ruột [1].\n*   Hội chứng ruột kích thích (IBS) - một tình trạng mạn tính ảnh hưởng đến ruột già, có thể gây đau bụng, đầy hơi, tiêu chảy hoặc táo bón [3].\n*   Viêm ruột thừa (thường đau đột ngột, dữ dội ở vùng bụng dưới bên phải) [2].\n*   Loét dạ dày tá tràng [1].\n*   Sỏi mật hoặc viêm túi mật [2].\n*   Các vấn đề phụ khoa (ở nữ giới) hoặc tiết niệu [1], [2].\n\n**Khi nào cần đi khám bác sĩ?**\n\nBạn nên đi khám bác sĩ ngay nếu bị đau bụng kèm theo bất kỳ dấu hiệu nào sau đây [1], [2]:\n*   Đau dữ dội hoặc đột ngột.\n*   Sốt.\n*   Phân có máu hoặc có màu đen.\n*   Nôn ra máu hoặc chất nôn có màu xanh lá cây/vàng.\n*   Bụng sưng hoặc cứng khi chạm vào.\n*   Vàng da (da và mắt chuyển vàng).\n*   Khó thở.\n*   Đau sau chấn thương vùng bụng.\n*   Đang mang thai.\n\nTrong trường hợp đau bụng liên quan đến hội chứng ruột kích thích (IBS), một số nghiên cứu cho thấy tinh dầu bạc hà có thể giúp làm giảm các triệu chứng như đau bụng, đầy hơi [3]. Tuy nhiên, đây là một phương pháp hỗ trợ và chỉ nên áp dụng khi đã được chẩn đoán mắc IBS và có sự tư vấn của bác sĩ.\n\nVì đau bụng có rất nhiều nguyên nhân khác nhau, cách tốt nhất để biết chính xác tình trạng của mình và có hướng điều trị phù hợp là đến gặp bác sĩ để được thăm khám và chẩn đoán cụ thể.\n\nThông tin này chỉ mang tính tham khảo, không thay thế cho chẩn đoán hoặc chỉ định của bác sĩ. Hãy tham khảo ý kiến chuyên gia y tế để được tư vấn cụ thể.\n\nNguồn tham khảo:\n[1] National Institute of Diabetes and Digestive and Kidney Diseases (NIDDK). (2023). Abdominal Pain. NIH. [https://www.niddk.nih.gov/health-information/digestive-diseases/abdominal-pain](https://www.niddk.nih.gov/health-information/digestive-diseases/abdominal-pain)\n[2] Cleveland Clinic. (2023). Abdominal Pain. [https://my.clevelandclinic.org/health/symptoms/4167-abdominal-pain](https://my.clevelandclinic.org/health/symptoms/4167-abdominal-pain)\n[3] Thông tin từ tài liệu được cung cấp (Tác hại của lá bạc hà - Trị hội chứng ruột kích thích (IBS))."
+            }
+        ]
+    },
+    "session_1748795296008_8yvubpm8": {
+        "medical_info": [
+            {
+                "timestamp": "2025-06-01 23:29:13",
+                "info": "Thông tin từ câu hỏi: Vấn đề: ung thư da"
+            }
+        ],
+        "chat_history": [
+            {
+                "role": "user",
+                "content": "ung thư da"
+            },
+            {
+                "role": "assistant",
+                "content": "Chào bạn,\n\nUng thư da là loại ung thư phổ biến nhất, xuất hiện do sự phát triển bất thường của các tế bào da [1]. Nguyên nhân chính thường liên quan đến tổn thương DNA do tiếp xúc quá mức với tia cực tím (UV) từ ánh nắng mặt trời hoặc giường tắm nắng [1, 2].\n\nCó ba loại ung thư da chính:\n*   **Ung thư biểu mô tế bào đáy (Basal Cell Carcinoma - BCC):** Loại phổ biến nhất, thường trông giống một nốt sần bóng, màu trắng hoặc ngọc trai [1, 2].\n*   **Ung thư biểu mô tế bào vảy (Squamous Cell Carcinoma - SCC):** Loại phổ biến thứ hai, có thể là một nốt đỏ, chắc hoặc một mảng vảy, đóng vảy [1, 2].\n*   **Ung thư hắc tố (Melanoma):** Ít gặp hơn nhưng là loại nguy hiểm nhất, phát triển từ các tế bào tạo sắc tố (melanocytes). Thường xuất hiện dưới dạng nốt ruồi bất thường hoặc thay đổi [1, 2].\n\n**Triệu chứng:**\nCác dấu hiệu của ung thư da khác nhau tùy loại, nhưng bạn nên chú ý đến bất kỳ thay đổi nào trên da, bao gồm [2, 3]:\n*   Xuất hiện nốt ruồi mới hoặc thay đổi ở nốt ruồi cũ (đặc biệt với u hắc tố, cần chú ý quy tắc ABCDE: **A**symmetry - không đối xứng, **B**order - viền không đều, **C**olor - màu sắc khác thường, **D**iameter - đường kính lớn hơn 6mm, **E**volving - thay đổi theo thời gian).\n*   Vết loét lâu lành.\n*   Nốt sần bóng, sáp, màu ngọc trai hoặc trong mờ.\n*   Tổn thương phẳng, giống sẹo màu da hoặc nâu.\n*   Nốt sần chắc, màu đỏ.\n*   Mảng vảy, đóng vảy.\n\n**Phòng ngừa:**\nCách hiệu quả nhất để phòng ngừa ung thư da là bảo vệ da khỏi tia UV [1, 2, 3]:\n*   Tìm bóng râm, đặc biệt vào giữa trưa (từ 10 giờ sáng đến 4 giờ chiều) [1, 2].\n*   Mặc quần áo chống nắng, đội mũ rộng vành và đeo kính râm [1, 2, 3].\n*   Sử dụng kem chống nắng phổ rộng có chỉ số SPF từ 30 trở lên, thoa lại sau mỗi hai giờ hoặc sau khi bơi/đổ mồ hôi [1, 2, 3].\n*   Tránh sử dụng giường tắm nắng [1, 2, 3].\n*   Kiểm tra da thường xuyên để phát hiện sớm các đốm mới hoặc thay đổi [2, 3].\n\n**Điều trị:**\nPhương pháp điều trị phụ thuộc vào loại, giai đoạn, kích thước, vị trí của ung thư và sức khỏe tổng thể của người bệnh [3]. Các phương pháp phổ biến bao gồm:\n*   **Phẫu thuật:** Cắt bỏ khối u, phẫu thuật Mohs (cắt từng lớp cho đến khi không còn tế bào ung thư), nạo và đốt điện [3].\n*   **Xạ trị:** Sử dụng tia năng lượng cao để tiêu diệt tế bào ung thư [3].\n*   **Hóa trị:** Sử dụng thuốc để tiêu diệt tế bào ung thư (thường dùng cho ung thư da tiến triển hoặc di căn) [3].\n*   **Liệu pháp quang động:** Sử dụng thuốc và ánh sáng đặc biệt để tiêu diệt tế bào ung thư [3].\n*   **Liệu pháp miễn dịch:** Giúp hệ miễn dịch của cơ thể chống lại ung thư (dùng cho u hắc tố và một số trường hợp SCC tiến triển) [3].\n*   **Liệu pháp nhắm trúng đích:** Sử dụng thuốc tấn công vào các gen hoặc protein cụ thể trong tế bào ung thư (dùng cho u hắc tố có đột biến gen BRAF, một số trường hợp BCC/SCC tiến triển) [3].\n\n**Thuốc điều trị:**\nCác loại thuốc cụ thể được sử dụng tùy thuộc vào phương pháp điều trị, ví dụ như thuốc hóa trị, thuốc miễn dịch (như Pembrolizumab, Nivolumab) hoặc thuốc nhắm trúng đích (như Vemurafenib, Dabrafenib cho u hắc tố; Vismodegib, Sonidegib cho BCC tiến triển) [3].\n\nHy vọng thông tin này hữu ích cho bạn.\n\n**Nguồn tham khảo:**\n[1] World Health Organization. (2023). Skin cancer. [https://www.who.int/news-room/fact-sheets/detail/skin-cancer](https://www.who.int/news-room/fact-sheets/detail/skin-cancer)\n[2] Centers for Disease Control and Prevention. (2023). What Can I Do to Reduce My Risk of Skin Cancer?. [https://www.cdc.gov/cancer/skin/basic_info/what-you-can-do.htm](https://www.cdc.gov/cancer/skin/basic_info/what-you-can-do.htm)\n[3] National Cancer Institute. (n.d.). Skin Cancer Treatment (PDQ®)–Patient Version. [https://www.cancer.gov/types/skin/patient/skin-treatment-pdq](https://www.cancer.gov/types/skin/patient/skin-treatment-pdq)\n\n*Thông tin này chỉ mang tính tham khảo, không thay thế cho chẩn đoán hoặc chỉ định của bác sĩ. Hãy tham khảo ý kiến chuyên gia y tế để được tư vấn cụ thể.*"
+            }
+        ]
+    },
+    "Cristiano Ronaldohh": {
+        "medical_info": [],
+        "chat_history": [
+            {
+                "role": "user",
+                "content": "ung thư phổi"
+            },
+            {
+                "role": "user",
+                "content": "hiv"
+            },
+            {
+                "role": "user",
+                "content": "ung thư da"
+            }
+        ]
+    }
+}

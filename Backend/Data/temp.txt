@@ -1,0 +1,185 @@
+from sentence_transformers import SentenceTransformer
+from qdrant_client import QdrantClient
+import google.generativeai as genai
+import logging
+from dotenv import load_dotenv
+import os
+
+# Load biến môi trường từ file .env
+load_dotenv("key.env")
+
+# Thiết lập logging đơn giản hơn cho file truy vấn
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+
+# Cấu hình API keys
+QDRANT_API_KEY = os.getenv("QDRANT_API_KEY")
+QDRANT_URL = os.getenv("QDRANT_URL")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
+# Cấu hình Gemini API
+genai.configure(api_key=GEMINI_API_KEY)
+
+# Tên collection (phải trùng với tên trong file index.py)
+COLLECTION_NAME = "medical_documents_v4"
+
+class MedicalQueryBot:
+    """Chatbot y tế chỉ để truy vấn dữ liệu đã có"""
+    
+    def __init__(self):
+        # Khởi tạo mô hình embedding (nhẹ, nhanh)
+        self.model = SentenceTransformer('all-MiniLM-L6-v2')
+        
+        # Kết nối đến Qdrant
+        self.qdrant_client = QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY)
+        
+        # Kiểm tra collection tồn tại
+        try:
+            collection_info = self.qdrant_client.get_collection(COLLECTION_NAME)
+            logger.info(f"Đã kết nối đến collection {COLLECTION_NAME} với {collection_info.vectors_count} vectors")
+        except Exception as e:
+            logger.error(f"Lỗi kết nối đến collection {COLLECTION_NAME}: {str(e)}")
+            logger.error("Hãy chạy file index.py trước để tạo collection và tải dữ liệu")
+            raise
+        
+        # Khởi tạo Gemini model
+        self.gemini_model = genai.GenerativeModel('gemini-2.5-pro-exp-03-25')
+    
+    def answer_question(self, query, limit=5, add_sources=True, debug=False):
+        """Trả lời câu hỏi dựa trên dữ liệu đã có"""
+        try:
+            # Tạo embedding cho câu hỏi
+            query_embedding = self.model.encode(query).tolist()
+            
+            # Tìm kiếm trong Qdrant
+            search_results = self.qdrant_client.search(
+                collection_name=COLLECTION_NAME,
+                query_vector=query_embedding,
+                limit=limit
+            )
+            
+            if debug:
+                logger.info(f"Tìm thấy {len(search_results)} kết quả cho query: '{query}'")
+                for i, result in enumerate(search_results):
+                    logger.info(f"Kết quả #{i+1}: Score={result.score:.4f}, "
+                                f"Title={result.payload.get('title', '')}, "
+                                f"Header={result.payload.get('header', '')}")
+            
+            if not search_results:
+                return "Tôi không tìm thấy thông tin liên quan đến câu hỏi của bạn."
+            
+            # Tạo context từ kết quả tìm kiếm
+            context = "\n\n---\n\n".join([
+                f"Tiêu đề: {result.payload.get('title', '')}\n"
+                f"Phần: {result.payload.get('header', '')}\n"
+                f"Nội dung: {result.payload.get('text', '')}"
+                for result in search_results
+            ])
+            
+            
+            
+            # Tạo prompt cho Gemini
+            prompt = f"""
+            Bạn là một trợ lý y tế giúp trả lời các câu hỏi liên quan đến sức khỏe bằng tiếng Việt.
+            
+            CÂU HỎI CỦA NGƯỜI DÙNG: {query}
+            
+            THÔNG TIN Y TẾ LIÊN QUAN:
+            {context}
+            
+            Bạn là trợ lý AI y tế chuyên nghiệp. Khi nhận được câu hỏi y tế, nhiệm vụ của bạn là:
+
+            1. NGHIÊN CỨU CHUYÊN SÂU:
+            - Chủ động tìm kiếm và trích xuất thông tin mới nhất từ CHÍNH XÁC các nguồn sau đây:
+                * Google Scholar
+                * Tạp chí Y học Việt Nam (https://tapchiyhocvietnam.vn/)
+                * WHO - Tổ chức Y tế Thế giới (https://www.who.int/)
+                * CDC - Trung tâm Kiểm soát và Phòng ngừa Dịch bệnh (https://www.cdc.gov/)
+                * NIH - Viện Y tế Quốc gia Hoa Kỳ (https://www.nih.gov/)
+                * PubMed (https://pubmed.ncbi.nlm.nih.gov/)
+
+            2. TỔNG HỢP THÔNG TIN:
+            - Tìm kiếm ít nhất 2-3 nguồn khác nhau để đảm bảo độ tin cậy
+            - Ưu tiên các nghiên cứu mới, hướng dẫn chính thức, và đồng thuận y khoa
+            - Trích dẫn thông tin từ các bài báo cụ thể, không chỉ từ trang chủ của nguồn
+
+            3. PHONG CÁCH TRẢ LỜI:
+            - Viết ngắn gọn, súc tích, dễ hiểu cho người không chuyên y tế
+            - Sắp xếp thông tin theo thứ tự: định nghĩa/giải thích > triệu chứng > điều trị/phòng ngừa
+            - Giải thích các thuật ngữ y khoa khi cần thiết
+
+            4. TRÍCH DẪN CHÍNH XÁC:
+            - Mỗi thông tin quan trọng PHẢI được trích dẫn với định dạng [1], [2], [3]...
+            - Mỗi trích dẫn phải là hyperlink có thể nhấn vào, dẫn đến nguồn gốc chính xác
+            - Cuối câu trả lời, liệt kê đầy đủ các nguồn tham khảo với định dạng:
+                [1] Tên tác giả/tổ chức. (Năm). Tiêu đề. Nguồn xuất bản. URL
+
+            5. LƯU Ý ĐẶC BIỆT:
+            - Nếu không tìm thấy thông tin đáng tin cậy, hãy nói rõ: "Tôi không tìm thấy thông tin đáng tin cậy về [chủ đề] từ các nguồn y tế được phép. Tôi khuyên bạn nên tham khảo ý kiến bác sĩ."
+            - Luôn kèm miễn trừ trách nhiệm: "Thông tin này chỉ mang tính tham khảo và không thay thế cho tư vấn y tế chuyên nghiệp."
+
+            Ví dụ minh họa:
+            Câu hỏi: "Làm thế nào để giảm đau dạ dày?"
+            Trả lời mẫu:
+            "Đau dạ dày có thể do nhiều nguyên nhân như viêm loét dạ dày, trào ngược dạ dày thực quản hoặc rối loạn tiêu hóa [1]. Để giảm đau dạ dày, bạn có thể:
+            1. Điều chỉnh chế độ ăn: tránh thực phẩm cay nóng, đồ uống có cồn, caffeine [2]
+            2. Sử dụng thuốc giảm acid dạ dày theo hướng dẫn của bác sĩ [3]
+            3. Ăn nhiều bữa nhỏ thay vì ít bữa lớn [1]
+
+            Thông tin này chỉ mang tính tham khảo và không thay thế cho tư vấn y tế chuyên nghiệp.
+
+            Tham khảo:
+            [1] Mayo Clinic. (2023). Đau dạ dày: Nguyên nhân và điều trị. https://www.mayoclinic.org/...
+            [2] WHO. (2022). Hướng dẫn về bệnh lý dạ dày. https://www.who.int/...
+            [3] PubMed. (2023). Nghiên cứu về hiệu quả của thuốc giảm acid trong điều trị đau dạ dày. https://pubmed.ncbi.nlm.nih.gov/..."  
+            """
+            
+            # Gọi Gemini API
+            response = self.gemini_model.generate_content(prompt)
+            answer = response.text
+            
+            
+            
+            return answer
+            
+        except Exception as e:
+            logger.error(f"Lỗi khi trả lời câu hỏi: {str(e)}")
+            return "Xin lỗi, đã xảy ra lỗi khi xử lý câu hỏi của bạn."
+
+
+def main():
+    """Hàm chính để chạy chatbot"""
+    
+    print("\n === Y-Chat: Chatbot Y tế Tiếng Việt (Phiên bản truy vấn) ===\n")
+    print("Kết nối đến Qdrant Cloud...")
+    
+    try:
+        # Khởi tạo chatbot
+        chatbot = MedicalQueryBot()
+        
+        # Bật/tắt chế độ debug
+        debug_mode = False
+        
+        # Chạy chatbot
+        while True:
+            query = input("\nNhập câu hỏi của bạn (hoặc 'exit' để thoát, 'debug' để bật/tắt debug): ")
+            
+            if query.lower() == 'exit':
+                break
+                
+            if query.lower() == 'debug':
+                debug_mode = not debug_mode
+                print(f"Chế độ debug: {'Bật' if debug_mode else 'Tắt'}")
+                continue
+            
+            answer = chatbot.answer_question(query, debug=debug_mode)
+            print("\nCâu trả lời:")
+            print(answer)
+            
+    except Exception as e:
+        print(f"Lỗi khởi tạo chatbot: {str(e)}")
+        print("Hãy đảm bảo bạn đã chạy file index.py để tải dữ liệu lên Qdrant Cloud")
+
+
+if __name__ == "__main__":
+    main()

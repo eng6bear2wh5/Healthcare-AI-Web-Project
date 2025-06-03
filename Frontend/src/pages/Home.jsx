@@ -8,6 +8,10 @@ const AboutHealthTrust = lazy(() => import("../components/AboutHealthTrust"));
 const Specialties = lazy(() => import("../components/Specialties"));
 const PromotionsAndEvents = lazy(() => import("../components/PromotionsAndEvents"));
 import WeatherHealthToast from "../components/WeatherNotification/WeatherHealthToast";
+<<<<<<< HEAD
+=======
+// import Chatbot from "../components/ChatbotAI/ChatbotAI";
+>>>>>>> a03675c (add elastic remote and AI chatbot)
 
 function Home() {
     useEffect(() => {

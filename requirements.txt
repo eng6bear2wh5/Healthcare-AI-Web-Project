@@ -1,0 +1,7 @@
+Flask
+python-dotenv
+Pillow
+sentence-transformers
+qdrant-client
+google-generativeai
+pyvi

@@ -9,4 +9,8 @@ __pycache__/
 *.pyc
 
 uploads/
+<<<<<<< HEAD
 model/git 
+=======
+model/
+>>>>>>> a03675c (add elastic remote and AI chatbot)

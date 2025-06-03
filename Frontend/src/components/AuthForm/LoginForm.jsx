@@ -4,6 +4,10 @@ import { Link, useNavigate } from "react-router-dom";
 import Toggle from "./Toggle";
 import { login } from "../../api/auth"
 import { useAuth } from "../../contexts/AuthContext"; // import hook
+<<<<<<< HEAD
+=======
+import { useToast } from "../ToastContext"; // chỉnh đúng path
+>>>>>>> a03675c (add elastic remote and AI chatbot)
 const apiBackendURL = import.meta.env.VITE_API_BACKEND;
 
 const LoginForm = () => {
@@ -16,6 +20,11 @@ const LoginForm = () => {
 
   const navigate = useNavigate();
 
+<<<<<<< HEAD
+=======
+  const { showToast } = useToast();
+
+>>>>>>> a03675c (add elastic remote and AI chatbot)
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -34,18 +43,31 @@ const LoginForm = () => {
       });
       
       console.log(`Đăng nhập thành công, đây là token của bạn: ${result.data.token}`);
+<<<<<<< HEAD
       alert("Đăng nhập thành công!");
+=======
+      setUser(result.data.user);
+      showToast("Đăng nhập thành công!", "success");
+>>>>>>> a03675c (add elastic remote and AI chatbot)
       navigate(`/`);
       }, 10);
     } else {
       console.log(`Sai mật khẩu hoặc email chưa đăng ký: ${result.data.message}`)
+<<<<<<< HEAD
       alert("Đăng nhập thất bại, sai mật khẩu hoặc email chưa đăng ký");
+=======
+      showToast("Đăng nhập thất bại, sai mật khẩu hoặc email chưa đăng ký", "fail");
+>>>>>>> a03675c (add elastic remote and AI chatbot)
     }
   };
 
   const loginGoogle = async () => {
     try {
+<<<<<<< HEAD
       window.location.href = "/auth/google";
+=======
+      window.location.href = `${import.meta.env.VITE_API_BACKEND}/auth/google`;
+>>>>>>> a03675c (add elastic remote and AI chatbot)
     } catch (error) {
       console.log(`Có lỗi khi đăng nhập google: ${error.message}`);
       showToast("Có lỗi xảy ra!", "fail");
