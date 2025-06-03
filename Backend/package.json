@@ -15,10 +15,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-<<<<<<< HEAD
     "@elastic/elasticsearch": "^8.17.1",
-=======
->>>>>>> a03675c (add elastic remote and AI chatbot)
     "axios": "^1.8.4",
     "bcryptjs": "^3.0.2",
     "body-parser": "^2.2.0",
