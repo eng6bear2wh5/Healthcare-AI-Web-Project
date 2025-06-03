@@ -9,6 +9,7 @@ const SignupForm = () => {
     document.title = "Đăng ký | HealthTrust";
   }, []);
   
+  
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -33,7 +34,7 @@ const SignupForm = () => {
 
   const loginGoogle = async () => {
     try {
-      window.location.href = "/auth/google";
+      window.location.href = `${import.meta.env.VITE_API_BACKEND}/auth/google`;
     } catch (error) {
       console.log(`Có lỗi khi đăng nhập google: ${error.message}`);
       alert("Xảy ra lỗi!");

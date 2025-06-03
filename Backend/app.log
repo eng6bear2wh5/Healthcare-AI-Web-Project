@@ -100,3 +100,20 @@
 2025-06-03 11:41:42,057 - INFO - Saved medical info for user 'Cristiano Ronaldohh'.
 2025-06-03 11:41:42,058 - INFO - Extracted and saved info from query for user 'Cristiano Ronaldohh': đau dạ dày
 2025-06-03 11:41:42,464 - INFO - HTTP Request: POST https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4/points/search "HTTP/1.1 200 OK"
+2025-06-03 14:04:17,579 - INFO - Use pytorch device_name: cpu
+2025-06-03 14:04:17,581 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-06-03 14:06:10,059 - INFO - HTTP Request: GET https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4 "HTTP/1.1 200 OK"
+2025-06-03 14:06:10,071 - INFO - Connected to collection with 6968 vectors
+2025-06-03 14:06:10,071 - INFO - Attempting to initialize primary models: gemini-2.0-flash (main) and gemini-2.0-flash-lite (extraction).
+2025-06-03 14:06:12,929 - INFO - Saved medical info for user 'Cristiano Ronaldohh'.
+2025-06-03 14:06:12,931 - INFO - Extracted and saved info from query for user 'Cristiano Ronaldohh': Ung thư tim
+2025-06-03 14:06:18,028 - INFO - HTTP Request: POST https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4/points/search "HTTP/1.1 200 OK"
+2025-06-03 14:18:53,724 - INFO - Use pytorch device_name: cpu
+2025-06-03 14:18:53,725 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-06-03 14:19:00,412 - INFO - HTTP Request: GET https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333 "HTTP/1.1 200 OK"
+2025-06-03 14:19:01,312 - INFO - HTTP Request: GET https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4 "HTTP/1.1 200 OK"
+2025-06-03 14:19:01,336 - INFO - Connected to collection with 6968 vectors
+2025-06-03 14:19:01,336 - INFO - Attempting to initialize primary models: gemini-2.0-flash (main) and gemini-2.0-flash-lite (extraction).
+2025-06-03 14:19:02,433 - INFO - Saved medical info for user 'Cristiano Ronaldohh'.
+2025-06-03 14:19:02,434 - INFO - Extracted and saved info from query for user 'Cristiano Ronaldohh': Vấn đề: ung thư vú
+2025-06-03 14:19:02,924 - INFO - HTTP Request: POST https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4/points/search "HTTP/1.1 200 OK"

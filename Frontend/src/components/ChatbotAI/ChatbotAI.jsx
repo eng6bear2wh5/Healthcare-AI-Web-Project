@@ -469,7 +469,7 @@ const Chatbot = () => {
               style={{ height: "auto", resize: "none" }}
             ></textarea>
             <div className="chat-controls">
-              <button
+              {/* <button
                 type="button"
                 id="emoji-picker"
                 className="material-symbols-outlined"
@@ -479,7 +479,7 @@ const Chatbot = () => {
                 }}
               >
                 sentiment_satisfied
-              </button>
+              </button> */}
 
               {showEmojiPicker && (
                 <div
