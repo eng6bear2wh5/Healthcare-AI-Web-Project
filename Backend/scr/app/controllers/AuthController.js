@@ -102,13 +102,21 @@ class AuthController {
       res.cookie("jwt", token, {
         httpOnly: true,
         secure: false,
+<<<<<<< HEAD
         sameSite: "strict",
+=======
+        sameSite: "Strict",
+>>>>>>> a03675c (add elastic remote and AI chatbot)
         maxAge: 15 * 60 * 1000,
         path: "/",
       });
 
       const { password: pwd, ...userData } = user._doc;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> a03675c (add elastic remote and AI chatbot)
       res.status(200).json({ message: "Đăng nhập thành công", user: userData });
     } catch (error) {
       next(error);

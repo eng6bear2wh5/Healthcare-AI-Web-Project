@@ -16,7 +16,11 @@ export const getDrugById = async (id) => {
 
 // Tìm kiếm thuốc (Elasticsearch)
 export const searchDrugs = async (q) => {
+<<<<<<< HEAD
   const res = await fetch(`${API_BASE}/health/search?q=${keyword}`);
+=======
+  const res = await fetch(`${API_BASE}/health/search?q=${q}`);
+>>>>>>> a03675c (add elastic remote and AI chatbot)
   if (!res.ok) throw new Error("Tìm kiếm thất bại");
   return await res.json();
 };

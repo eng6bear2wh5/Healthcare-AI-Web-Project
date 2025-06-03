@@ -16,18 +16,30 @@ import {
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 //import { li } from "framer-motion/client"; do không có dùng đến nên tạm thời không import
+<<<<<<< HEAD
+=======
+import { useToast } from "../ToastContext"; // chỉnh đúng path
+>>>>>>> a03675c (add elastic remote and AI chatbot)
 
 const apiBackendURL = import.meta.env.VITE_API_BACKEND;
 let hasShownAuthAlert = false; // Đặt ngoài component
 
 function useAuthFetch() {
+<<<<<<< HEAD
+=======
+  const { showToast } = useToast();
+>>>>>>> a03675c (add elastic remote and AI chatbot)
   const navigate = useNavigate();
   return async (...args) => {
     const res = await fetch(...args);
     if (res.status === 401) {
       if (!hasShownAuthAlert) {
         hasShownAuthAlert = true;
+<<<<<<< HEAD
         alert("Bạn chưa đăng nhập! Vui lòng đăng nhập để sử dụng chức năng này!");
+=======
+        showToast("Bạn chưa đăng nhập! Vui lòng đăng nhập để sử dụng chức năng này!", "fail");
+>>>>>>> a03675c (add elastic remote and AI chatbot)
         navigate("/", { replace: true });
       }
       throw new Error("Unauthorized");
@@ -474,7 +486,10 @@ const HealthTrendsCharts = () => {
               diastolic: d.blood_pressure?.diastolic ?? null,
               body_fat: d.body_fat ?? null,
             }));
+<<<<<<< HEAD
           console.log("Mapped chart data:", sorted);
+=======
+>>>>>>> a03675c (add elastic remote and AI chatbot)
           setData(sorted);
         }
       })
@@ -595,6 +610,10 @@ const Dashboard = () => {
   // Thêm state kiểm tra xác thực
   const [isAuthChecked, setIsAuthChecked] = useState(false);
 
+<<<<<<< HEAD
+=======
+  const { showToast } = useToast();
+>>>>>>> a03675c (add elastic remote and AI chatbot)
   // Kiểm tra đăng nhập 1 lần duy nhất khi vào Dashboard
   useEffect(() => {
     fetch(`${apiBackendURL}/api/user`, {
@@ -605,7 +624,11 @@ const Dashboard = () => {
         if (res.status === 401) {
           if (!hasShownAuthAlert) {
             hasShownAuthAlert = true;
+<<<<<<< HEAD
             alert("Bạn chưa đăng nhập! Vui lòng đăng nhập để sử dụng chức năng này!");
+=======
+            showToast("Bạn chưa đăng nhập! Vui lòng đăng nhập để sử dụng chức năng này!", "fail");
+>>>>>>> a03675c (add elastic remote and AI chatbot)
             window.location.href = "/";
           }
           setIsAuthChecked(false);

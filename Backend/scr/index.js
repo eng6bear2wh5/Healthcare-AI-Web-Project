@@ -17,16 +17,28 @@ const compression = require('compression');
 
 // 4. Import DB connectors
 const connectDB = require('./config/db/mongoDB');
+<<<<<<< HEAD
 const { checkElasticsearchConnection } = require('./config/db/elasticsearch');
+=======
+// const { checkElasticsearchConnection } = require('./config/db/elasticsearch');
+>>>>>>> a03675c (add elastic remote and AI chatbot)
 // Immediately-Invoked Async Function to bootstrap app
 (async () => {
   // 5. Connect to databases
   await connectDB();
+<<<<<<< HEAD
   checkElasticsearchConnection();
 
   // 6. Initialize Express
   const app = express();
   const PORT = process.env.PORT || 3000;
+=======
+  // checkElasticsearchConnection();
+
+  // 6. Initialize Express
+  const app = express();
+  const PORT = process.env.PORT || 5000;
+>>>>>>> a03675c (add elastic remote and AI chatbot)
 
   // 7. Global middleware
   app.use(morgan('combined'));                                // Logging
@@ -54,7 +66,10 @@ const { checkElasticsearchConnection } = require('./config/db/elasticsearch');
   app.use(compression());
   route(app); // Initialize routes
 
+<<<<<<< HEAD
   
+=======
+>>>>>>> a03675c (add elastic remote and AI chatbot)
   // 11. Error handling (should be last)
   app.use(errorHandler);
 
