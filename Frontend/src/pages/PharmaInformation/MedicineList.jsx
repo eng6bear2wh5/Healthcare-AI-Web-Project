@@ -3,8 +3,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getAllDrugs } from "../../api/drugApi";
 
-const apiURL = import.meta.env.VITE_API_URL;
-const API_BASE = import.meta.env.VITE_REACT_APP_API_BASE || "";
 
 function MedicineList() {
   useEffect(() => {
@@ -57,7 +55,7 @@ function MedicineList() {
       setLoading(true);
       setSelectedLetter("");
       try {
-        const res = await fetch(`${API_BASE}/health/search?q=${query}`);
+        const res = await fetch(`/health/search?q=${query}`);
         const results = await res.json();
         setDrugs(results);
         setFilteredDrugs(results); // Cập nhật kết quả luôn

@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import Toggle from "./Toggle";
 import { login } from "../../api/auth"
 import { useAuth } from "../../contexts/AuthContext"; // import hook
-const apiBackendURL = import.meta.env.VITE_API_BACKEND;
 
 const LoginForm = () => {
   useEffect(() => {
@@ -19,7 +18,7 @@ const LoginForm = () => {
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch(`${apiBackendURL}/api/userinfo`, {
+        const res = await fetch("/api/userinfo", {
           method: "GET",
           credentials: "include",
         });
@@ -50,7 +49,7 @@ const LoginForm = () => {
     if (result.ok) {
       // Gọi thêm API lấy user info (bao gồm giới tính)
       setTimeout(async () => {
-      const res = await fetch(`${apiBackendURL}/api/userinfo`, { credentials: "include" });
+      const res = await fetch("/api/userinfo", { credentials: "include" });
       const userInfo = await res.json();
 
       // Gộp thông tin user và giới tính vào context
@@ -70,7 +69,7 @@ const LoginForm = () => {
 
   const loginGoogle = async () => {
     try {
-      window.location.href = `${import.meta.env.VITE_API_BACKEND}/auth/google`;
+      window.location.href = "/auth/google";
     } catch (error) {
       console.log(`Có lỗi khi đăng nhập google: ${error.message}`);
       showToast("Có lỗi xảy ra!", "fail");

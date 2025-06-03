@@ -117,3 +117,19 @@
 2025-06-03 14:19:02,433 - INFO - Saved medical info for user 'Cristiano Ronaldohh'.
 2025-06-03 14:19:02,434 - INFO - Extracted and saved info from query for user 'Cristiano Ronaldohh': Vấn đề: ung thư vú
 2025-06-03 14:19:02,924 - INFO - HTTP Request: POST https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4/points/search "HTTP/1.1 200 OK"
+2025-06-03 14:28:47,081 - INFO - Use pytorch device_name: cpu
+2025-06-03 14:28:47,081 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-06-03 14:29:06,585 - INFO - HTTP Request: GET https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333 "HTTP/1.1 200 OK"
+2025-06-03 14:29:07,542 - INFO - HTTP Request: GET https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4 "HTTP/1.1 200 OK"
+2025-06-03 14:29:07,545 - INFO - Connected to collection with 6968 vectors
+2025-06-03 14:29:07,545 - INFO - Attempting to initialize primary models: gemini-2.0-flash (main) and gemini-2.0-flash-lite (extraction).
+2025-06-03 14:29:07,554 - INFO - Initialized data structure for new user: 'Nguyễn Thế Anh'
+2025-06-03 14:31:16,622 - INFO - Use pytorch device_name: cpu
+2025-06-03 14:31:16,622 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-06-03 14:31:23,570 - INFO - HTTP Request: GET https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333 "HTTP/1.1 200 OK"
+2025-06-03 14:31:24,471 - INFO - HTTP Request: GET https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4 "HTTP/1.1 200 OK"
+2025-06-03 14:31:24,474 - INFO - Connected to collection with 6968 vectors
+2025-06-03 14:31:24,474 - INFO - Attempting to initialize primary models: gemini-2.0-flash (main) and gemini-2.0-flash-lite (extraction).
+2025-06-03 14:31:25,347 - INFO - Saved medical info for user 'Nguyễn Thế Anh'.
+2025-06-03 14:31:25,349 - INFO - Extracted and saved info from query for user 'Nguyễn Thế Anh': Ung thư
+2025-06-03 14:31:25,741 - INFO - HTTP Request: POST https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4/points/search "HTTP/1.1 200 OK"

@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import logo from "../assets/medical-icon-png.png";
 import { useAuth } from "../contexts/AuthContext";
 import defaultimage from "../assets/avatars/uit_avatar.png";
-const apiBackendURL = import.meta.env.VITE_API_BACKEND;
 
 export default function Navbar() {
   const [open, setOpen] = useState(null);
@@ -20,7 +19,7 @@ export default function Navbar() {
 
   useEffect(() => {
     if (!user) {
-      fetch(`${apiBackendURL}/api/userinfo`, { credentials: "include" })
+      fetch("/api/userinfo", { credentials: "include" })
         .then((res) => {
           if (res.status === 404) {
             // Chưa có document UserInfo → set user tạm với sex="other"

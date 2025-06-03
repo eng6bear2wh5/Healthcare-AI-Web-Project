@@ -34,7 +34,7 @@ const SignupForm = () => {
 
   const loginGoogle = async () => {
     try {
-      window.location.href = `${import.meta.env.VITE_API_BACKEND}/auth/google`;
+      window.location.href = "/auth/google";
     } catch (error) {
       console.log(`Có lỗi khi đăng nhập google: ${error.message}`);
       alert("Xảy ra lỗi!");
@@ -64,25 +64,6 @@ const SignupForm = () => {
             onChange={(e) => setName(e.target.value)}
           />
         </div>
-
-        {/* <div>
-          <label
-            htmlFor="register-username"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            Tên đăng nhập
-          </label>
-          <input
-            id="register-username"
-            name="username"
-            type="text"
-            required
-            className="block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-[#0180CC] focus:outline-none focus:ring-[#0180CC] text-sm"
-            placeholder="Tạo tên đăng nhập"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div> */}
 
         <div>
           <label

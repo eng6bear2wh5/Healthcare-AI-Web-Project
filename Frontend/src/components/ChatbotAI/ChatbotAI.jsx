@@ -3,7 +3,6 @@ import "./style.css";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 
-const API_URL = "http://localhost:5000/api/AI";
 
 const Chatbot = () => {
   // Refs for DOM elements
@@ -246,7 +245,7 @@ const Chatbot = () => {
         formData.append("question", text || "");
         formData.append("userId", userIdToSend);
 
-        fetch(`${API_URL}/upload`, {
+        fetch("/api/AI/upload", {
           method: "POST",
           body: formData,
           credentials: "include"
@@ -300,7 +299,7 @@ const Chatbot = () => {
             });
           });
       } else {
-        fetch(`${API_URL}/ask`, {
+        fetch("/api/AI/ask", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",

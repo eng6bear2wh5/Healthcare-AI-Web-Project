@@ -20,7 +20,6 @@ import { useNavigate } from "react-router-dom";
 import { useToast } from "../ToastContext"; // chỉnh đúng path
 
 
-const apiBackendURL = import.meta.env.VITE_API_BACKEND;
 let hasShownAuthAlert = false; // Đặt ngoài component
 
 function useAuthFetch() {
@@ -82,11 +81,11 @@ const PersonalInfoCard = () => {
 
   useEffect(() => {
     Promise.all([
-      authFetch(`${apiBackendURL}/api/user`, {
+      authFetch("/api/user", {
         headers,
         credentials: "include",
       }).then((r) => r.json()),
-      authFetch(`${apiBackendURL}/api/userinfo`, {
+      authFetch("/api/userinfo", {
         headers,
         credentials: "include",
       }).then((r) => (r.status === 404 ? {} : r.json())),
@@ -190,7 +189,7 @@ const RecentHealthMetrics = () => {
   }
 
   useEffect(() => {
-    authFetch(`${apiBackendURL}/api/health-metrics/me`, {
+    authFetch("/api/health-metrics/me", {
       headers,
       credentials: "include",
     })
@@ -376,11 +375,11 @@ const MedicalInfoSection = () => {
   useEffect(() => {
     setLoading(true);
     Promise.all([
-      authFetch(`${apiBackendURL}/api/medical-history/me`, {
+      authFetch("/api/medical-history/me", {
         headers,
         credentials: "include",
       }).then((r) => r.json()),
-      authFetch(`${apiBackendURL}/api/userinfo`, {
+      authFetch("/api/userinfo", {
         headers,
         credentials: "include",
       }).then((r) => r.json()),
@@ -463,7 +462,7 @@ const HealthTrendsCharts = () => {
   const authFetch = useAuthFetch();
 
   useEffect(() => {
-    authFetch(`${apiBackendURL}/api/health-metrics/me`, {
+    authFetch("/api/health-metrics/me", {
       headers: { "Content-Type": "application/json" },
       credentials: "include",
     })
@@ -603,7 +602,7 @@ const Dashboard = () => {
   const { showToast } = useToast();
   // Kiểm tra đăng nhập 1 lần duy nhất khi vào Dashboard
   useEffect(() => {
-    fetch(`${apiBackendURL}/api/user`, {
+    fetch("/api/user", {
       headers: { "Content-Type": "application/json" },
       credentials: "include",
     })

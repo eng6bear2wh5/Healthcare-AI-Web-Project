@@ -1,7 +1,7 @@
 const API_BASE = 'http://localhost:5000';
 export async function login({ email, password }) {
     try {
-        const res = await fetch(`${API_BASE}/auth/login`, {
+        const res = await fetch("/auth/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password }),
@@ -16,7 +16,7 @@ export async function login({ email, password }) {
 
 export async function register({ name, email, password }) {
     try {
-        const res = await fetch(`${API_BASE}/auth/register`, {
+        const res = await fetch("/auth/register", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name, email, password }),
@@ -32,7 +32,7 @@ export async function register({ name, email, password }) {
 // Hàm xác thực OTP khi đăng ký
 export async function verifyOtpRegister({ email, otp }) {
     try {
-        const res = await fetch(`${API_BASE}/auth/verify-otp-register`, {
+        const res = await fetch("/auth/verify-otp-register", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, otp }),
@@ -48,7 +48,7 @@ export async function verifyOtpRegister({ email, otp }) {
 // Hàm xác thực OTP khi quên mật khẩu
 export async function verifyOtpForgotPassword({ email, otp }) {
     try {
-        const res = await fetch(`${API_BASE}/auth/verify-otp-forgot-password`, {
+        const res = await fetch("/auth/verify-otp-forgot-password", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, otp }),
@@ -64,7 +64,7 @@ export async function verifyOtpForgotPassword({ email, otp }) {
 // Hàm gửi OTP
 export async function sendOtp({ email }) {
     try {
-        const res = await fetch(`${API_BASE}/auth/send-otp`, {
+        const res = await fetch("/auth/send-otp", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email }),
@@ -80,7 +80,7 @@ export async function sendOtp({ email }) {
 // Hàm đổi mật khẩu
 export async function resetPassword({ email, password }) {
   try {
-    const res = await fetch(`${API_BASE}/auth/reset-password`, {
+    const res = await fetch("/auth/reset-password", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),

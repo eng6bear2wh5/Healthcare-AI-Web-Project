@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useToast } from "../ToastContext";
 import { useNavigate } from "react-router-dom";
 
-const apiBackendURL = import.meta.env.VITE_API_BACKEND;
 let hasShownAuthAlert = false; // Đặt ngoài component để chỉ alert 1 lần
 
 function useAuthFetch(navigate) {
@@ -130,7 +129,7 @@ export default function WeeklyHealthInput() {
 
   // Kiểm tra đăng nhập trước khi render nội dung
   useEffect(() => {
-    authFetch(`${apiBackendURL}/api/health-metrics/me`, {
+    authFetch("/api/health-metrics/me", {
       headers: {
         "Content-Type": "application/json",
       },
@@ -190,7 +189,7 @@ export default function WeeklyHealthInput() {
 
     const body = { weekly_data };
 
-    authFetch(`${apiBackendURL}/api/health-metrics`, {
+    authFetch("/api/health-metrics", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

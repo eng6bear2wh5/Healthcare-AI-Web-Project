@@ -12,9 +12,8 @@ export default function NewsPage() {
   const [loading, setLoading] = useState(true);
 
   // 1. Lấy data từ backend
-  const API_BASE = 'http://localhost:5000';
   useEffect(() => {
-    fetch(`${API_BASE}/api/news/news-data`)
+    fetch("/api/news/news-data")
       .then(r => r.json())
       .then(({ groups, diseases, articles }) => {
         setGroups(groups);

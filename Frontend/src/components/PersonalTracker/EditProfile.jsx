@@ -86,7 +86,6 @@ function EditProfile() {
   const { showToast } = useToast();
   const { setUser } = useAuth();
 
-  const apiBackendURL = import.meta.env.VITE_API_BACKEND;
   const authFetch = useAuthFetch();
   const [userId, setUserId] = useState("");
 
@@ -99,13 +98,13 @@ function EditProfile() {
 
   useEffect(() => {
     Promise.all([
-      authFetch(`${apiBackendURL}/api/user`, {
+      authFetch("/api/user", {
         headers: {
           "Content-Type": "application/json",
         },
         credentials: "include",
       }).then((r) => r.json()),
-      authFetch(`${apiBackendURL}/api/userinfo`, {
+      authFetch("/api/userinfo", {
         headers: {
           "Content-Type": "application/json",
         },
@@ -114,7 +113,7 @@ function EditProfile() {
         if (r.status === 404) return {};
         return r.json();
       }),
-      authFetch(`${apiBackendURL}/api/medical-history/me`, {
+      authFetch("/api/medical-history/me", {
         headers: {
           "Content-Type": "application/json",
         },
@@ -206,19 +205,19 @@ function EditProfile() {
     console.log("bodyMedicalHistory:", bodyMedicalHistory);
     
     Promise.all([
-      authFetch(`${apiBackendURL}/api/user`, {
+      authFetch("/api/user", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify(bodyUser),
       }),
-      authFetch(`${apiBackendURL}/api/userinfo`, {
+      authFetch("/api/userinfo", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify(bodyInfo),
       }),
-      authFetch(`${apiBackendURL}/api/medical-history`, {
+      authFetch("/api/medical-history", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

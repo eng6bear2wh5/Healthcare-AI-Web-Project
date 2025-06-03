@@ -8,14 +8,13 @@ export default function Articles() {
   const [error, setError] = useState(null);
 
   // 1. Fetch articles + diseases đồng thời
-  const API_BASE = 'http://localhost:5000';
   useEffect(() => {
     Promise.all([
-      fetch(`${API_BASE}/api/articles`).then(res => {
+      fetch("/api/articles").then(res => {
         if (!res.ok) throw new Error("Không thể tải bài báo");
         return res.json();
       }),
-      fetch(`${API_BASE}/api/diseases`).then(res => {
+      fetch("/api/diseases").then(res => {
         if (!res.ok) throw new Error("Không thể tải bệnh");
         return res.json();
       })
