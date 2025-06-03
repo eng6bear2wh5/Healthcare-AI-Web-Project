@@ -22,11 +22,20 @@ export default function Navbar() {
     if (!user) {
       fetch(`${apiBackendURL}/api/userinfo`, { credentials: "include" })
         .then((res) => {
+          if (res.status === 404) {
+            // Chưa có document UserInfo → set user tạm với sex="other"
+            setUser({ sex: "other" });
+            return null;
+          }
           if (!res.ok) throw new Error("Not logged in");
           return res.json();
         })
         .then((userInfo) => {
-          setUser(userInfo);
+          // setUser(userInfo);
+          setUser({
+              ...userInfo,
+              sex: userInfo.sex ?? "other",
+          });
         })
         .catch(() => {});
     }

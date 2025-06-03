@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useToast } from "../ToastContext";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 
 let hasShownAuthAlert = false; 
 
@@ -83,6 +84,7 @@ function EditProfile() {
   const [isAuthChecked, setIsAuthChecked] = useState(false);
 
   const { showToast } = useToast();
+  const { setUser } = useAuth();
 
   const apiBackendURL = import.meta.env.VITE_API_BACKEND;
   const authFetch = useAuthFetch();
@@ -226,6 +228,10 @@ function EditProfile() {
       .then((responses) => {
         // Kiểm tra tất cả đều thành công
         if (responses.every((res) => res.ok)) {
+          setUser((prev) => ({
+            ...prev,
+            sex: bodyInfo.sex,
+          }));
           showToast("Đã cập nhập profile!", "success");
         } else {
           throw new Error("Có lỗi khi cập nhật thông tin!");
