@@ -11,8 +11,10 @@
 
 Google PageSeed
 
-<ảnh>
+![alt text](images/image-b.png)
 
+On Mobile.
+![alt text](images/image-c.png)
 ---
 # Sơ đồ kiến trúc tổng quan hệ thống.
 
@@ -141,11 +143,265 @@ Hệ thống được chia thành ba phần chính:
 
 ---
 
-## Luồng đăng ký đăng nhập
+## Luồng đăng ký & đăng nhập
 ![alt text](images/JWT.drawio.png)
+
+# 1. Đăng ký (Singup)
+
+1. **User → Client**  
+   - Điền form (email, mật khẩu, …) → bấm “Đăng ký”.
+
+2. **Client → API Gateway**  
+   - Gửi `POST /auth/register` kèm payload:
+     ```json
+     {
+       "email": "user@example.com",
+       "password": "P@ssw0rd"
+       // … các trường khác
+     }
+     ```
+
+3. **API Gateway**  
+   - **Lưu thông tin đăng ký tạm thời** trong session của backend (chưa lưu vào Database).  
+   - **Sinh mã OTP** (6 chữ số), lưu kèm `otp_code` và `otp_expires_at` cho user trong session.  
+   - **Gửi email** chứa mã OTP đến địa chỉ user (qua Mail Service).  
+   - **Trả về Client**: HTTP 200 (đã gửi OTP thành công).
+
+4. **Client hiển thị form nhập OTP**  
+   - Hiển thị giao diện yêu cầu người dùng nhập “Mã OTP” (6 chữ số).
+
+5. **User → Client**  
+   - Nhập “mã OTP” → bấm “Xác thực OTP”.
+
+6. **Client → API Gateway**  
+   - Gửi `POST /auth/verify-otp-register` kèm payload:
+     ```json
+     {
+       "email": "user@example.com",
+       "otp": "123456"
+     }
+     ```
+
+7. **API Gateway**  
+   - Lấy record user từ session trong backend, so sánh `otp` và kiểm tra còn thời hạn (chưa hết `otp_expires_at`).  
+   - **Nếu OTP đúng & chưa hết hạn**:
+     1. Cập nhật `is_verified = true` cho user trong session (hoặc khi cần, lưu vào Database).  
+     2. Xóa (hoặc vô hiệu hóa) `otp_code` khỏi session.  
+     3. Trả về Client: HTTP 200 (xác thực thành công).  
+   - **Nếu OTP sai hoặc hết hạn**:  
+     - Trả về Client: HTTP 400 hoặc HTTP 401 (OTP không hợp lệ).
+
+8. **Client nhận kết quả**  
+   - Nếu thành công → hiển thị “Đăng ký thành công” và chuyển sang trang Đăng nhập.  
+   - Nếu thất bại → hiển thị “OTP sai hoặc đã hết hạn, vui lòng thử lại hoặc gửi lại OTP”.
+
+---
+
+## 2. Đăng nhập (Login)
+
+1. **User → Client**  
+   - Điền form (email, mật khẩu) → bấm “Đăng nhập”.
+
+2. **Client → API Gateway**  
+   - Gửi `POST /login` kèm payload:
+     ```json
+     {
+       "email": "user@example.com",
+       "password": "P@ssw0rd"
+     }
+     ```
+
+3. **API Gateway**  
+   - Truy vấn Database tìm user theo `email`.  
+   - Kiểm tra:
+     - Nếu user không tồn tại **hoặc** `is_verified = false` → trả lỗi HTTP 401.  
+     - Nếu tồn tại **và** `is_verified = true`, so sánh hash mật khẩu:
+       - Sai → trả lỗi HTTP 401.  
+       - Đúng → tiếp tục bước kế.
+
+4. **API Gateway → JWT Service**  
+   - Gửi payload để tạo JWT.
+
+5. **JWT Service → API Gateway**  
+   - Trả về token JWT đã ký.
+
+6. **API Gateway → Client**  
+   - **Set cookie** `HttpOnly`.  
+   - HTTP 200 “Đăng nhập thành công”.
+
+7. **Client**  
+   - Lưu token (trong cookie hoặc localStorage).  
+   - Hiển thị “Đăng nhập thành công” → chuyển hướng sang trang chính (dashboard).
+
+8. **Các request sau** (protected endpoints)  
+   - Client tự động kèm JWT trong cookie để API Gateway xác thực.
+
+---
+
+## Luồng chặn gọi API liên quan đến user khi chưa đăng nhập:
+![alt text](images/protectRoute.png)
+
+
+## 🧱 Cấu trúc Giao diện Tìm kiếm Thuốc
+
+Tại trang **Thông tin thuốc**, người dùng sẽ thấy:
+
+- 🟦 Một **thanh tìm kiếm (search bar)** để nhập từ khóa cần tìm.
+- 📋 Một **danh sách các tên thuốc**, được **sắp xếp theo thứ tự chữ cái** để dễ tra cứu.
+- 🔍 Khi **người dùng nhấn vào một tên thuốc**, hệ thống sẽ hiển thị **chi tiết thông tin thuốc** tương ứng (thành phần, công dụng, liều dùng, v.v.).
+
+---
+
+## ⚙️ Cơ chế Hoạt động của Tính năng Tìm kiếm
+
+### 1. Sự kiện Người dùng Nhập Từ khóa
+
+- Hệ thống **lắng nghe sự kiện `input`** từ ô tìm kiếm.
+- Mỗi khi người dùng nhập một ký tự, frontend sẽ gửi một request đến backend thông qua API: `GET /health/search?q=keyword`
+
+
+---
+
+### 2. Truy vấn tới Elasticsearch
+
+- Backend nhận request từ frontend, sau đó thực hiện **truy vấn đến Elasticsearch** để tìm kiếm dữ liệu.
+- Elasticsearch được triển khai thông qua nền tảng **[bonsai.io](https://bonsai.io/)**.
+- Chỉ mục (index) đang được sử dụng có tên là `drugs`, trong đó mỗi tài liệu (document) chứa thông tin thuốc, đặc biệt có trường `name` đại diện cho tên thuốc.
+
+---
+
+### 3. Tìm kiếm Chính xác và Gần đúng theo Tên thuốc
+
+- Elasticsearch sẽ thực hiện việc **so khớp chính xác từ khóa với trường `name`** để trả về các kết quả phù hợp.
+
+- Ngoài ra, hệ thống còn sử dụng các kỹ thuật:
+- ✅ **Gợi ý (suggest)**
+- ✅ **So khớp gần đúng (fuzzy match)**
+
+Nhằm hỗ trợ người dùng trong các trường hợp:
+
+- 🔡 Nhập sai chính tả
+- 🔤 Nhập thiếu ký tự
+- 🔠 Nhập ký tự đầu (ví dụ: chỉ gõ `"p"`)
+
+- Elasticsearch sẽ **so sánh từ khóa với trường `name`**, và trả về **tối đa 10 kết quả gần đúng và phù hợp nhất**.
+
+- Các kết quả được gửi lại frontend và hiển thị trong danh sách thuốc, giúp người dùng **chọn nhanh và chính xác** loại thuốc mình đang tìm.
+
+---
 
 
 ## AI phân tích bệnh da liễu.
+# Disease Detection & AI Chatbot Web App
+
+## Giới thiệu mô hình AI nhận diện bệnh
+
+Dự án sử dụng **mô hình học sâu (deep learning)** để phân loại các bệnh da liễu dựa trên ảnh chụp. Dưới đây là một số thông tin chính về quá trình xây dựng và huấn luyện mô hình:
+
+- **Dataset:**  
+  Mô hình được train trên bộ dữ liệu [DermNet](https://www.dermnet.com/) hoặc một tập ảnh da liễu đã được phân loại sẵn thành các thư mục theo từng loại bệnh.  
+  Dataset được chia thành hai phần: `train` và `test` để đảm bảo đánh giá chính xác.
+
+- **Kiến trúc mô hình:**  
+  Sử dụng **DenseNet-121** — một kiến trúc mạng nơ-ron sâu mạnh mẽ, đặc biệt hiệu quả cho phân loại ảnh y tế.
+
+  - **Pretrained:** Mô hình khởi tạo từ trọng số đã được huấn luyện trên tập **ImageNet** (hơn 1 triệu ảnh tự nhiên), giúp mô hình học đặc trưng hình ảnh tốt hơn và giảm thời gian train.
+  - **Fine-tune:** Lớp phân loại cuối cùng được thay thế để phù hợp với số lượng class (bệnh) cụ thể của bộ dữ liệu da liễu.
+
+- **Tiền xử lý:**
+
+  - Ảnh được resize về 512x512 pixel.
+  - Áp dụng các kỹ thuật tăng cường dữ liệu (augmentation): lật, xoay, điều chỉnh sáng/tối, v.v.
+  - Chuẩn hóa giá trị ảnh theo thống kê của ImageNet.
+
+- **Huấn luyện:**
+
+  - Loss function: CrossEntropyLoss (phân loại nhiều lớp).
+  - Optimizer: Adam, có weight decay để giảm overfitting.
+  - Learning rate scheduler: Giảm learning rate khi mô hình không còn cải thiện trên tập validation.
+  - Đánh giá mô hình bằng các chỉ số: Accuracy, F1-score, Confusion Matrix.
+
+- **Kết quả đầu ra:**  
+  Khi dự đoán, mô hình trả về **top 3 bệnh có xác suất cao nhất** cho ảnh mà người dùng gửi lên.
+
+---
+
+## Luồng hoạt động hệ thống
+
+1. Người dùng tải ảnh da liễu lên giao diện web.
+2. Ảnh được gửi đến backend.
+3. Backend lưu ảnh và gọi mô hình AI (DenseNet-121) để phân tích.
+4. Mô hình trả về dự đoán top 3 bệnh, backend gửi lại cho frontend.
+5. Giao diện hiển thị kết quả cho người dùng.
+
+# Sơ đồ hệ thống: Quy trình Nhận diện Bệnh qua Ảnh
+
+## 1. Sơ đồ tổng quan (từ frontend đến backend và AI model)
+![alt text](images/image-a.png)
+
+---
+
+## 2. Diễn giải chi tiết từng bước
+
+### Bước 1: Người dùng thao tác trên giao diện
+
+- Người dùng click chọn "Nhận diện bệnh qua ảnh".
+- Chọn/tải ảnh cần nhận diện.
+
+### Bước 2: Gửi ảnh lên backend
+
+- Hàm `predictDisease(imageFile)` được gọi khi người dùng nhấn "Phân tích ảnh".
+- Ảnh được đóng gói vào `FormData`, gửi POST request lên endpoint `/api/AI/image_detection`.
+
+```javascript
+export async function predictDisease(imageFile) {
+  const formData = new FormData();
+  formData.append("image", imageFile);
+  const response = await fetch("/api/AI/image_detection", {
+	method: "POST",
+	body: formData,
+  });
+  if (!response.ok) throw new Error("Upload failed");
+  return await response.json();
+}
+```
+
+### Bước 3: Backend nhận, xử lý và gọi AI model
+
+- API backend nhận file ảnh từ request (sử dụng multer để lưu file tạm).
+- Backend gọi script Python (`predict.py`) bằng Node.js (child_process).
+- Ảnh được đưa vào model AI (đã train trước bằng PyTorch).
+
+### Bước 4: AI model dự đoán
+
+- Script Python load model, tiền xử lý ảnh, dự đoán ra top các bệnh và xác suất.
+- Trả kết quả về dạng JSON (success, predictions).
+
+### Bước 5: Backend trả kết quả
+
+- Backend nhận kết quả từ Python, xóa file tạm, gửi dữ liệu JSON về frontend.
+
+### Bước 6: Frontend hiển thị kết quả
+
+- Frontend nhận kết quả, cập nhật UI hiển thị cho người dùng: Top 3 bệnh dự đoán và xác suất.
+
+---
+
+## 3. Tóm tắt vai trò các thành phần
+
+- **Frontend (React):** Hiển thị UI, xử lý upload ảnh, gửi request và nhận kết quả, trình bày kết quả cho người dùng.
+- **Backend (Node.js/Express):** Nhận ảnh, lưu tạm, gọi mô hình AI, trả kết quả.
+- **AI Model (Python/PyTorch):** Phân tích ảnh, dự đoán bệnh, trả JSON kết quả.
+
+---
+
+## 4. Ưu điểm của kiến trúc này
+
+- Phân tách rõ ràng frontend, backend và AI model.
+- Có thể mở rộng dễ dàng cho nhiều loại bệnh, mô hình khác, hoặc tích hợp thêm chức năng (ví dụ chatbot, tra cứu, lịch sử...).
+- Đảm bảo bảo mật: Ảnh chỉ xử lý tạm thời, backend kiểm soát request.
+
+---
 
 
 ---
@@ -262,17 +518,25 @@ Hệ thống chatbot y tế sử dụng công nghệ RAG là một bước tiế
 ---
 ## Cách cài đặt và chạy dự án.
 
-### Cấu trúc repo.
+### Chạy Backend.
+```bash
+npm start
+```
 
 ### Chạy Frontend.
+#### Môi Trường Development
+```bash
+npm run dev
+```
+#### Môi Trường Production
+```bash
+npm run build
+npx serve -s dist
+```
 
-### Chạy Backend.
 
-### Cấu trúc cơ sở dữ liệu.
 
-### Luồng hoạt động chính.
-
-#### 1. Luồng đăng ký, đăng nhập.
+<!-- #### 1. Luồng đăng ký, đăng nhập. -->
 
 ### Giao diện các chức năng chính.
 
@@ -344,7 +608,191 @@ Tính năng - Phân tích bệnh da liễu bằng ảnh.
 
 ![alt text](images/image-19.png)
 
+## Cấu hình Nginx
+
+### 1. File: `/etc/nginx/nginx.conf`
+```nginx
+user www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+error_log /var/log/nginx/error.log;
+include /etc/nginx/modules-enabled/*.conf;
+
+events {
+    worker_connections 768;
+    # multi_accept on;
+}
+
+http {
+
+    ##
+    # Basic Settings
+    ##
+
+    sendfile on;
+    tcp_nopush on;
+    types_hash_max_size 2048;
+    # server_tokens off;
+
+    # server_names_hash_bucket_size 64;
+    # server_name_in_redirect off;
+
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+
+    ##
+    # SSL Settings
+    ##
+
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3; # Dropping SSLv3, ref: POODLE
+    ssl_prefer_server_ciphers on;
+
+    ##
+    # Logging Settings
+    ##
+
+    access_log /var/log/nginx/access.log;
+
+    ##
+    # Gzip Settings
+    ##
+
+    gzip on;
+
+    gzip_vary on;
+    gzip_proxied any;
+    gzip_comp_level 6;
+    gzip_min_length 1024;
+    gzip_buffers 16 8k;
+    gzip_http_version 1.1;
+    gzip_types
+        text/plain
+        text/css
+        application/json
+        application/javascript
+        text/xml application/xml
+        application/xml+rss
+        text/javascript
+        application/x-font-ttf
+        font/opentype
+        application/vnd.ms-fontobject
+        image/svg+xml
+        application/font-woff
+        application/font-woff2;
+
+    ##
+    # Virtual Host Configs
+    ##
+
+    include /etc/nginx/conf.d/*.conf;
+    include /etc/nginx/sites-enabled/*;
+}
+
+
+#mail {
+#    # See sample authentication script at:
+#    # http://wiki.nginx.org/ImapAuthenticateWithApachePhpScript
+#
+#    # auth_http localhost/auth.php;
+#    # pop3_capabilities "TOP" "USER";
+#    # imap_capabilities "IMAP4rev1" "UIDPLUS";
+#
+#    server {
+#        listen     localhost:110;
+#        protocol   pop3;
+#        proxy      on;
+#    }
+#
+#    server {
+#        listen     localhost:143;
+#        protocol   imap;
+#        proxy      on;
+#    }
+#}
+
+## HTTPS Server Configuration
+
+```nginx
+server {
+    server_name healthtrust.live www.healthtrust.live;
+
+    root /var/www/healthtrust-client;
+    index index.html;
+
+    location /api/AI/ {
+        proxy_pass http://localhost:5000/api/AI/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+
+    location /api/ {
+        proxy_pass http://localhost:5000/api/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+
+    location /auth/ {
+        proxy_pass http://localhost:5000/auth/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+
+    location /health/ {
+        proxy_pass http://localhost:5000/health/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+
+    location / {
+        try_files $uri /index.html;
+    }
+
+    listen 443 ssl http2;
+    ssl_certificate /etc/letsencrypt/live/healthtrust.live/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/healthtrust.live/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+}
+```
+
+### HTTP to HTTPS Redirect
+
+```nginx
+server {
+    if ($host = www.healthtrust.live) {
+        return 301 https://$host$request_uri;
+    }
+
+    if ($host = healthtrust.live) {
+        return 301 https://$host$request_uri;
+    }
+
+    listen 80;
+    server_name healthtrust.live www.healthtrust.live;
+    return 404;
+}
+```
+
 
 
 ---
 ## Bảng phân chia công việc.
+| STT | Họ và tên            | Công việc phụ trách                                                                                                                                                                                                                  |
+|-----|----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1   | Nguyễn Thế Anh       | - Chỉnh sửa phần FE và BE phần auth form của trang web<br>- Hỗ trợ tăng tốc pagespeed của trang web<br>- Phát triển mô hình nhận diện bệnh ngoài da bằng mô hình học sâu<br>- Phát triển tính năng cảnh cáo các bệnh liên quan đến vị trí và thời tiết của người dùng<br>- Thực hiện giao và phân chia công việc<br>- Theo dõi tiến độ của team trong thời gian thực hiện dự án<br>- Deploy trang web trên môi trường cloud Digital Ocean với proxy server Nginx và SSL<br>- Fix conflict cho các nhánh khi pull request lên nhánh chính của repo<br>- Đăng ký gmail đặc quyền cho trang web để gửi OTP trên môi trường production<br>- Cấu hình các bản ghi MX và TXT cho phần liên quan |
+| 2   | Nguyễn Đức Hùng      | - Phát triển thông tin chi tiết về các bệnh<br>- Phát triển backend cho personal tracker<br>- Chỉnh sửa giao diện cho phù hợp các phần liên quan<br>- Tăng điểm page speed của trang web<br>- Chỉnh sửa avatar thay đổi trên navbar khi người dùng đổi ảnh                                                   |
+| 3   | Nguyễn Quốc Vương    | - Kết nối backend với frontend cho phần auth form<br>- Phát triển frontend cho personal tracker<br>- Xây dựng tìm kiếm elasticsearch cho thông tin dược của trang web<br>- Xây dựng giao diện cho chatbot AI                                                               |
+| 4   | Huỳnh Gia Bảo        | - Phát triển giao diện cho trang chủ<br>- Phát triển giao diện các trang thông tin về trang web<br>- Phát triển giao diện cho trang thông tin bệnh<br>- Phát triển giao diện cho trang thông tin thuốc<br>- Tăng điểm SEO cho trang web                                 |
+| 5   | Phan Đức Anh         | - Phát triển chatbot AI tiếp nhận thông tin giọng nói sang text<br>- Phát triển chatbot chuyên môn hóa liên quan đến y tế<br>- Phát triển chatbot có khả năng nhớ ngữ cảnh<br>- Thu thập thông tin y tế phục vụ chatbot                                                  |
