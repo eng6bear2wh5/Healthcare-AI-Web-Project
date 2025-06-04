@@ -2,9 +2,11 @@ import React, { useState, useEffect, useRef } from "react";
 import "./style.css";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
+import { useAuth } from "../../contexts/AuthContext";
 
 
 const Chatbot = () => {
+  const { user } = useAuth();
   // Refs for DOM elements
   const messageInputRef = useRef(null);
   const chatBodyRef = useRef(null);
@@ -208,6 +210,11 @@ const Chatbot = () => {
 
   // Send message handler
   const handleSendMessage = (e) => {
+    if (!user) {
+      alert("Vui lòng đăng nhập để sử dụng Chatbot.");
+      return;
+    }
+
     if (e && e.preventDefault) e.preventDefault();
     const text = messageText.trim();
     console.log(text);
@@ -369,6 +376,21 @@ const Chatbot = () => {
       }
     }
   };
+
+    // … các hook, các hàm …
+  if (!user) {
+    return (
+      <div className="chatbot-not-logged-in">
+        <p>
+          Vui lòng{" "}
+          <a href="/login" style={{ color: "#0180CC", textDecoration: "underline" }}>
+            đăng nhập
+          </a>{" "}
+          để sử dụng Chatbot.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <>
