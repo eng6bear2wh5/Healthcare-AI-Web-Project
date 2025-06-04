@@ -11,10 +11,10 @@
 
 Google PageSeed
 
-![alt text](images/image-b.png)
+![alt text](images/develop.png)
 
 On Mobile.
-![alt text](images/image-c.png)
+![alt text](images/mobile.png)
 ---
 # Sơ đồ kiến trúc tổng quan hệ thống.
 
