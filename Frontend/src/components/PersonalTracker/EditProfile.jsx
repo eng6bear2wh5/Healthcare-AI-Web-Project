@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useToast } from "../ToastContext";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import { FaCamera } from "react-icons/fa";
 
-let hasShownAuthAlert = false; 
+let hasShownAuthAlert = false;
 
 function useAuthFetch() {
   const { showToast } = useToast();
@@ -13,7 +14,10 @@ function useAuthFetch() {
     if (res.status === 401) {
       if (!hasShownAuthAlert) {
         hasShownAuthAlert = true;
-        showToast("Bạn chưa đăng nhập! Vui lòng đăng nhập để sử dụng chức năng này!", "fail");
+        showToast(
+          "Bạn chưa đăng nhập! Vui lòng đăng nhập để sử dụng chức năng này!",
+          "fail"
+        );
         navigate("/", { replace: true });
       }
       throw new Error("Unauthorized");
@@ -66,7 +70,7 @@ function EditProfile() {
   useEffect(() => {
     document.title = "PersonalTracker | HealthTrust";
   }, []);
-  
+
   const [formData, setFormData] = useState({
     fullname: "",
     dob: "",
@@ -151,6 +155,7 @@ function EditProfile() {
       })
       .catch((err) => {
         // Nếu bị 401 thì đã navigate rồi, không cần setIsAuthChecked
+        console.err(err);
       });
   }, []);
 
@@ -193,17 +198,12 @@ function EditProfile() {
     };
 
     const bodyMedicalHistory = {
-      user_id: userId, // BỔ SUNG DÒNG NÀY
       disease_name: formData?.condition,
       diagnosis_date: new Date().toISOString(), // chuyển sang chuỗi ISO
       notes: formData?.conditionNote,
       drugs: formData?.drugs,
     };
 
-    console.log("bodyUser:", bodyUser);
-    console.log("bodyInfo:", bodyInfo);
-    console.log("bodyMedicalHistory:", bodyMedicalHistory);
-    
     Promise.all([
       authFetch("/api/user", {
         method: "PUT",
@@ -243,6 +243,44 @@ function EditProfile() {
     showToast("Đã cập nhập profile!", "success");
   };
 
+  const handleOcrUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    event.target.value = "";
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await fetch("/api/AI/ocr", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        // console.log("OCR thành công:", data.extracted_data);
+        const extractedInfo = data.extracted_data;
+        setFormData((prev) => ({
+          ...prev,
+          fullname: extractedInfo.full_name || "",
+          gender: extractedInfo.gender || "", 
+          dob: extractedInfo.date_of_birth || "",
+          blood: extractedInfo.blood_type || "",
+          height: extractedInfo.height || "",
+          weight: extractedInfo.weight || "",
+        }));
+        alert("Upload hồ sơ bệnh án thành công!");
+      } else {
+        console.error("OCR thất bại:", data.error);
+      }
+    } catch (error) {
+      console.error("Lỗi kết nối với server:", error);
+    }
+  };
+
   // Chỉ render khi đã xác thực xong
   if (!isAuthChecked) return null;
 
@@ -252,22 +290,43 @@ function EditProfile() {
         Chỉnh sửa profile
       </h2>
 
-      {/* Avatar */}
-      <div className="flex items-center gap-4">
-        <img
-          src={avatars[avatarKey]}
-          alt="Avatar Preview"
-          className="w-24 h-24 rounded-full object-cover border"
-        />
+      <div className="flex items-center justify-between gap-8 w-full px-4 py-4 bg-white">
+        {/* Avatar bên trái */}
+        <div className="flex items-center gap-4">
+          <img
+            src={avatars[avatarKey]}
+            alt="Avatar Preview"
+            className="w-24 h-24 rounded-full object-cover border shadow"
+          />
+          <div>
+            <p className="font-semibold text-gray-800">Ảnh đại diện</p>
+            <p className="text-sm text-gray-500">Ảnh của người khám</p>
+          </div>
+        </div>
 
-        <div>
-          <Label htmlFor="avatar">Ảnh đại diện</Label>
-          {/* <input
+        {/* Upload hồ sơ bên phải */}
+        <div className="flex flex-col items-center">
+          <label
+            htmlFor="ocrUpload"
+            className="cursor-pointer flex flex-col items-center"
+          >
+            <div className="w-16 h-16 flex items-center justify-center rounded-full bg-blue-600 hover:bg-blue-700 text-white shadow-lg transition duration-200">
+              <FaCamera className="text-2xl" />
+            </div>
+            <span className="mt-2 text-sm font-medium text-blue-600 hover:underline">
+              Tải hồ sơ bệnh án
+            </span>
+            <span className="text-xs text-gray-500 text-center mt-1">
+              Hỗ trợ ảnh hoặc PDF và Word
+            </span>
+          </label>
+          <input
             type="file"
-            id="avatar"
-            accept="image/*"
-            onChange={handleAvatarChange}
-          /> */}
+            id="ocrUpload"
+            accept="image/*, .pdf, .doc, .docx"
+            onChange={handleOcrUpload}
+            className="hidden"
+          />
         </div>
       </div>
 
@@ -318,11 +377,13 @@ function EditProfile() {
             className="w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="">-- Chọn --</option>
-            {["A", "B", "AB", "O", "A-", "B-", "AB-", "O-", "other"].map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
+            {["A", "B", "AB", "O", "A-", "B-", "AB-", "O-", "other"].map(
+              (type) => (
+                <option key={type} value={type}>
+                  {type}
+                </option>
+              )
+            )}
           </select>
         </div>
 
@@ -431,9 +492,7 @@ function EditProfile() {
 
           {/* Mức độ hoạt động và Sinh hoạt hằng ngày bên phải */}
           <div className="w-full md:w-1/2 flex flex-col">
-            <Label htmlFor="drugs">
-              Các loại thuốc đã dùng (nếu có)
-            </Label>
+            <Label htmlFor="drugs">Các loại thuốc đã dùng (nếu có)</Label>
             <Textarea
               id="drugs"
               rows={6}
@@ -510,7 +569,9 @@ function EditProfile() {
         </div>
 
         <div className="md:col-span-2 text-right">
-          <Button type="submit" className="cursor-pointer">Lưu thông tin</Button>
+          <Button type="submit" className="cursor-pointer">
+            Lưu thông tin
+          </Button>
         </div>
       </form>
     </div>

@@ -277,22 +277,22 @@ body {
     position: absolute;
 }
 
-body.show-chatbot #chatbot-toggler span:first-child,
+#chatbot-form.show-chatbot #chatbot-toggler span:first-child,
 #chatbot-toggler span:last-child {
     opacity: 0;
 }
 
-body.show-chatbot .chatbot-popup {
+#chatbot-form.show-chatbot .chatbot-popup {
     opacity: 1;
     pointer-events: auto;
     transform: scale(1);
 }
 
-body.show-chatbot #chatbot-toggler span:last-child {
+#chatbot-form.show-chatbot #chatbot-toggler span:last-child {
     opacity: 1;
 }
 
-body.show-chatbot #chatbot-toggler {
+#chatbot-form.show-chatbot #chatbot-toggler {
     transform: rotate(90deg);
 }
 
@@ -380,7 +380,7 @@ em-emoji-picker {
     transform: translateX(-50%);
 }
 
-body.show-emoji-picker em-emoji-picker {
+#chatbot-form.show-emoji-picker em-emoji-picker {
     visibility: visible;
 }
 

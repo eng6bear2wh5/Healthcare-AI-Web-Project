@@ -4,7 +4,7 @@ const fs = require('fs').promises;
 const path = require('path');
 const multer = require('multer');
 
-const { predictDisease, askToChatbot, uploadToChatbot } = require('../app/controllers/AI.controller');
+const { predictDisease, askToChatbot, uploadToChatbot, convertFileToText } = require('../app/controllers/AI.controller');
 const { protect } = require("../middleware/auth")
 
 const TEMP_UPLOAD_DIR = path.join(__dirname, '../../uploads');
@@ -24,5 +24,6 @@ const upload = multer({ storage: storage });
 router.post('/image_detection', upload.single('image'), predictDisease);
 router.post('/ask', protect, askToChatbot);
 router.post('/upload', protect, upload.single('image'), uploadToChatbot);
+router.post('/ocr', protect, upload.single('file'), convertFileToText);
 
 module.exports = router;

@@ -133,3 +133,127 @@
 2025-06-03 14:31:25,347 - INFO - Saved medical info for user 'Nguyễn Thế Anh'.
 2025-06-03 14:31:25,349 - INFO - Extracted and saved info from query for user 'Nguyễn Thế Anh': Ung thư
 2025-06-03 14:31:25,741 - INFO - HTTP Request: POST https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4/points/search "HTTP/1.1 200 OK"
+2025-06-11 14:52:10,882 - INFO - Use pytorch device_name: cpu
+2025-06-11 14:52:10,883 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-06-11 14:52:20,331 - INFO - HTTP Request: GET https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333 "HTTP/1.1 200 OK"
+2025-06-11 14:52:21,180 - INFO - HTTP Request: GET https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4 "HTTP/1.1 200 OK"
+2025-06-11 14:52:21,183 - INFO - Connected to collection with 6968 vectors
+2025-06-11 14:52:21,183 - INFO - Attempting to initialize primary models: gemini-2.0-flash (main) and gemini-2.0-flash-lite (extraction).
+2025-06-11 14:53:23,039 - INFO - Use pytorch device_name: cpu
+2025-06-11 14:53:23,039 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-06-11 14:53:29,597 - INFO - HTTP Request: GET https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333 "HTTP/1.1 200 OK"
+2025-06-11 14:53:30,438 - INFO - HTTP Request: GET https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4 "HTTP/1.1 200 OK"
+2025-06-11 14:53:30,440 - INFO - Connected to collection with 6968 vectors
+2025-06-11 14:53:30,440 - INFO - Attempting to initialize primary models: gemini-2.0-flash (main) and gemini-2.0-flash-lite (extraction).
+2025-06-11 14:53:32,349 - INFO - Saved medical info for user 'Cristiano Ronaldohh'.
+2025-06-11 14:53:32,350 - INFO - Extracted and saved info from query for user 'Cristiano Ronaldohh': Ung thư dạ dày
+2025-06-11 14:53:32,826 - INFO - HTTP Request: POST https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4/points/search "HTTP/1.1 200 OK"
+2025-06-11 14:59:55,977 - INFO - Use pytorch device_name: cpu
+2025-06-11 14:59:55,978 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-06-11 15:00:04,474 - INFO - HTTP Request: GET https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333 "HTTP/1.1 200 OK"
+2025-06-11 15:00:05,220 - INFO - HTTP Request: GET https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4 "HTTP/1.1 200 OK"
+2025-06-11 15:00:05,232 - INFO - Connected to collection with 6968 vectors
+2025-06-11 15:00:05,233 - INFO - Attempting to initialize primary models: gemini-2.0-flash (main) and gemini-2.0-flash-lite (extraction).
+2025-06-11 15:00:07,233 - INFO - Saved medical info for user 'Cristiano Ronaldohh'.
+2025-06-11 15:00:07,237 - INFO - Extracted and saved info from query for user 'Cristiano Ronaldohh': Vấn đề: HIV
+2025-06-11 15:00:07,712 - INFO - HTTP Request: POST https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4/points/search "HTTP/1.1 200 OK"
+2025-06-11 15:01:00,920 - INFO - Use pytorch device_name: cpu
+2025-06-11 15:01:00,920 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-06-11 15:01:08,159 - INFO - HTTP Request: GET https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333 "HTTP/1.1 200 OK"
+2025-06-11 15:01:08,995 - INFO - HTTP Request: GET https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4 "HTTP/1.1 200 OK"
+2025-06-11 15:01:09,003 - INFO - Connected to collection with 6968 vectors
+2025-06-11 15:01:09,003 - INFO - Attempting to initialize primary models: gemini-2.0-flash (main) and gemini-2.0-flash-lite (extraction).
+2025-06-11 15:01:09,696 - INFO - Saved medical info for user 'Cristiano Ronaldohh'.
+2025-06-11 15:01:09,700 - INFO - Extracted and saved info from query for user 'Cristiano Ronaldohh': HIV
+2025-06-11 15:01:10,015 - INFO - HTTP Request: POST https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4/points/search "HTTP/1.1 200 OK"
+2025-06-11 15:05:16,662 - INFO - Use pytorch device_name: cpu
+2025-06-11 15:05:16,662 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-06-11 15:05:19,139 - INFO - Use pytorch device_name: cpu
+2025-06-11 15:05:19,139 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-06-11 15:05:27,844 - INFO - HTTP Request: GET https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333 "HTTP/1.1 200 OK"
+2025-06-11 15:05:27,928 - INFO - HTTP Request: GET https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333 "HTTP/1.1 200 OK"
+2025-06-11 15:05:28,588 - INFO - HTTP Request: GET https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4 "HTTP/1.1 200 OK"
+2025-06-11 15:05:28,597 - INFO - Connected to collection with 6968 vectors
+2025-06-11 15:05:28,597 - INFO - Attempting to initialize primary models: gemini-2.0-flash (main) and gemini-2.0-flash-lite (extraction).
+2025-06-11 15:05:28,730 - INFO - HTTP Request: GET https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4 "HTTP/1.1 200 OK"
+2025-06-11 15:05:28,735 - INFO - Connected to collection with 6968 vectors
+2025-06-11 15:05:28,735 - INFO - Attempting to initialize primary models: gemini-2.0-flash (main) and gemini-2.0-flash-lite (extraction).
+2025-06-11 15:05:29,594 - INFO - Saved medical info for user 'Cristiano Ronaldohh'.
+2025-06-11 15:05:29,596 - INFO - Extracted and saved info from query for user 'Cristiano Ronaldohh': HIV
+2025-06-11 15:05:29,995 - INFO - HTTP Request: POST https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4/points/search "HTTP/1.1 200 OK"
+2025-06-11 15:05:30,761 - INFO - Saved medical info for user 'Cristiano Ronaldohh'.
+2025-06-11 15:05:30,764 - INFO - Extracted and saved info from query for user 'Cristiano Ronaldohh': HIV
+2025-06-11 15:05:31,030 - INFO - HTTP Request: POST https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4/points/search "HTTP/1.1 200 OK"
+2025-06-11 15:05:53,664 - INFO - Use pytorch device_name: cpu
+2025-06-11 15:05:53,665 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-06-11 15:06:00,508 - INFO - HTTP Request: GET https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333 "HTTP/1.1 200 OK"
+2025-06-11 15:06:01,304 - INFO - HTTP Request: GET https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4 "HTTP/1.1 200 OK"
+2025-06-11 15:06:01,309 - INFO - Connected to collection with 6968 vectors
+2025-06-11 15:06:01,309 - INFO - Attempting to initialize primary models: gemini-2.0-flash (main) and gemini-2.0-flash-lite (extraction).
+2025-06-11 15:06:02,290 - INFO - Saved medical info for user 'Cristiano Ronaldohh'.
+2025-06-11 15:06:02,292 - INFO - Extracted and saved info from query for user 'Cristiano Ronaldohh': HIV
+2025-06-11 15:06:02,582 - INFO - HTTP Request: POST https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4/points/search "HTTP/1.1 200 OK"
+2025-06-11 15:33:48,324 - INFO - Use pytorch device_name: cpu
+2025-06-11 15:33:48,326 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-06-11 15:33:56,334 - INFO - HTTP Request: GET https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333 "HTTP/1.1 200 OK"
+2025-06-11 15:33:57,146 - INFO - HTTP Request: GET https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4 "HTTP/1.1 200 OK"
+2025-06-11 15:33:57,159 - INFO - Connected to collection with 6968 vectors
+2025-06-11 15:33:57,159 - INFO - Attempting to initialize primary models: gemini-2.0-flash (main) and gemini-2.0-flash-lite (extraction).
+2025-06-11 15:33:57,159 - INFO - CLI /upload: No image, processing text question for user 'Cristiano Ronaldohh'.
+2025-06-11 15:33:58,077 - INFO - Saved medical info for user 'Cristiano Ronaldohh'.
+2025-06-11 15:33:58,079 - INFO - Extracted and saved info from query for user 'Cristiano Ronaldohh': HIV
+2025-06-11 15:33:58,545 - INFO - HTTP Request: POST https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4/points/search "HTTP/1.1 200 OK"
+2025-06-11 16:31:25,718 - INFO - Use pytorch device_name: cpu
+2025-06-11 16:31:25,720 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-06-11 16:31:33,629 - INFO - HTTP Request: GET https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333 "HTTP/1.1 200 OK"
+2025-06-11 16:31:34,411 - INFO - HTTP Request: GET https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4 "HTTP/1.1 200 OK"
+2025-06-11 16:31:34,424 - INFO - Connected to collection with 6968 vectors
+2025-06-11 16:31:34,424 - INFO - Attempting to initialize primary models: gemini-2.0-flash (main) and gemini-2.0-flash-lite (extraction).
+2025-06-11 16:31:35,561 - INFO - Saved medical info for user 'Cristiano Ronaldohh'.
+2025-06-11 16:31:35,567 - INFO - Extracted and saved info from query for user 'Cristiano Ronaldohh': HIV
+2025-06-11 16:31:36,073 - INFO - HTTP Request: POST https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4/points/search "HTTP/1.1 200 OK"
+2025-06-11 16:56:55,867 - INFO - Use pytorch device_name: cpu
+2025-06-11 16:56:55,868 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-06-11 16:57:05,861 - INFO - HTTP Request: GET https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333 "HTTP/1.1 200 OK"
+2025-06-11 16:57:06,565 - INFO - HTTP Request: GET https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4 "HTTP/1.1 200 OK"
+2025-06-11 16:57:06,577 - INFO - Connected to collection with 6968 vectors
+2025-06-11 16:57:06,578 - INFO - Attempting to initialize primary models: gemini-2.0-flash (main) and gemini-2.0-flash-lite (extraction).
+2025-06-11 16:57:09,262 - INFO - Saved medical info for user 'Cristiano Ronaldohh'.
+2025-06-11 16:57:09,267 - INFO - Extracted and saved info from query for user 'Cristiano Ronaldohh': HIV
+2025-06-11 16:57:09,714 - INFO - HTTP Request: POST https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4/points/search "HTTP/1.1 200 OK"
+2025-06-11 16:58:02,027 - INFO - Use pytorch device_name: cpu
+2025-06-11 16:58:02,027 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-06-11 16:58:11,324 - INFO - HTTP Request: GET https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333 "HTTP/1.1 200 OK"
+2025-06-11 16:58:12,019 - INFO - HTTP Request: GET https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4 "HTTP/1.1 200 OK"
+2025-06-11 16:58:12,023 - INFO - Connected to collection with 6968 vectors
+2025-06-11 16:58:12,023 - INFO - Attempting to initialize primary models: gemini-2.0-flash (main) and gemini-2.0-flash-lite (extraction).
+2025-06-11 16:58:13,873 - INFO - Saved medical info for user 'Cristiano Ronaldohh'.
+2025-06-11 16:58:13,878 - INFO - Extracted and saved info from query for user 'Cristiano Ronaldohh': Thông tin y tế: (Không có thông tin y tế)
+2025-06-11 16:58:14,157 - INFO - HTTP Request: POST https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4/points/search "HTTP/1.1 200 OK"
+2025-06-11 16:59:10,134 - INFO - Use pytorch device_name: cpu
+2025-06-11 16:59:10,134 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-06-11 16:59:20,217 - INFO - HTTP Request: GET https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333 "HTTP/1.1 200 OK"
+2025-06-11 16:59:20,901 - INFO - HTTP Request: GET https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4 "HTTP/1.1 200 OK"
+2025-06-11 16:59:20,909 - INFO - Connected to collection with 6968 vectors
+2025-06-11 16:59:20,910 - INFO - Attempting to initialize primary models: gemini-2.0-flash (main) and gemini-2.0-flash-lite (extraction).
+2025-06-11 16:59:22,876 - INFO - Saved medical info for user 'Cristiano Ronaldohh'.
+2025-06-11 16:59:22,878 - INFO - Extracted and saved info from query for user 'Cristiano Ronaldohh': (Không có thông tin y tế)
+2025-06-11 16:59:23,153 - INFO - HTTP Request: POST https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4/points/search "HTTP/1.1 200 OK"
+2025-06-11 17:09:30,031 - INFO - Use pytorch device_name: cpu
+2025-06-11 17:09:30,031 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-06-11 17:09:38,049 - INFO - HTTP Request: GET https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333 "HTTP/1.1 200 OK"
+2025-06-11 17:09:38,745 - INFO - HTTP Request: GET https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4 "HTTP/1.1 200 OK"
+2025-06-11 17:09:38,752 - INFO - Connected to collection with 6968 vectors
+2025-06-11 17:09:38,752 - INFO - Attempting to initialize primary models: gemini-2.0-flash (main) and gemini-2.0-flash-lite (extraction).
+2025-06-11 17:09:39,906 - INFO - Saved medical info for user 'Cristiano Ronaldohh'.
+2025-06-11 17:09:39,910 - INFO - Extracted and saved info from query for user 'Cristiano Ronaldohh': HIV
+2025-06-11 17:09:40,214 - INFO - HTTP Request: POST https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4/points/search "HTTP/1.1 200 OK"
+2025-06-11 21:39:42,458 - INFO - Use pytorch device_name: cpu
+2025-06-11 21:39:42,460 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-06-11 21:39:50,266 - INFO - HTTP Request: GET https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333 "HTTP/1.1 200 OK"
+2025-06-11 21:39:51,030 - INFO - HTTP Request: GET https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4 "HTTP/1.1 200 OK"
+2025-06-11 21:39:51,050 - INFO - Connected to collection with 6968 vectors
+2025-06-11 21:39:51,050 - INFO - Attempting to initialize primary models: gemini-2.0-flash (main) and gemini-2.0-flash-lite (extraction).
+2025-06-11 21:39:52,170 - INFO - Saved medical info for user 'Cristiano Ronaldohh'.
+2025-06-11 21:39:52,177 - INFO - Extracted and saved info from query for user 'Cristiano Ronaldohh': HIV
+2025-06-11 21:39:52,668 - INFO - HTTP Request: POST https://b364d4b3-530e-4a83-9169-bf8b1e5ae1ab.europe-west3-0.gcp.cloud.qdrant.io:6333/collections/medical_documents_v4/points/search "HTTP/1.1 200 OK"

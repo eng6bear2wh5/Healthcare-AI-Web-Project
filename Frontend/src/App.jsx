@@ -25,7 +25,6 @@ import IdealWeightCalculator from "./pages/HealthCheck/IdealWeightCalculator";
 import BodyFatCalculator from "./pages/HealthCheck/BodyFatCalculator";
 import WeeklyHealthInput from "./pages/PersonalTracker/WeeklyHealthInput";
 import "./App.css";
-import Chatbot from "./components/ChatbotAI/ChatbotAI";
 import { lazy, Suspense } from "react";
 const Dashboard = lazy(() => import("./pages/PersonalTracker/Dashboard"));
 const EditProfile = lazy(() => import("./pages/PersonalTracker/EditProfile"));
@@ -38,7 +37,6 @@ function App() {
         <CategoryProvider>
           <ScrollToTop />
           <Routes>
-            <Route path="/chatbot" element={<Chatbot />} />
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />

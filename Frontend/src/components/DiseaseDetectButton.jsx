@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useMotionValue } from "framer-motion";
 import { predictDisease } from "../api/AI_API";
-import ChatbotAI from "./ChatbotAI/ChatbotAI";
+import ChatbotForm from "./ChatbotAI/ChatbotForm";
 
 function DiseaseDetectButton() {
   const [showMenu, setShowMenu] = useState(false);
@@ -11,6 +11,16 @@ function DiseaseDetectButton() {
   const [result, setResult] = useState(null);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
+  const [showChatbot, setShowChatbot] = useState(false);
+  const [chatHistory, setChatHistory] = useState([
+      {
+        id: Date.now(),
+        type: "bot",
+        content: "Hey there 👋\nHow can I help you today?",
+        image: null,
+        status: "normal", // "thinking" or "normal"
+      },
+    ]);
 
   const dragX = useMotionValue(0);
   const dragY = useMotionValue(0);
@@ -51,6 +61,7 @@ function DiseaseDetectButton() {
         setResult(null);
         setMessages([]);
         setInput("");
+        setShowChatbot(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -75,27 +86,27 @@ function DiseaseDetectButton() {
       const result = await predictDisease(image);
       setResult(result);
     } catch (error) {
-      setResult({ success: false, error: 'Không thể đọc dữ liệu từ server.' });
+      setResult({ success: false, error: `Không thể đọc dữ liệu từ server: ${error.messages}` });
     } finally {
       setLoading(false);
     }
   };
 
-  const handleSend = () => {
-    if (input.trim() !== "") {
-      const userMessage = { text: input, sender: "user" };
-      setMessages((prev) => [...prev, userMessage]);
-      setInput("");
+  // const handleSend = () => {
+  //   if (input.trim() !== "") {
+  //     const userMessage = { text: input, sender: "user" };
+  //     setMessages((prev) => [...prev, userMessage]);
+  //     setInput("");
 
-      setTimeout(() => {
-        const aiMessage = {
-          text: `Bạn vừa nói: "${userMessage.text}"`,
-          sender: "bot",
-        };
-        setMessages((prev) => [...prev, aiMessage]);
-      }, 1000);
-    }
-  };
+  //     setTimeout(() => {
+  //       const aiMessage = {
+  //         text: `Bạn vừa nói: "${userMessage.text}"`,
+  //         sender: "bot",
+  //       };
+  //       setMessages((prev) => [...prev, aiMessage]);
+  //     }, 1000);
+  //   }
+  // };
 
   // Hàm tắt modal (dùng chung cho X và click ngoài)
   const handleClose = () => {
@@ -106,6 +117,7 @@ function DiseaseDetectButton() {
     setResult(null);
     setMessages([]);
     setInput("");
+    setShowChatbot(false);
   };
 
   return (
@@ -147,7 +159,10 @@ function DiseaseDetectButton() {
                     Nhận diện bệnh qua ảnh
                   </button>
                   <button
-                    onClick={() => setSelectedOption(2)}
+                    onClick={() => {
+                      setSelectedOption(2);
+                      setShowChatbot(true);
+                    }}
                     className="bg-green-500 text-white py-3 px-6 rounded-lg hover:bg-green-600 w-full"
                   >
                     Chat
@@ -227,46 +242,15 @@ function DiseaseDetectButton() {
               )}
 
               {/* Chatbot */}
-              {selectedOption === 2 && (
+              {/* {selectedOption === 2 && (
                 <div className="flex flex-col flex-1">
-                  {/* <div className="p-4 font-bold text-lg border-b">
-                    AI Chatbot
-                  </div>
-
-                  <div className="flex-1 p-4 overflow-y-auto text-sm space-y-2">
-                    {messages.map((msg, index) => (
-                      <div
-                        key={index}
-                        className={`p-2 rounded max-w-[75%] ${
-                          msg.sender === "user"
-                            ? "bg-blue-100 self-end text-right"
-                            : "bg-gray-100 self-start text-left"
-                        }`}
-                      >
-                        {msg.text}
-                      </div>
-                    ))}
-                  </div>
-                  <div className="border-t p-2 flex items-center">
-                    <input
-                      type="text"
-                      value={input}
-                      onChange={(e) => setInput(e.target.value)}
-                      onKeyDown={(e) => e.key === "Enter" && handleSend()}
-                      className="flex-1 p-3 border rounded-l-lg outline-none text-sm"
-                      placeholder="Nhập tin nhắn..."
-                    />
-                    <button
-                      onClick={handleSend}
-                      className="bg-blue-500 text-white px-5 py-3 rounded-r-lg text-sm hover:bg-blue-600"
-                    >
-                      Gửi
-                    </button>
-                  </div> */}
-
-                  <ChatbotAI />
                 </div>
-              )}
+              )} */}
+              <ChatbotForm 
+              onShowChatbot={showChatbot}
+              chatHistory={chatHistory}
+              setChatHistory={setChatHistory} 
+              />
             </motion.div>
           </motion.div>
         )}
