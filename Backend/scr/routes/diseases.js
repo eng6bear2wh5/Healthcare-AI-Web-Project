@@ -32,16 +32,18 @@ router.get('/byName/:name', async (req, res) => {
   }
 });
 
-// Lấy thông tin bệnh theo ID (cho mục chỉnh sửa)
 router.get('/id/:id', async (req, res) => {
   try {
-    const disease = await Disease.findById(req.params.id).select('name_diseases image_url description_disease details');
-     // Luôn revalidate với server, nhưng nếu chưa đổi thì chỉ 304
+    const disease = await Disease.findById(req.params.id)
+      .select('name_diseases image_url description_disease details');
+    
+    if (!disease) {
+      return res.status(404).json({ error: 'Không tìm thấy bệnh' });
+    }
+
     res.set('Cache-Control', 'no-cache');
-    if (!disease) return res.status(404).json({ error: 'Không tìm thấy bệnh' });
-    const articles = await Article.find({ disease_id: disease._id });
-    res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
-    res.json({ ...disease.toObject(), ARTICLES: articles });
+    res.json(disease); // Trả về object disease thuần túy
+
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -57,7 +59,6 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Cập nhật (chỉnh sửa) bệnh đã có (bao gồm nhóm bệnh)
 router.put('/:id', async (req, res) => {
   try {
     await Disease.findByIdAndUpdate(req.params.id, req.body);

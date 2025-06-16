@@ -8,6 +8,7 @@ const adminsRoute = require('./admins');
 const NewsData = require('./newsData')
 
 const AIRoutes = require('./AI.routes');
+const bloodDonationEventsRoute = require('./bloodDonationEvents');
 
 
 function route(app) {
@@ -18,6 +19,7 @@ function route(app) {
   app.use('/api/news', NewsData);  
 
   app.use('/api/AI', AIRoutes);
+  app.use('/api/blood-donation-events', bloodDonationEventsRoute);
 
   app.use('/auth', authRouter);
   app.use('/health', drugRouter);
