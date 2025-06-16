@@ -4,6 +4,7 @@ import logo from "../assets/medical-icon-png.png";
 import { useAuth } from "../contexts/AuthContext";
 import defaultimage from "../assets/avatars/uit_avatar.png";
 
+
 export default function Navbar() {
   const [open, setOpen] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
