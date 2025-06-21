@@ -6,7 +6,7 @@ qdrant-client
 google-generativeai
 python-dotenv
 pyvi
-torch
-torchvision
-pillow
 Flask
+pytesseract
+pdf2image
+docx2pdf
