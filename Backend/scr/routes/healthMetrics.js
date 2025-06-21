@@ -20,7 +20,7 @@ router.post('/', protect, authorize('user'), async (req, res, next) => {
 router.put('/', protect, authorize('user'), async (req, res, next) => {
   try {
     const updated = await HM.findOneAndUpdate(
-      { user_id: req.user.id }, // ✅ đúng filter
+      { user_id: req.user.id }, // đúng filter
       { ...req.body, user_id: req.user.id }, // cập nhật dữ liệu
       { new: true, upsert: true, setDefaultsOnInsert: true }
     ).lean();
@@ -38,13 +38,4 @@ router.delete('/', protect, authorize('user'), async (req, res, next) => {
   catch (e) { next(e); }
 });
 
-// GET all
-// router.get('/', async (req, res, next) => {
-//   try { res.json(await HM.find()); } catch (e) { next(e); }
-// });
-
-// GET single
-// router.get('/:id', async (req, res, next) => {
-//   try { res.json(await HM.findById(req.params.id)); } catch (e) { next(e); }
-// });
 module.exports = router;

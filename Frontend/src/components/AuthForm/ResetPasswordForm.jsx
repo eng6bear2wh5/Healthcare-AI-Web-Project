@@ -26,7 +26,6 @@ const ResetPasswordForm = () => {
     try {
       const result = await resetPassword({ email, password });
       if (result.ok) {
-        // alert("Đặt lại mật khẩu thành công, bạn có thể đăng nhập lại");
         navigate("/login");
       } else {
         alert(`Đặt lại mật khẩu thất bại: ${result.data.message}`);

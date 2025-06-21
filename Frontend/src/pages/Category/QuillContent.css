@@ -4,7 +4,7 @@
 .quill-content {
   max-width: 100%;
   margin: 0 auto;
-  padding: 0; /* padding đã có ở article/container */
+  padding: 0; 
   font-family: inherit;
   color: inherit;
   line-height: 1.6;
@@ -21,7 +21,7 @@
 /* 2. Paragraph */
 .quill-content p {
   margin: 0.75rem 0;
-  white-space: pre-wrap; /* giữ xuống dòng nếu có */
+  white-space: pre-wrap; 
 }
 
 /* 3. Inline formatting */
@@ -99,10 +99,10 @@
 /* 10. Font family (Quill tạo class ql-font-serif, ql-font-monospace…) */
 .quill-content .ql-font-serif     { font-family: serif; }
 .quill-content .ql-font-monospace { font-family: monospace; }
-/* note: ql-font-sans là mặc định nên không cần khai báo */
+
 
 /* 11. Font sizes (Quill tạo các class ql-size-small, ql-size-large, ql-size-huge) */
 .quill-content .ql-size-small { font-size: 0.75em; }
 .quill-content .ql-size-large { font-size: 1.25em; }
 .quill-content .ql-size-huge  { font-size: 1.5em; }
-/* ql-size-normal = 1em, ql-size-large = 1.25em… */
+

@@ -120,7 +120,7 @@ export default function Articles() {
   }, [user, diseaseMap]);
 
   useEffect(() => {
-    // Effect này giờ chỉ chạy khi người dùng ĐĂNG NHẬP hoặc ĐĂNG XUẤT.
+    // Effect này chỉ chạy khi người dùng ĐĂNG NHẬP hoặc ĐĂNG XUẤT.
     if (user) {
       // Khi người dùng đăng nhập, tự động chuyển họ sang tab gợi ý.
       setActiveTab('suggested');

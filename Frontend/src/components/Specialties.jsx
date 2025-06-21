@@ -1,4 +1,4 @@
-import { FaHeartbeat, FaLungs, FaBrain, FaBone, FaSpa, FaUserMd } from "react-icons/fa"; // Icon đẹp từ react-icons
+import { FaHeartbeat, FaLungs, FaBrain, FaBone, FaSpa, FaUserMd } from "react-icons/fa"; 
 
 export default function Specialties() {
     const specialties = [

@@ -4,9 +4,6 @@ const router  = express.Router();
 const UserInfo = require('../app/models/UserInfo');
 const { protect, authorize } = require('../middleware/auth');
 
-/**
- * PRODUCTION MODE endpoints (có JWT)
- */
 // GET /api/userinfo
 router.get('/', protect, authorize('user'), async (req, res, next) => {
   try {

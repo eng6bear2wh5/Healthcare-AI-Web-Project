@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useToast } from "../ToastContext";
 import { useNavigate } from "react-router-dom";
 
-let hasShownAuthAlert = false; // Đặt ngoài component để chỉ alert 1 lần
+let hasShownAuthAlert = false; 
 
 function useAuthFetch(navigate) {
   return async (...args) => {
@@ -148,8 +148,6 @@ export default function WeeklyHealthInput() {
         setIsAuthChecked(true); // Đã xác thực xong, cho phép render
       })
       .catch((err) => {
-        // Nếu bị 401 thì đã alert và điều hướng, không cần setIsAuthChecked
-        // Nếu lỗi khác thì vẫn không render
       });
   }, []);
 
@@ -199,7 +197,7 @@ export default function WeeklyHealthInput() {
     })
       .then((res) => res.text())
       .then((data) => {
-        console.log("Thành công " + data);
+        // console.log("Thành công " + data);
         showToast("Đã cập nhật 4 tuần!", "success");
       })
       .catch((err) => console.error(err));

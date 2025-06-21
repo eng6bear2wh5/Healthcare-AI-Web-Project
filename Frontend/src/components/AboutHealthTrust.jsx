@@ -1,4 +1,4 @@
-import aboutImage from '../assets/Picture_1.jpg'; // Bạn thay bằng ảnh bạn có
+import aboutImage from '../assets/Picture_1.jpg'; 
 import { useNavigate } from "react-router-dom";
 
 export default function AboutHealthTrust() {

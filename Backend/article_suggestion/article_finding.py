@@ -4,15 +4,12 @@ from qdrant_client import QdrantClient
 import logging
 from dotenv import load_dotenv
 
-# Tải các biến môi trường từ file key.env
 load_dotenv('key.env')
 
 # Thiết lập logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-# --- CẤU HÌNH ---
-# !!! QUAN TRỌNG: Các giá trị này PHẢI GIỐNG HỆT file embedding của bạn.
 QDRANT_API_KEY = os.getenv("QDRANT_API_KEY")
 QDRANT_URL = os.getenv("QDRANT_URL")
 # Collection name phải khớp với collection đã tạo ở file embedding
@@ -64,9 +61,8 @@ class ArticleRecommender:
             logger.error(f"Đã xảy ra lỗi trong quá trình tìm kiếm: {e}")
             return []
 
-# --- CÁCH SỬ DỤNG ---
 if __name__ == "__main__":
-    # Khởi tạo recommender (trong ứng dụng web, bạn chỉ cần làm việc này một lần)
+
     recommender = ArticleRecommender()
 
     # Giả lập thông tin bệnh nền lấy từ personal tracker của bệnh nhân
@@ -80,7 +76,7 @@ if __name__ == "__main__":
         print("\n---")
         print(f"✅ Đề xuất cho bệnh nền '{benh_nen_benh_nhan}':")
         for i, result in enumerate(results):
-            # Payload chứa thông tin bạn đã lưu ở file embedding
+            # Payload chứa thông tin đã lưu ở file embedding
             title = result.payload.get('title')
             score = result.score
             print(f"  {i+1}. {title} (Độ tương đồng: {score:.4f})")

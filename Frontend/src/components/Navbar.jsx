@@ -23,7 +23,6 @@ export default function Navbar() {
       fetch("/api/userinfo", { credentials: "include" })
         .then((res) => {
           if (res.status === 404) {
-            // Chưa có document UserInfo → set user tạm với sex="other"
             setUser({ sex: "other" });
             return null;
           }
@@ -31,7 +30,6 @@ export default function Navbar() {
           return res.json();
         })
         .then((userInfo) => {
-          // setUser(userInfo);
           setUser({
               ...userInfo,
               sex: userInfo.sex ?? "other",

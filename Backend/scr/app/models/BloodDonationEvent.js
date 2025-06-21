@@ -7,7 +7,7 @@ const BloodDonationEventSchema = new mongoose.Schema({
     required: true,
   },
   date: {
-    type: String, // Dùng String vì có cả "Tất cả các ngày"
+    type: String, 
     required: true,
   },
   description: {
