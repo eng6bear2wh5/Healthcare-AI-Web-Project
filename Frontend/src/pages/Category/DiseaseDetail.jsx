@@ -98,20 +98,6 @@ export default function DiseaseDetail() {
         {disease.name_diseases}
       </h1>
 
-      {/* <img
-        src={disease.image_url}
-        srcSet={
-          disease.image_url
-            ? `${disease.image_url}?w=400 400w, ${disease.image_url}?w=800 800w, ${disease.image_url}?w=900 900w`
-            : undefined
-        }
-        sizes="(max-width: 640px) 100vw, 900px"
-        alt={disease.name_diseases}
-        className="w-full h-[450px] object-cover rounded"
-        width={900}
-        height={450}
-      /> */}
-
       <img
         src={disease.image_url}
         srcSet={
@@ -125,20 +111,6 @@ export default function DiseaseDetail() {
         width={1200}
         height={600}
       />
-
-      {/* <img
-        src={disease.image_url}
-        srcSet={
-          disease.image_url
-            ? `${disease.image_url}?w=350 350w, ${disease.image_url}?w=600 600w, ${disease.image_url}?w=700 700w`
-            : undefined
-        }
-        sizes="(max-width: 640px) 100vw, 700px"
-        alt={disease.name_diseases}
-        className="w-full h-[350px] object-cover rounded"
-        width={700}
-        height={350}
-      /> */}
 
       <section>
         <h2 className="text-2xl font-semibold mb-2 text-blue-700">

@@ -7,13 +7,8 @@ const GroupDisease = require('../app/models/GroupDisease');
 router.get('/', async (req, res) => {
   try {
     const groups = await GroupDisease.find().select('name_group image_url');
-    //Luôn revalidate với server, nhưng nếu chưa đổi thì chỉ 304
     res.set('Cache-Control', 'no-cache');
     res.json(groups);
-    // res
-    //   .set('Cache-Control', 'public, max-age=3600') //giây
-    //   .status(200)
-    //   .json(groups);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -24,13 +19,8 @@ router.get('/:id', async (req, res) => {
   try {
     const group = await GroupDisease.findById(req.params.id);
     if (!group) return res.status(404).json({ error: 'Không tìm thấy nhóm bệnh' });
-    // ở route detail thường bỏ cache hoặc cache ngắn:
     res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
     res.json(group);
-    // res
-    //   .set('Cache-Control', 'public, max-age=3600') //giây
-    //   .status(200)
-    //   .json(groups);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

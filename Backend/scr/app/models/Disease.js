@@ -5,7 +5,7 @@ const DiseaseSchema = new mongoose.Schema({
   description_disease: String,
   details: String,
   image_url: String,
-  // Tham chiếu đến collection GROUP_DISEASES (MongoDB sử dụng _id, có thể lưu như thế này)
+  // Tham chiếu đến collection GROUP_DISEASES (MongoDB sử dụng _id)
   group_diseases: { type: mongoose.Schema.Types.ObjectId, ref: 'GROUP_DISEASES' },
 });
 // Index để tìm nhanh theo tên bệnh

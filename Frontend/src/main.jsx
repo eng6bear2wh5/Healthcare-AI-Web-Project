@@ -6,7 +6,7 @@ import { ToastProvider } from "./components/ToastContext";
 import "./index.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "./contexts/AuthContext";
-import { BrowserRouter } from "react-router-dom"; // <--- Thêm dòng này
+import { BrowserRouter } from "react-router-dom"; 
 // Khởi tạo client React Query
 const queryClient = new QueryClient({
   defaultOptions: {

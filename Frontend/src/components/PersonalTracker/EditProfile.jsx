@@ -154,7 +154,6 @@ function EditProfile() {
         setIsAuthChecked(true); // Chỉ render khi đã xác thực xong
       })
       .catch((err) => {
-        // Nếu bị 401 thì đã navigate rồi, không cần setIsAuthChecked
         console.err(err);
       });
   }, []);
@@ -261,7 +260,6 @@ function EditProfile() {
       const data = await res.json();
 
       if (res.ok) {
-        // console.log("OCR thành công:", data.extracted_data);
         const extractedInfo = data.extracted_data;
         setFormData((prev) => ({
           ...prev,

@@ -6,8 +6,7 @@ const BloodDonationEvent = require('../app/models/BloodDonationEvent');
 // GET /api/blood-donation-events: Lấy tất cả các sự kiện hiến máu
 router.get('/', async (req, res) => {
   try {
-    // Sắp xếp theo ngày tạo giảm dần để sự kiện mới nhất lên đầu
-    const events = await BloodDonationEvent.find().sort({ createdAt: -1 });
+    const events = await BloodDonationEvent.find();
     res.set('Cache-Control', 'no-cache');
     res.json(events);
   } catch (err) {
@@ -15,7 +14,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// (Tùy chọn) 
 // POST: Tạo sự kiện mới
 router.post('/', async (req, res) => {
   try {

@@ -6,7 +6,6 @@ import {
   Bar,
   AreaChart,
   Area,
-  //ComposedChart, // Do không dùng đến nên tạm thời không import nó vô
   CartesianGrid,
   XAxis,
   YAxis,
@@ -15,12 +14,11 @@ import {
 } from "recharts";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-//import { li } from "framer-motion/client"; do không có dùng đến nên tạm thời không import
 
-import { useToast } from "../ToastContext"; // chỉnh đúng path
+import { useToast } from "../ToastContext"; 
 
 
-let hasShownAuthAlert = false; // Đặt ngoài component
+let hasShownAuthAlert = false; 
 
 function useAuthFetch() {
 
@@ -106,8 +104,6 @@ const PersonalInfoCard = () => {
       .catch((err) => console.error(err));
   }, []);
 
-  // if (!nameUser){}
-
   const avatars = {
     male: "/avatars/male_avatar.jpg",
     female: "/avatars/female_avatar.jpg",
@@ -168,7 +164,6 @@ const PersonalInfoCard = () => {
 };
 
 const RecentHealthMetrics = () => {
-  // const [healthMetric, setHealthMetric] = useState({});
   const [weeklyData, setWeeklyData] = useState([]);
   const [loading, setLoading] = useState(true);
   const authFetch = useAuthFetch();

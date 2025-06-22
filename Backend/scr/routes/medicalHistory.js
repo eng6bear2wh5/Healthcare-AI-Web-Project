@@ -4,7 +4,7 @@ const MH = require('../app/models/MedicalHistory');
 const { protect, authorize } = require('../middleware/auth');
 
 
-// ✅ GET by current logged-in user (use req.user.id)
+// GET by current logged-in user (use req.user.id)
 router.get('/me', protect, authorize('user'), async (req, res, next) => {
   try {
     if (!req.user || !req.user.id) {
@@ -45,18 +45,5 @@ router.delete('/', protect, authorize('user'), async (req, res, next) => {
   } catch (e) { next(e); }
 });
 
-// // GET all (admin)
-// router.get('/', async (req, res, next) => {
-//   try {
-//     res.json(await MH.find());
-//   } catch (e) { next(e); }
-// });
-
-// // GET by ID (admin)
-// router.get('/:id', async (req, res, next) => {
-//   try {
-//     res.json(await MH.findById(req.params.id));
-//   } catch (e) { next(e); }
-// });
 
 module.exports = router;

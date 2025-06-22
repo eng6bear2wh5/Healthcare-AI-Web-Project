@@ -13,11 +13,10 @@ export default function BMICalculator() {
     const [bmi, setBmi] = useState(null);
     const [category, setCategory] = useState("");
     
-    // --- THÊM CÁC STATE VÀ HOOK CẦN THIẾT ---
-    const [isSaving, setIsSaving] = useState(false); // State để theo dõi trạng thái lưu
-    const { user } = useAuth(); // Hook để kiểm tra người dùng đã đăng nhập chưa
-    const { showToast } = useToast(); // Hook để hiển thị thông báo
-    const navigate = useNavigate(); // Hook để điều hướng
+    const [isSaving, setIsSaving] = useState(false); 
+    const { user } = useAuth(); 
+    const { showToast } = useToast(); 
+    const navigate = useNavigate(); 
 
     const calculateBMI = () => {
         const h = parseFloat(height) / 100; // cm -> m
@@ -37,9 +36,7 @@ export default function BMICalculator() {
         else setCategory("Béo phì");
     };
     
-    // --- HÀM MỚI ĐỂ XỬ LÝ VIỆC LƯU BMI ---
     const handleSaveBMI = useCallback(async () => {
-        // Kiểm tra đăng nhập trước
         if (!user) {
             showToast("Bạn cần đăng nhập để sử dụng chức năng này.", "error");
             navigate("/login");
@@ -54,44 +51,35 @@ export default function BMICalculator() {
         setIsSaving(true);
 
         try {
-            // Đọc dữ liệu cũ (Read-Modify-Write Pattern)
             const response = await fetch("/api/health-metrics/me", {
                 credentials: "include",
             });
 
             if (!response.ok && response.status !== 404) {
-                // Nếu có lỗi khác 404 (Không tìm thấy) thì báo lỗi
                 throw new Error("Không thể tải dữ liệu sức khỏe hiện tại.");
             }
             
             const existingData = response.status === 404 ? { weekly_data: [] } : await response.json();
             let weeklyData = existingData.weekly_data || [];
 
-            // Sửa đổi dữ liệu: Cập nhật hoặc thêm mới Tuần 4
             const latestWeek = 4;
             let weekFound = false;
             
-            // Tìm và cập nhật tuần 4
             weeklyData = weeklyData.map(weekItem => {
                 if (weekItem.week === latestWeek) {
                     weekFound = true;
-                    // Trả về object mới với bmi đã được cập nhật
                     return { ...weekItem, bmi: parseFloat(bmi) };
                 }
                 return weekItem;
             });
 
-            // Nếu không tìm thấy tuần 4, thêm mới vào
             if (!weekFound) {
                 weeklyData.push({ week: latestWeek, bmi: parseFloat(bmi) });
             }
 
-            // Sắp xếp lại mảng theo tuần để đảm bảo thứ tự
             weeklyData.sort((a, b) => a.week - b.week);
             
             const body = { weekly_data: weeklyData };
-
-            // Ghi lại dữ liệu mới
             const saveResponse = await fetch("/api/health-metrics", {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },

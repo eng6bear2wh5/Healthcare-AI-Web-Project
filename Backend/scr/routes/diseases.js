@@ -8,8 +8,6 @@ const Article = require('../app/models/Article');
 router.get('/', async (req, res) => {
   try {
     const diseases = await Disease.find().select('name_diseases image_url _id group_diseases');
-    // res.set('Cache-Control', 'public, max-age=10');
-    // Luôn revalidate với server, nhưng nếu chưa đổi thì chỉ 304
     res.set('Cache-Control', 'no-cache');
     res.json(diseases);
   } catch (err) {
@@ -21,7 +19,6 @@ router.get('/', async (req, res) => {
 router.get('/byName/:name', async (req, res) => {
   try {
     const disease = await Disease.findOne({ name_diseases: req.params.name });
-     // Luôn revalidate với server, nhưng nếu chưa đổi thì chỉ 304
     res.set('Cache-Control', 'no-cache');
     if (!disease) return res.status(404).json({ error: 'Không tìm thấy bệnh' });
     const articles = await Article.find({ disease_id: disease._id });

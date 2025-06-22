@@ -28,13 +28,4 @@ router.delete('/', protect, authorize('user'), async (req, res, next) => {
   catch (e) { next(e); }
 });
 
-// GET all
-// router.get('/', async (req, res, next) => {
-//   try { res.json(await UD.find()); } catch(e){ next(e); }
-// });
-
-// GET by ID
-// router.get('/:id', async (req, res, next) => {
-//   try { res.json(await UD.findById(req.params.id)); } catch(e){ next(e); }
-// });
 module.exports = router;

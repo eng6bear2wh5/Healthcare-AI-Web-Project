@@ -12,7 +12,6 @@ router.get('/news-data', async (req, res) => {
       Disease.find().select('name_diseases group_diseases _id image_url'),
       Article.find().select('article_name article_link disease_id')
     ]);
-    // Đặt cache cho response này
     res.set('Cache-Control', 'public, max-age=600');
     res.json({ groups, diseases, articles });
   } catch (err) {
