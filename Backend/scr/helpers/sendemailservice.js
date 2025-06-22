@@ -1,23 +1,29 @@
+require('dotenv').config();
+
 const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
+    host: "smtp.sendgrid.net",
+    port: 2525,
+    secure: false,
     auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
+        user: "apikey",
+        pass: process.env.SENDGRID_API_KEY
     }
 });
 
 
 const sendOTP = async (email, otp) => {
-    await transporter.sendMail({
-        from: process.env.EMAIL_USER,
-        to: email,
-        subject: 'Mã xác thực OTP',
-        text: `Mã OTP của bạn là: ${otp}. \nMã OTP của bạn sẽ hết hạn sau 5 phút!`
-    });
+    console.log('Hàm sendOTP được gọi với:', email, otp);
+    try {
+        await transporter.sendMail({
+            from: process.env.SENDGRID_FROM_EMAIL,
+            to: email,
+            subject: 'Mã xác thực OTP',
+            text: `Mã OTP của bạn là: ${otp}. \nMã OTP của bạn sẽ hết hạn sau 5 phút!`
+        });
+        console.log('Đã gửi mail tới:', email);
+    } catch (err) {
+        console.error('Lỗi gửi mail:', err);
+    }
 };
-
-module.exports = { sendOTP };
