@@ -20,7 +20,7 @@ if sys.stdout.encoding != 'utf-8':
 #--fix from 1/6/2025 
 
 # Load biến môi trường từ file .env
-load_dotenv("key.env")
+load_dotenv(".env")
 
 # Thiết lập logging
 logging.basicConfig(level=logging.INFO, 
@@ -393,7 +393,7 @@ class MedicalQueryBot:
 
     
     
-    def answer_question(self, query, limit=5, add_sources=True, debug=False, user="1"):
+    def answer_question(self, query, limit=5, add_sources=True, debug=False, user="1", personal_tracker_data=None, user_profile_data=None):
         """Trả lời câu hỏi y tế dựa trên dữ liệu và lưu thông tin trích xuất"""
         try:
             # BƯỚC 1: LƯU CÂU HỎI HIỆN TẠI CỦA USER (nếu user hợp lệ)
@@ -452,6 +452,8 @@ class MedicalQueryBot:
             # BƯỚC 3: LẤY LỊCH SỬ CHAT VÀ THÔNG TIN Y TẾ CỦA USER (nếu user hợp lệ)
             formatted_chat_history = ""
             formatted_medical_info = ""
+            formatted_user_profile = ""
+            
             if user:
                 user_chat_history = get_chat_history(user)
                 user_medical_records = get_medical_info(user) # Lấy thông tin y tế đã lưu
@@ -467,6 +469,37 @@ class MedicalQueryBot:
                         timestamp = record.get("timestamp", "")
                         info = record.get("info", "")
                         formatted_medical_info += f"- {timestamp}: {info}\n"
+                
+                # Xử lý thông tin cá nhân hóa mới
+                if user_profile_data:
+                    try:
+                        import json
+                        profile_data = json.loads(user_profile_data) if isinstance(user_profile_data, str) else user_profile_data
+                        if profile_data:
+                            formatted_user_profile = self._format_user_profile(profile_data)
+                    except Exception as e_profile:
+                        logger.error(f"Error parsing user profile data for user '{user}': {str(e_profile)}")
+                        formatted_user_profile = ""
+                
+                # Backward compatibility: xử lý personal tracker cũ nếu không có user_profile_data
+                elif personal_tracker_data:
+                    try:
+                        import json
+                        tracker_data = json.loads(personal_tracker_data) if isinstance(personal_tracker_data, str) else personal_tracker_data
+                        if tracker_data and len(tracker_data) > 0:
+                            formatted_personal_tracker = "THÔNG TIN THEO DÕI CÁ NHÂN CỦA BẠN:\n"
+                            for tracker in tracker_data[-5:]:  # Lấy 5 bản ghi gần nhất
+                                formatted_personal_tracker += f"- Ngày: {tracker.get('date', 'N/A')}\n"
+                                formatted_personal_tracker += f"  Cân nặng: {tracker.get('weight', 'N/A')} kg\n"
+                                formatted_personal_tracker += f"  Huyết áp: {tracker.get('blood_pressure', 'N/A')}\n"
+                                formatted_personal_tracker += f"  Nhịp tim: {tracker.get('heart_rate', 'N/A')} bpm\n"
+                                formatted_personal_tracker += f"  Đường huyết: {tracker.get('blood_glucose', 'N/A')}\n"
+                                formatted_personal_tracker += f"  Ghi chú: {tracker.get('notes', 'Không có')}\n\n"
+                            formatted_user_profile = formatted_personal_tracker
+                    except Exception as e_tracker:
+                        logger.error(f"Error parsing personal tracker data for user '{user}': {str(e_tracker)}")
+                        formatted_user_profile = ""
+                
                 # Nếu không có thì formatted_medical_info sẽ rỗng
             
             # BƯỚC 4: TẠO PROMPT VÀ GỌI GEMINI ĐỂ TẠO CÂU TRẢ LỜI
@@ -475,6 +508,7 @@ class MedicalQueryBot:
             LỊCH SỬ TRÒ CHUYỆN GẦN ĐÂY (nếu có):
             {formatted_chat_history}
             {formatted_medical_info}
+            {formatted_user_profile}
             CÂU HỎI CỦA NGƯỜI DÙNG: {query}
             
             THÔNG TIN TÌM KIẾM TỪ CƠ SỞ DỮ LIỆU:
@@ -485,8 +519,13 @@ class MedicalQueryBot:
 
             1. NGHIÊN CỨU CHUYÊN SÂU:
             - Nếu câu hỏi có trong tài liệu được cung cấp sẵn, hãy chỉ duy nhất trả lời dựa trên tài liệu đó.
-            - Xem xét "LỊCH SỬ TRÒ CHUYỆN" và "THÔNG TIN Y TẾ ĐÃ LƯU" để hiểu ngữ cảnh và cá nhân hóa câu trả lời nếu phù hợp. Đừng lặp lại thông tin người dùng đã biết trừ khi cần thiết.
+            - Xem xét "LỊCH SỬ TRÒ CHUYỆN", "THÔNG TIN Y TẾ ĐÃ LƯU" và toàn bộ "THÔNG TIN CÁ NHÂN" (bao gồm tuổi, giới tính, lịch sử bệnh, thuốc đang dùng, chỉ số sức khỏe) để hiểu ngữ cảnh và cá nhân hóa câu trả lời tối đa.
             - Đồng thời, hãy tích hợp và phân tích thông tin y tế trước đó của người dùng (nếu có) để cá nhân hóa câu trả lời.
+            - Sử dụng thông tin cá nhân (tuổi, giới tính, cân nặng, chiều cao, bệnh hiện tại, thuốc đang dùng) để đưa ra lời khuyên an toàn và phù hợp.
+            - Kiểm tra tương tác thuốc: nếu đề xuất thuốc mới, kiểm tra với thuốc đang dùng và cảnh báo nếu có tương tác.
+            - Tính toán liều thuốc phù hợp với cân nặng, tuổi tác và tình trạng sức khỏe.
+            - Đưa ra khuyến nghị chế độ ăn phù hợp với bệnh lý hiện tại (tiểu đường, cao huyết áp, v.v.).
+            - Phân tích xu hướng từ các chỉ số theo dõi cá nhân và đưa ra cảnh báo kịp thời.
             - Nếu thông tin từ người dùng có liên quan đến câu hỏi hiện tại, hãy đề cập và phân tích mối liên hệ đó.
             - Nếu không đủ thông tin trong tài liệu, hãy tìm kiếm từ các nguồn y tế đáng tin cậy và cập nhật nhất.
             - Chủ động tìm kiếm và trích xuất thông tin mới nhất từ CHÍNH XÁC các nguồn sau đây:
@@ -505,6 +544,7 @@ class MedicalQueryBot:
             3. PHONG CÁCH TRẢ LỜI:
             - Viết ngắn gọn, súc tích, dễ hiểu cho người không chuyên y tế
             - Sắp xếp thông tin theo thứ tự: định nghĩa/giải thích > triệu chứng > điều trị/phòng ngừa > thuốc điều trị
+            - Cá nhân hóa lời khuyên dựa trên thông tin theo dõi sức khỏe cá nhân của người dùng
             - Giải thích các thuật ngữ y khoa khi cần thiết
 
             4. TRÍCH DẪN CHÍNH XÁC:
@@ -546,6 +586,131 @@ class MedicalQueryBot:
             logger.error(f"Critical error in answer_question for user '{user}': {str(e)}", exc_info=True)
             return "Xin lỗi, đã xảy ra lỗi nghiêm trọng khi xử lý câu hỏi của bạn."
 
+    def _format_user_profile(self, profile_data):
+        """Format user profile data thành text dễ đọc cho chatbot"""
+        formatted_profile = ""
+        
+        try:
+            # 1. Thông tin cá nhân cơ bản
+            if 'userInfo' in profile_data:
+                user_info = profile_data['userInfo']
+                formatted_profile += "THÔNG TIN CÁ NHÂN:\n"
+                
+                if user_info.get('sex'):
+                    formatted_profile += f"- Giới tính: {user_info['sex']}\n"
+                
+                if user_info.get('birth_date'):
+                    try:
+                        from datetime import datetime
+                        birth_date = datetime.strptime(user_info['birth_date'], '%Y-%m-%d')
+                        age = datetime.now().year - birth_date.year
+                        formatted_profile += f"- Tuổi: {age}\n"
+                    except:
+                        formatted_profile += f"- Ngày sinh: {user_info['birth_date']}\n"
+                
+                if user_info.get('blood_type'):
+                    formatted_profile += f"- Nhóm máu: {user_info['blood_type']}\n"
+                
+                if user_info.get('height'):
+                    formatted_profile += f"- Chiều cao: {user_info['height']} cm\n"
+                
+                if user_info.get('weight'):
+                    formatted_profile += f"- Cân nặng: {user_info['weight']} kg\n"
+                
+                if user_info.get('diet_type'):
+                    formatted_profile += f"- Chế độ ăn: {user_info['diet_type']}\n"
+                
+                if user_info.get('activity_level'):
+                    formatted_profile += f"- Mức độ vận động: {user_info['activity_level']}\n"
+                
+                formatted_profile += "\n"
+
+            # 2. Lịch sử bệnh án
+            if 'medicalHistory' in profile_data:
+                medical_history = profile_data['medicalHistory']
+                formatted_profile += "LỊCH SỬ BỆNH ÁN:\n"
+                
+                if medical_history.get('disease_name'):
+                    diseases = medical_history['disease_name'].strip()
+                    if diseases:
+                        formatted_profile += f"- Bệnh hiện tại: {diseases}\n"
+                
+                if medical_history.get('drugs'):
+                    drugs = medical_history['drugs'].strip()
+                    if drugs:
+                        formatted_profile += f"- Thuốc đang dùng: {drugs}\n"
+                
+                if medical_history.get('notes'):
+                    notes = medical_history['notes'].strip()
+                    if notes:
+                        formatted_profile += f"- Ghi chú: {notes}\n"
+                
+                formatted_profile += "\n"
+
+            # 3. Chỉ số sức khỏe gần nhất
+            if 'healthMetrics' in profile_data:
+                health_metrics = profile_data['healthMetrics']
+                if 'weekly_data' in health_metrics and health_metrics['weekly_data']:
+                    latest_data = health_metrics['weekly_data'][-1]  # Lấy dữ liệu mới nhất
+                    formatted_profile += "CHỈ SỐ SỨC KHỎE GẦN NHẤT:\n"
+                    
+                    if latest_data.get('bmi'):
+                        formatted_profile += f"- BMI: {latest_data['bmi']}\n"
+                    
+                    if latest_data.get('blood_pressure'):
+                        bp = latest_data['blood_pressure']
+                        if bp.get('systolic') and bp.get('diastolic'):
+                            formatted_profile += f"- Huyết áp: {bp['systolic']}/{bp['diastolic']} mmHg\n"
+                    
+                    if latest_data.get('heart_rate'):
+                        formatted_profile += f"- Nhịp tim: {latest_data['heart_rate']} bpm\n"
+                    
+                    if latest_data.get('blood_glucose'):
+                        formatted_profile += f"- Đường huyết: {latest_data['blood_glucose']} mg/dL\n"
+                    
+                    if latest_data.get('cholesterol'):
+                        chol = latest_data['cholesterol']
+                        if chol.get('ldl') or chol.get('hdl'):
+                            formatted_profile += f"- Cholesterol: LDL {chol.get('ldl', 'N/A')}, HDL {chol.get('hdl', 'N/A')}\n"
+                    
+                    formatted_profile += "\n"
+
+            # 4. Đơn thuốc hiện tại
+            if 'prescriptions' in profile_data:
+                prescriptions = profile_data['prescriptions']
+                if prescriptions and len(prescriptions) > 0:
+                    formatted_profile += "ĐƠN THUỐC HIỆN TẠI:\n"
+                    for prescription in prescriptions[:2]:  # Chỉ lấy 2 đơn thuốc gần nhất
+                        if 'meds' in prescription and prescription['meds']:
+                            prescribed_date = prescription.get('prescribed_date', 'N/A')
+                            formatted_profile += f"- Ngày kê đơn: {prescribed_date}\n"
+                            for med in prescription['meds']:
+                                name = med.get('name', 'N/A')
+                                dosage = med.get('dosage', 'N/A')
+                                instructions = med.get('instructions', 'N/A')
+                                formatted_profile += f"  + {name} {dosage} - {instructions}\n"
+                    formatted_profile += "\n"
+
+            # 5. Personal Tracker (nếu có)
+            if 'personalTracker' in profile_data:
+                personal_tracker = profile_data['personalTracker']
+                if personal_tracker and len(personal_tracker) > 0:
+                    formatted_profile += "THEO DÕI CÁ NHÂN GẦN ĐÂY:\n"
+                    for tracker in personal_tracker[-3:]:  # Lấy 3 bản ghi gần nhất
+                        formatted_profile += f"- Ngày: {tracker.get('date', 'N/A')}\n"
+                        formatted_profile += f"  Cân nặng: {tracker.get('weight', 'N/A')} kg\n"
+                        formatted_profile += f"  Huyết áp: {tracker.get('blood_pressure', 'N/A')}\n"
+                        formatted_profile += f"  Nhịp tim: {tracker.get('heart_rate', 'N/A')} bpm\n"
+                        formatted_profile += f"  Đường huyết: {tracker.get('blood_glucose', 'N/A')}\n"
+                        if tracker.get('notes'):
+                            formatted_profile += f"  Ghi chú: {tracker['notes']}\n"
+                        formatted_profile += "\n"
+
+        except Exception as e:
+            logger.error(f"Error formatting user profile: {str(e)}")
+            return ""
+        
+        return formatted_profile
 def main():
     """Hàm chính để chạy chatbot"""
     
@@ -588,6 +753,8 @@ if __name__ == "__main__":
 
     # Arguments for 'ask' command
     parser.add_argument("--question", type=str, help="Question text for the 'ask' command or with 'upload'")
+    parser.add_argument("--personal_tracker", type=str, help="Personal tracker data in JSON format (DEPRECATED - use --user_profile)")
+    parser.add_argument("--user_profile", type=str, help="Complete user profile data in JSON format")
 
     # Arguments for 'upload' command
     parser.add_argument("--image_path", type=str, help="Path to the image file for the 'upload' command")
@@ -610,8 +777,13 @@ if __name__ == "__main__":
         if args.command == "ask":
             if not args.question:
                 raise ValueError("Missing --question argument for 'ask' command.")
-            # Call the existing answer_question method
-            answer = script_medical_bot.answer_question(args.question, user=args.user)
+            # Call the existing answer_question method with user profile data
+            answer = script_medical_bot.answer_question(
+                args.question, 
+                user=args.user, 
+                personal_tracker_data=args.personal_tracker,  # Backward compatibility
+                user_profile_data=args.user_profile
+            )
             cli_result = {"answer": answer}
 
         elif args.command == "upload":
@@ -621,7 +793,12 @@ if __name__ == "__main__":
             if not args.image_path:
                 if args.question:
                     logger.info(f"CLI /upload: No image, processing text question for user '{args.user}'.")
-                    answer_from_bot = script_medical_bot.answer_question(args.question, user=args.user)
+                    answer_from_bot = script_medical_bot.answer_question(
+                        args.question, 
+                        user=args.user, 
+                        personal_tracker_data=args.personal_tracker,  # Backward compatibility
+                        user_profile_data=args.user_profile
+                    )
                     cli_result = {"answer": answer_from_bot}
                 else:
                     # This case should ideally be caught by Node.js before calling Python,
@@ -653,7 +830,9 @@ if __name__ == "__main__":
                     
                     final_answer_from_bot = script_medical_bot.answer_question(
                         query=effective_query, 
-                        user=args.user
+                        user=args.user,
+                        personal_tracker_data=args.personal_tracker,  # Backward compatibility
+                        user_profile_data=args.user_profile
                     )
                     cli_result = {"answer": final_answer_from_bot}
         

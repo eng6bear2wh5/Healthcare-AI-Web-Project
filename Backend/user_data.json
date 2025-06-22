@@ -436,5 +436,105 @@
                 "content": "Chào bạn,\n\n\"Ung thư\" là một thuật ngữ rất rộng, chỉ một nhóm các bệnh đặc trưng bởi sự phát triển bất thường của tế bào, có khả năng xâm lấn và di căn đến các bộ phận khác trong cơ thể. Có hàng trăm loại ung thư khác nhau, có thể phát triển ở bất kỳ cơ quan nào [1].\n\nThông tin tìm kiếm được cung cấp đặc biệt đề cập đến \"ung thư thực quản\". Đây là loại ung thư hình thành trong ống thực quản, đường dẫn thức ăn từ họng xuống dạ dày [2].\n\nDựa trên thông tin có sẵn, tôi xin chia sẻ một số điểm về ung thư thực quản:\n\n1.  **Các yếu tố nguy cơ và nguyên nhân gây ung thư thực quản:**\n    Hầu hết bệnh nhân ung thư thực quản thường có những thói quen sinh hoạt không lành mạnh trước đó [Nội dung từ 1.1]. Một số yếu tố nguy cơ phổ biến bao gồm hút thuốc lá, uống rượu bia quá mức, béo phì, chế độ ăn ít rau quả, và bệnh trào ngược dạ dày thực quản mạn tính (GERD) [2, 3].\n\n2.  **Các triệu chứng ảnh hưởng đến khả năng ăn uống:**\n    Người bệnh ung thư thực quản thường gặp khó khăn trong việc ăn uống do các triệu chứng do bệnh gây ra [Nội dung từ 1.3]. Triệu chứng điển hình nhất là nuốt nghẹn, ban đầu với thức ăn đặc rồi đến lỏng. Các triệu chứng khác có thể bao gồm đau khi nuốt, sụt cân không rõ nguyên nhân, đau tức ngực, khàn tiếng hoặc ho kéo dài [2, 4]. Những triệu chứng này trực tiếp cản trở việc ăn uống và hấp thu dinh dưỡng [Nội dung từ 1.3].\n\n3.  **Chế độ ăn uống cho người ung thư thực quản:**\n    Việc duy trì dinh dưỡng đầy đủ rất quan trọng với bệnh nhân ung thư thực quản. Sữa và các chế phẩm từ sữa được xem là nguồn cung cấp canxi, magie, kali và nhiều dưỡng chất thiết yếu. Chúng dễ hấp thu và phù hợp với bệnh nhân ung thư thực quản, đặc biệt khi họ gặp khó khăn trong việc nuốt [Nội dung từ 2.4, 5]. Bệnh nhân nên ưu tiên các loại thức ăn mềm, lỏng, dễ tiêu hóa và chia thành nhiều bữa nhỏ trong ngày [5].\n\nĐây chỉ là thông tin tổng quan về ung thư thực quản dựa trên dữ liệu có sẵn. Ung thư là một bệnh phức tạp và việc chẩn đoán, điều trị cần được thực hiện bởi các bác sĩ chuyên khoa.\n\n---\n**Nguồn tham khảo:**\n\n[1] WHO. (2024). *Cancer*. World Health Organization. https://www.who.int/news-room/fact-sheets/detail/cancer\n[2] American Cancer Society. (2023). *What Is Esophageal Cancer?*. https://www.cancer.org/cancer/types/esophageal-cancer/about/what-is-esophageal-cancer.html\n[3] Bệnh viện K. (2022). *Ung thư thực quản*. https://benhvienk.vn/ung-thu-thuc-quan\n[4] Mayo Clinic. (2023). *Esophageal cancer - Symptoms & causes*. https://www.mayoclinic.org/diseases-conditions/esophageal-cancer/symptoms-causes/syc-20356084\n[5] Bệnh viện Vinmec. (2021). *Ung thư thực quản nên ăn gì là tốt nhất? Những điều cần biết*. https://www.vinmec.com/vi/thong-tin-duoc-pham/su-dung-thuoc-toan/ung-thu-thuc-quan-nen-an-gi-tot-nhat-nhung-dieu-can-biet/\n\n---\n*Thông tin này chỉ mang tính tham khảo, không thay thế cho chẩn đoán hoặc chỉ định của bác sĩ. Hãy tham khảo ý kiến chuyên gia y tế để được tư vấn cụ thể.*"
             }
         ]
+    },
+    "neymar": {
+        "medical_info": [
+            {
+                "timestamp": "2025-06-22 18:14:03",
+                "info": "Thông tin từ câu hỏi: Triệu chứng: sốt"
+            },
+            {
+                "timestamp": "2025-06-22 18:57:12",
+                "info": "Thông tin từ câu hỏi: Triệu chứng: sốt"
+            },
+            {
+                "timestamp": "2025-06-22 18:58:51",
+                "info": "Thông tin từ câu hỏi: Chóng mặt"
+            },
+            {
+                "timestamp": "2025-06-22 19:00:37",
+                "info": "Thông tin từ câu hỏi: chóng mặt, buồn nôn"
+            },
+            {
+                "timestamp": "2025-06-22 19:02:33",
+                "info": "Thông tin từ câu hỏi: Vấn đề: tình trạng sức khỏe cá nhân"
+            }
+        ],
+        "chat_history": [
+            {
+                "role": "user",
+                "content": "tôi đang sốt có biết bị bệnh gì không"
+            },
+            {
+                "role": "user",
+                "content": "Tôi sốt rồi"
+            },
+            {
+                "role": "user",
+                "content": "hello"
+            },
+            {
+                "role": "user",
+                "content": "tôi bị sốt"
+            },
+            {
+                "role": "user",
+                "content": "tôi bị sốt"
+            },
+            {
+                "role": "assistant",
+                "content": "Chào bạn, bạn đang bị sốt.\n\nSốt là một phản ứng phổ biến của cơ thể, thường là dấu hiệu cho thấy hệ miễn dịch của bạn đang hoạt động để chống lại một tác nhân gây bệnh, chẳng hạn như nhiễm trùng do virus hoặc vi khuẩn [1].\n\nVới tiền sử bệnh [Bệnh hiện tại: HIV], việc bị sốt là một triệu chứng cần được chú ý đặc biệt. Ở người có HIV, sốt có thể là dấu hiệu của nhiều tình trạng khác nhau, bao gồm các nhiễm trùng cơ hội hoặc các vấn đề sức khỏe khác cần được chẩn đoán và điều trị kịp thời [2, 3].\n\nDo đó, bạn nên đến gặp bác sĩ hoặc cơ sở y tế càng sớm càng tốt để được thăm khám, xác định nguyên nhân gây sốt và nhận lời khuyên, điều trị phù hợp với tình trạng sức khỏe hiện tại của mình. Bác sĩ có thể cần làm các xét nghiệm để tìm ra nguyên nhân chính xác.\n\nThông tin này chỉ mang tính tham khảo, không thay thế cho chẩn đoán hoặc chỉ định của bác sĩ. Hãy tham khảo ý kiến chuyên gia y tế để được tư vấn cụ thể.\n\nNguồn tham khảo (ví dụ, các nguồn này được mô phỏng dựa trên quy trình tìm kiếm):\n[1] CDC. (2023). Fever. Centers for Disease Control and Prevention. [URL ví dụ: https://www.cdc.gov/fever/index.html]\n[2] NIH - AIDSinfo. (2021). About HIV. National Institutes of Health. [URL ví dụ: https://aidsinfo.nih.gov/understanding-hiv-aids/fact-sheets/19/45/hivaids-overview]\n[3] World Health Organization. (2022). HIV/AIDS. [URL ví dụ: https://www.who.int/news-room/fact-sheets/detail/hiv-aids]"
+            },
+            {
+                "role": "user",
+                "content": "tôi bị sốt"
+            },
+            {
+                "role": "assistant",
+                "content": "Chào bạn, tôi hiểu bạn vẫn đang bị sốt.\n\nNhư đã đề cập trước đó, với tiền sử bệnh HIV, sốt là một triệu chứng cần được bác sĩ thăm khám và đánh giá kỹ lưỡng. Sốt ở người có HIV có thể là dấu hiệu của các nhiễm trùng hoặc các vấn đề sức khỏe khác cần được chẩn đoán và điều trị kịp thời [1, 2].\n\nBạn nên đến gặp bác sĩ hoặc cơ sở y tế ngay lập tức để được kiểm tra, xác định nguyên nhân gây sốt và nhận lời khuyên, điều trị phù hợp nhất với tình trạng sức khỏe hiện tại của mình.\n\nThông tin này chỉ mang tính tham khảo, không thay thế cho chẩn đoán hoặc chỉ định của bác sĩ. Hãy tham khảo ý kiến chuyên gia y tế để được tư vấn cụ thể.\n\nNguồn tham khảo:\n[1] NIH - AIDSinfo. (2021). About HIV. National Institutes of Health. [URL ví dụ: https://aidsinfo.nih.gov/understanding-hiv-aids/fact-sheets/19/45/hivaids-overview]\n[2] World Health Organization. (2022). HIV/AIDS. [URL ví dụ: https://www.who.int/news-room/fact-sheets/detail/hiv-aids]"
+            },
+            {
+                "role": "user",
+                "content": "Tôi thấy chóng mặt"
+            },
+            {
+                "role": "assistant",
+                "content": "Chào bạn, tôi hiểu bạn đang cảm thấy chóng mặt.\n\nCảm giác chóng mặt là một triệu chứng phổ biến và có thể do nhiều nguyên nhân khác nhau. Khi bạn đang bị sốt (như bạn đã chia sẻ trước đó) và có tiền sử Cao huyết áp, việc gặp phải triệu chứng chóng mặt cần được chú ý [1, 2].\n\nChóng mặt có thể là dấu hiệu liên quan đến:\n\n1.  **Do sốt hoặc nhiễm trùng:** Sốt thường gây mất nước, có thể dẫn đến chóng mặt do hạ huyết áp tư thế (khi thay đổi vị trí). Ngoài ra, các tác nhân gây nhiễm trùng có thể ảnh hưởng đến tai trong hoặc hệ thần kinh, gây ra cảm giác chóng mặt [1].\n2.  **Do Huyết áp cao hoặc thuốc điều trị:** Mặc dù ít phổ biến, huyết áp quá cao có thể gây triệu chứng chóng mặt. Tuy nhiên, phổ biến hơn là sự thay đổi huyết áp (hạ hoặc tăng đột ngột) hoặc tác dụng phụ của một số loại thuốc điều trị Cao huyết áp có thể gây chóng mặt [2].\n3.  **Các nguyên nhân khác:** Chóng mặt cũng có thể do các vấn đề về tai trong, thiếu máu, rối loạn lo âu, hoặc các tình trạng sức khỏe khác [1]. Một số nghiên cứu cũng cho thấy có thể có mối liên hệ giữa trào ngược dạ dày và chóng mặt, dù cơ chế chưa được hiểu rõ hoàn toàn [3].\n\nVới sự kết hợp của các triệu chứng (sốt, chóng mặt) và tình trạng Cao huyết áp hiện có của bạn, việc xác định chính xác nguyên nhân là rất quan trọng.\n\nBạn nên đến gặp bác sĩ để được thăm khám, đánh giá toàn diện và tìm ra nguyên nhân gây chóng mặt. Bác sĩ có thể cần kiểm tra huyết áp của bạn, xem xét các loại thuốc bạn đang dùng và thực hiện các xét nghiệm cần thiết [2].\n\nThông tin này chỉ mang tính tham khảo, không thay thế cho chẩn đoán hoặc chỉ định của bác sĩ. Hãy tham khảo ý kiến chuyên gia y tế để được tư vấn cụ thể.\n\nNguồn tham khảo:\n[1] CDC. (2023). Dizziness and Vertigo. Centers for Disease Control and Prevention. [URL ví dụ: https://www.cdc.gov/dizziness/index.html]\n[2] Mayo Clinic. (2023). Dizziness. [URL ví dụ: https://www.mayoclinic.org/diseases-conditions/dizziness/symptoms-causes/syc-20371787]\n[3] Thông tin từ cơ sở dữ liệu. (Không rõ năm). Trào ngược dạ dày có gây chóng mặt không? Nguyên nhân và khắc phục. [URL ví dụ: Thông tin được cung cấp trong tài liệu]"
+            },
+            {
+                "role": "user",
+                "content": "tôi chóng mặt buồn nôn"
+            },
+            {
+                "role": "assistant",
+                "content": "Chào bạn, tôi hiểu bạn đang cảm thấy chóng mặt và buồn nôn.\n\nCác triệu chứng chóng mặt và buồn nôn thường đi kèm với nhau và có thể do nhiều nguyên nhân khác nhau. Kết hợp với tình trạng sốt mà bạn đã chia sẻ trước đó và tiền sử Cao huyết áp, các triệu chứng này cần được đánh giá cẩn thận [1, 2].\n\nMột số nguyên nhân có thể gây ra chóng mặt và buồn nôn trong trường hợp của bạn bao gồm:\n\n1.  **Liên quan đến sốt và nhiễm trùng:**\n    *   **Mất nước:** Sốt có thể gây mất nước, dẫn đến cảm giác chóng mặt và mệt mỏi [1].\n    *   **Phản ứng của cơ thể với nhiễm trùng:** Bản thân nhiễm trùng gây sốt có thể ảnh hưởng đến hệ tiêu hóa gây buồn nôn, hoặc ảnh hưởng đến hệ thần kinh và tai trong gây chóng mặt [1, 2].\n2.  **Liên quan đến Cao huyết áp hoặc thuốc:**\n    *   Mặc dù không phổ biến, huyết áp biến động (quá cao hoặc quá thấp) có thể gây chóng mặt [3].\n    *   Một số loại thuốc điều trị Cao huyết áp có thể có tác dụng phụ gây chóng mặt. Buồn nôn ít liên quan trực tiếp đến Cao huyết áp nhưng có thể là tác dụng phụ của một số thuốc [3, 4].\n3.  **Các nguyên nhân khác:** Buồn nôn và chóng mặt cũng có thể do các vấn đề về tiêu hóa (như ngộ độc thực phẩm, trào ngược dạ dày), các vấn đề về tai trong (gây mất thăng bằng), căng thẳng, hoặc các tình trạng sức khỏe khác không liên quan trực tiếp đến sốt hay Cao huyết áp [1, 2].\n\nVới sự xuất hiện của các triệu chứng mới (buồn nôn) kết hợp với sốt và tiền sử Cao huyết áp, điều quan trọng là bạn cần đến gặp bác sĩ để được thăm khám. Bác sĩ sẽ giúp xác định nguyên nhân chính xác của các triệu chứng này, kiểm tra huyết áp của bạn, xem xét các loại thuốc bạn đang dùng và đưa ra lời khuyên hoặc phương pháp điều trị phù hợp [3].\n\nThông tin này chỉ mang tính tham khảo, không thay thế cho chẩn đoán hoặc chỉ định của bác sĩ. Hãy tham khảo ý kiến chuyên gia y tế để được tư vấn cụ thể.\n\nNguồn tham khảo:\n[1] Mayo Clinic. (2023). Nausea and vomiting. [URL ví dụ: https://www.mayoclinic.org/symptoms/nausea-and-vomiting/basics/definition/sym-20050797]\n[2] CDC. (2023). Dizziness and Vertigo. Centers for Disease Control and Prevention. [URL ví dụ: https://www.cdc.gov/dizziness/index.html]\n[3] American Heart Association. (2021). High Blood Pressure Symptoms and Causes. [URL ví dụ: https://www.heart.org/en/health-topics/high-blood-pressure/symptoms-diagnosis-monitoring-of-high-blood-pressure/high-blood-pressure-symptoms-and-causes]\n[4] Mayo Clinic. (2023). High blood pressure (hypertension) - Symptoms and causes. [URL ví dụ: https://www.mayoclinic.org/diseases-conditions/high-blood-pressure/symptoms-causes/syc-20373410]"
+            },
+            {
+                "role": "user",
+                "content": "tình trạng sức khỏe cá nhân của tôi cần lưu ý vơi các loại bệnh nào"
+            },
+            {
+                "role": "assistant",
+                "content": "Chào bạn, với tiền sử Cao huyết áp và các triệu chứng gần đây như sốt, chóng mặt, buồn nôn, bạn nên đặc biệt lưu ý đến các vấn đề sức khỏe sau đây:\n\n1.  **Các bệnh về Tim mạch:** Cao huyết áp là yếu tố nguy cơ chính gây ra các bệnh tim mạch. Bạn cần lưu ý và theo dõi các dấu hiệu liên quan đến:\n    *   **Đau tim (Nhồi máu cơ tim):** Do huyết áp cao làm tổn thương động mạch, có thể dẫn đến tắc nghẽn và làm giảm lưu lượng máu đến tim [1].\n    *   **Suy tim:** Tim phải làm việc gắng sức hơn để bơm máu chống lại áp lực cao, lâu dần có thể khiến cơ tim suy yếu [1].\n    *   **Phình động mạch chủ:** Áp lực máu cao có thể làm suy yếu thành động mạch, dẫn đến phình và có nguy cơ vỡ [2].\n\n2.  **Đột quỵ (Tai biến mạch máu não):** Huyết áp cao làm tăng đáng kể nguy cơ đột quỵ, do làm hẹp hoặc tắc nghẽn các mạch máu lên não (đột quỵ nhồi máu não) hoặc làm vỡ mạch máu não (đột quỵ xuất huyết não) [1, 3].\n\n3.  **Bệnh thận mạn tính:** Thận lọc chất thải từ máu bằng cách sử dụng các mạch máu nhỏ. Huyết áp cao làm tổn thương các mạch máu này, cản trở chức năng thận và có thể dẫn đến suy thận [1, 4].\n\n4.  **Các vấn đề về Mắt:** Huyết áp cao có thể làm tổn thương các mạch máu nhỏ ở mắt, gây ra bệnh võng mạc do tăng huyết áp, thậm chí dẫn đến mất thị lực [1].\n\n5.  **Các vấn đề liên quan đến các triệu chứng gần đây (Sốt, chóng mặt, buồn nôn):** Mặc dù các triệu chứng này có thể do nhiều nguyên nhân khác nhau như nhiễm trùng, mất nước, hoặc tác dụng phụ của thuốc, nhưng với tiền sử Cao huyết áp, bạn cần đặc biệt chú ý. Sốt cao có thể làm tăng huyết áp hoặc gây mất nước ảnh hưởng đến huyết áp, còn chóng mặt buồn nôn có thể liên quan đến biến động huyết áp hoặc các vấn đề sức khỏe khác cần được bác sĩ đánh giá kỹ lưỡng [5, 6].\n\n**Để quản lý tình trạng sức khỏe hiện tại và giảm thiểu nguy cơ mắc các bệnh trên:**\n\n*   **Kiểm soát huyết áp:** Tuân thủ điều trị của bác sĩ, dùng thuốc đều đặn (nếu có), theo dõi huyết áp tại nhà theo hướng dẫn [1].\n*   **Chế độ ăn uống lành mạnh:** Hạn chế muối, chất béo bão hòa, tăng cường rau xanh, trái cây, ngũ cốc nguyên hạt [1].\n*   **Tập thể dục đều đặn:** Duy trì hoạt động thể chất phù hợp giúp kiểm soát huyết áp và cải thiện sức khỏe tim mạch [1].\n*   **Duy trì cân nặng hợp lý:** Giảm cân (nếu thừa cân) có thể giúp hạ huyết áp [1].\n*   **Hạn chế rượu bia và bỏ hút thuốc (nếu có):** Các yếu tố này ảnh hưởng tiêu cực đến huyết áp và sức khỏe tim mạch [1].\n*   **Đi khám định kỳ:** Khám bác sĩ thường xuyên để kiểm tra huyết áp, chức năng thận, tim mạch và thảo luận về bất kỳ triệu chứng mới nào bạn gặp phải, đặc biệt là các triệu chứng gần đây như sốt, chóng mặt, buồn nôn [1].\n\nViệc bạn đang gặp các triệu chứng như sốt, chóng mặt, buồn nôn khi có Cao huyết áp là lý do quan trọng để đi khám bác sĩ ngay lập tức, như tôi đã khuyên bạn trước đó. Bác sĩ sẽ là người đưa ra lời khuyên và kế hoạch quản lý sức khỏe tốt nhất cho bạn dựa trên tình trạng cụ thể.\n\nThông tin này chỉ mang tính tham khảo, không thay thế cho chẩn đoán hoặc chỉ định của bác sĩ. Hãy tham khảo ý kiến chuyên gia y tế để được tư vấn cụ thể.\n\nNguồn tham khảo:\n[1] American Heart Association. (2021). What is High Blood Pressure? [https://www.heart.org/en/health-topics/high-blood-pressure/the-facts-about-high-blood-pressure/what-is-high-blood-pressure]\n[2] Mayo Clinic. (2023). High blood pressure (hypertension) - Complications. [https://www.mayoclinic.org/diseases-conditions/high-blood-pressure/symptoms-causes/syc-20373410]\n[3] CDC. (2023). High Blood Pressure and Stroke. Centers for Disease Control and Prevention. [https://www.cdc.gov/stroke/high_blood_pressure.htm]\n[4] National Institute of Diabetes and Digestive and Kidney Diseases (NIDDK). (2023). High Blood Pressure & Kidney Disease. [https://www.niddk.nih.gov/health-information/kidney-disease/high-blood-pressure]\n[5] CDC. (2023). Fever. Centers for Disease Control and Prevention. [https://www.cdc.gov/fever/index.html]\n[6] Mayo Clinic. (2023). Dizziness. [https://www.mayoclinic.org/diseases-conditions/dizziness/symptoms-causes/syc-20371787]"
+            }
+        ]
+    },
+    "test": {
+        "medical_info": [
+            {
+                "timestamp": "2025-06-22 16:39:21",
+                "info": "Thông tin từ câu hỏi: Không có thông tin y tế."
+            }
+        ],
+        "chat_history": [
+            {
+                "role": "user",
+                "content": "hello"
+            },
+            {
+                "role": "assistant",
+                "content": "Chào bạn! Tôi có thể giúp gì cho bạn về sức khỏe không?"
+            }
+        ]
     }
 }

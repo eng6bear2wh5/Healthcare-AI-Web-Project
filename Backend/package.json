@@ -4,9 +4,10 @@
   "main": " scr/index.js",
   "scripts": {
     "beautiful": "prettier --single-quote --trailing-comma all --tab-width 4 --write 'scr/**/*.{js,json,scss}'",
-    "start": "nodemon --inspect scr/index.js",
+    "start": "nodemon --ignore 'user_data.json' --ignore 'app.log' --ignore '*.py' --delay 3000 scr/index.js",
     "watch": "sass --watch scr/resources/scss/app.scss scr/public/css/app.css",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node scr/index.js"
   },
   "keywords": [
     "blog"
