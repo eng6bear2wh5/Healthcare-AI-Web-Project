@@ -10,11 +10,9 @@ from dotenv import load_dotenv
 import google.generativeai as genai
 
 # --- PHẦN CẤU HÌNH API ---
-# Load API key từ .env
 load_dotenv()
 api_key = os.getenv("GEMINI_API_KEY")
 if not api_key:
-    # Ghi lỗi ra stderr để Node.js có thể bắt được
     print(json.dumps({"success": False, "error": "GEMINI_API_KEY not found"}), file=sys.stderr)
     sys.exit(1)
 genai.configure(api_key=api_key)
@@ -24,7 +22,6 @@ def ocr_images(images):
     """OCR a list of images and concatenate the text."""
     text = ""
     for img in images:
-        # Dùng cả tiếng Anh và tiếng Việt để có độ chính xác cao nhất
         text += pytesseract.image_to_string(img, lang='eng+vie')
     return text
 
@@ -150,9 +147,8 @@ def extract_medical_info(text: str) -> str:
         "```"
     )
 
-    model = genai.GenerativeModel("gemini-2.0-flash") # gemini-1.5-flash is newer and often better/cheaper
+    model = genai.GenerativeModel("gemini-2.0-flash") 
     
-    # Gửi thẳng văn bản đã OCR cho AI, không cần "làm sạch" ở đây.
     response = model.generate_content(
         f"{system_prompt}\n\nInput Text:\n{text}",
         generation_config={"temperature": 0.0, "response_mime_type": "application/json"}
@@ -171,7 +167,6 @@ def main():
 
     if len(sys.argv) < 2:
         final_result["error"] = "Usage: python your_script_name.py <file_path>"
-        # In lỗi ra stdout để Node.js bắt được JSON lỗi
         print(json.dumps(final_result, indent=2, ensure_ascii=False))
         sys.exit(1)
 
@@ -191,13 +186,9 @@ def main():
 
     except Exception as e:
         final_result["error"] = str(e)
-    
-    # Chuyển đối tượng Python thành chuỗi JSON, giữ nguyên ký tự tiếng Việt (UTF-8)
+
     output_string = json.dumps(final_result, indent=2, ensure_ascii=False)
-    
-    # === PHẦN SỬA LỖI QUAN TRỌNG NHẤT ===
-    # Ghi trực tiếp chuỗi đã được mã hóa UTF-8 vào luồng stdout buffer.
-    # Cách này đảm bảo không bị lỗi UnicodeEncodeError trên Windows console.
+
     sys.stdout.buffer.write(output_string.encode('utf-8'))
 
 if __name__ == "__main__":

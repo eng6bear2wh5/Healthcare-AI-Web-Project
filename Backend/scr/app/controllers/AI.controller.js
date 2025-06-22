@@ -54,10 +54,10 @@ exports.askToChatbot = async (req, res) => {
 };
 
 exports.uploadToChatbot = async (req, res) => {
-  const currentUsername = req.user.name; // Make sure client sends userId in FormData
+  const currentUsername = req.user.name; 
 
-  const imageFile = req.file; // Uploaded file data (path is in imageFile.path)
-  const textQuestion = req.body.question || ''; // Optional text question from FormData
+  const imageFile = req.file; 
+  const textQuestion = req.body.question || ''; 
 
   let tempImagePath = null;
   try {
@@ -73,7 +73,6 @@ exports.uploadToChatbot = async (req, res) => {
 
     if (textQuestion) {
       scriptArgs.push('--question', textQuestion);
-      // Ensure the console log here reflects the new currentUsername
       console.log(`${new Date().toISOString()} - INFO - /upload: User ${currentUsername} with text question: "${String(textQuestion).substring(0, 50)}..."`);
     }
 
@@ -97,39 +96,30 @@ exports.uploadToChatbot = async (req, res) => {
 }
 
 exports.convertFileToText = async (req, res) => {
-  // 1. Kiểm tra file upload
   if (!req.file) {
     return res.status(400).json({ success: false, error: 'No file uploaded.' });
   }
 
-  // 2. Gọi một tiến trình Python duy nhất
-  // Script này sẽ tự làm cả OCR và trích xuất thông tin
   const py = spawn('python', ["ocr.py", req.file.path]);
 
   let resultString = '';
   let errorString = '';
 
-  // 3. Lấy kết quả JSON từ stdout của Python
   py.stdout.on('data', (data) => {
     resultString += data.toString();
   });
 
-  // Lấy log lỗi (nếu có) từ stderr của Python
   py.stderr.on('data', (data) => {
     errorString += data.toString();
   });
 
-  // 4. Xử lý khi tiến trình Python kết thúc
   py.on('close', async (code) => {
-    // Luôn xoá file tạm sau khi xử lý xong
     fs.unlinkSync(req.file.path);
 
-    // Ghi lại log lỗi từ Python nếu có, rất hữu ích để debug
     if (errorString) {
       console.error(`Python stderr: ${errorString}`);
     }
 
-    // Nếu tiến trình Python thoát với lỗi hoặc không có kết quả
     if (code !== 0 || !resultString) {
       console.error(`Python process exited with code ${code}.`);
       return res.status(500).json({
@@ -139,21 +129,16 @@ exports.convertFileToText = async (req, res) => {
       });
     }
 
-    // 5. Parse kết quả JSON và gửi về cho client
     try {
       const result = JSON.parse(resultString);
 
-      // Kiểm tra cờ 'success' mà script Python trả về
       if (!result.success) {
         console.error('Python script reported an error:', result.error);
         return res.status(500).json({ success: false, error: result.error });
       }
 
-      // console.log(result.extracted_data);
-
       await updateDataToDatabase(result.extracted_data, req.user.id);
 
-      // Nếu mọi thứ thành công
       res.json({
         success: true,
         extracted_data: result.extracted_data,
@@ -162,7 +147,6 @@ exports.convertFileToText = async (req, res) => {
 
     } catch (e) {
       console.error('Failed to parse JSON from Python script:', e.message);
-      // console.error('Raw output was:', resultString); // In ra output lỗi để debug
       res.status(500).json({ success: false, error: 'Failed to parse response from processing service.' });
     }
   });
@@ -190,7 +174,7 @@ const updateDataToDatabase = async (data, id) => {
 
   const bodyMedicalHistory = {
     disease_name: "",
-    diagnosis_date: new Date().toISOString(), // chuyển sang chuỗi ISO
+    diagnosis_date: new Date().toISOString(), 
     notes: "",
     drugs: "",
   };
@@ -246,9 +230,8 @@ const updateDataToDatabase = async (data, id) => {
       bodyMedicalHistory,
       { new: true, upsert: true, setDefaultsOnInsert: true }
     ).lean();
-    // res.json(user);
   } catch (err) {
     console.error("Database update failed:", err);
-    throw err; // hoặc trả về false để bên trên biết
+    throw err; 
   }
 }
