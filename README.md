@@ -103,34 +103,36 @@ Hệ thống được chia thành ba phần chính:
 ## Tính năng chính
 
 - Đăng nhập, đăng ký:
-	- Tạo tài khoản mới.
-	- Đăng nhập để sử dụng các chức năng cá nhân hóa.
-	- Quên mật khẩu? Có thể đặt lại dễ dàng qua email.
-	- Thay đổi mật khẩu dễ dàng trong phần cài đặt.
+  - Tạo tài khoản mới.
+  - Đăng nhập để sử dụng các chức năng cá nhân hóa.
+  - Quên mật khẩu? Có thể đặt lại dễ dàng qua email.
+  - Thay đổi mật khẩu dễ dàng trong phần cài đặt.
 - Cảnh báo sức khỏe theo vị trí:
-	- Ứng dụng sẽ hỏi quyền truy cập vị trí của bạn (chỉ khi được cho phép).
-	- Khi được cấp quyền truy cập vị trí, hệ thống sẽ tự động đưa ra cảnh báo về thời tiết và các nguy cơ sức khỏe liên quan (nắng nóng, cảm lạnh, v.v.).
+  - Ứng dụng sẽ hỏi quyền truy cập vị trí của bạn (chỉ khi được cho phép).
+  - Khi được cấp quyền truy cập vị trí, hệ thống sẽ tự động đưa ra cảnh báo về thời tiết và các nguy cơ sức khỏe liên quan (nắng nóng, cảm lạnh, v.v.).
 - Tra cứu thuốc:
-	- Tìm kiếm tên thuốc, công dụng, cách dùng và chống chỉ định.
-	- Hỗ trợ tìm kiếm thông minh kể cả khi không nhớ chính xác tên thuốc.
+  - Tìm kiếm tên thuốc, công dụng, cách dùng và chống chỉ định.
+  - Hỗ trợ tìm kiếm thông minh kể cả khi không nhớ chính xác tên thuốc.
 - Tra cứu thông tin bệnh:
-	- Cung cấp thông tin về triệu chứng, nguyên nhân, cách điều trị các bệnh thường gặp.
-	- Nội dung được chọn lọc từ các nguồn y tế uy tín.
+  - Cung cấp thông tin về triệu chứng, nguyên nhân, cách điều trị các bệnh thường gặp.
+  - Nội dung được chọn lọc từ các nguồn y tế uy tín.
 - Công cụ tính toán sức khỏe:
-	- **BMI** – tính chỉ số khối cơ thể.
-	- **Nhu cầu calo hằng ngày** – tính toán theo giới tính, tuổi, chiều cao, cân nặng và mức độ vận động.
-	- **Cân nặng lý tưởng** – gợi ý mức cân phù hợp theo chiều cao và độ tuổi.
-	- **Tỷ lệ mỡ cơ thể** – ước tính dựa trên các thông số như vòng cổ, vòng eo, chiều cao.
+  - **BMI** – tính chỉ số khối cơ thể.
+  - **Nhu cầu calo hằng ngày** – tính toán theo giới tính, tuổi, chiều cao, cân nặng và mức độ vận động.
+  - **Cân nặng lý tưởng** – gợi ý mức cân phù hợp theo chiều cao và độ tuổi.
+  - **Tỷ lệ mỡ cơ thể** – ước tính dựa trên các thông số như vòng cổ, vòng eo, chiều cao.
 - Lịch hiến máu:
-	- Hiển thị các đợt hiến máu theo khu vực gần nhất.
+  - Hiển thị các đợt hiến máu theo khu vực gần nhất.
 - Tin tức sức khỏe:
-	- Cập nhật tin tức theo nhóm bệnh: tim mạch, hô hấp, thần kinh,...
-	- Nguồn tin được chọn lọc từ báo chí và tổ chức y tế có độ tin cậy cao.
+  - Cập nhật tin tức theo nhóm bệnh: tim mạch, hô hấp, thần kinh,...
+  - Nguồn tin được chọn lọc từ báo chí và tổ chức y tế có độ tin cậy cao.
 - Phân tích hình ảnh da liễu:
-	- Cho phép tải lên ảnh vùng da bị tổn thương để phân tích.
-	- Hệ thống sử dụng mô hình học sâu để hỗ trợ nhận diện một số bệnh lý da phổ biến (ví dụ: mụn, vảy nến,...).
+  - Cho phép tải lên ảnh vùng da bị tổn thương để phân tích.
+  - Hệ thống sử dụng mô hình học sâu để hỗ trợ nhận diện một số bệnh lý da phổ biến (ví dụ: mụn, vảy nến,...).
 - Chatbot tư vấn:
-	- Hỗ trợ trò chuyện và cung cấp thông tin liên quan đến các vấn đề sức khỏe thường gặp.
+  - Hỗ trợ trò chuyện (cho phép gửi ảnh và voice), cung cấp thông tin liên quan đến các vấn đề sức khỏe.
+- Hệ thống gợi ý bài báo liên quan:
+  - Dựa trên bệnh nền của bệnh nhân trong Personal Tracker để đưa top 3 bài báo liên quan nhất phù hợp với bệnh nhân.
 ---
 ## Công nghệ sử dụng.
 
@@ -146,7 +148,7 @@ Hệ thống được chia thành ba phần chính:
 ## Luồng đăng ký & đăng nhập
 ![alt text](images/JWT.drawio.png)
 
-# 1. Đăng ký (Singup)
+## 1. Đăng ký (Singup)
 
 1. **User → Client**  
    - Điền form (email, mật khẩu, …) → bấm “Đăng ký”.
@@ -291,8 +293,8 @@ Nhằm hỗ trợ người dùng trong các trường hợp:
 ---
 
 
-## AI phân tích bệnh da liễu.
-# Disease Detection & AI Chatbot Web App
+# AI phân tích bệnh da liễu.
+## Disease Detection & AI Chatbot Web App
 
 ## Giới thiệu mô hình AI nhận diện bệnh
 
@@ -334,21 +336,21 @@ Dự án sử dụng **mô hình học sâu (deep learning)** để phân loại
 4. Mô hình trả về dự đoán top 3 bệnh, backend gửi lại cho frontend.
 5. Giao diện hiển thị kết quả cho người dùng.
 
-# Sơ đồ hệ thống: Quy trình Nhận diện Bệnh qua Ảnh
+## Sơ đồ hệ thống: Quy trình Nhận diện Bệnh qua Ảnh
 
-## 1. Sơ đồ tổng quan (từ frontend đến backend và AI model)
+### 1. Sơ đồ tổng quan (từ frontend đến backend và AI model)
 ![alt text](images/image-a.png)
 
 ---
 
-## 2. Diễn giải chi tiết từng bước
+### 2. Diễn giải chi tiết từng bước
 
-### Bước 1: Người dùng thao tác trên giao diện
+#### Bước 1: Người dùng thao tác trên giao diện
 
 - Người dùng click chọn "Nhận diện bệnh qua ảnh".
 - Chọn/tải ảnh cần nhận diện.
 
-### Bước 2: Gửi ảnh lên backend
+#### Bước 2: Gửi ảnh lên backend
 
 - Hàm `predictDisease(imageFile)` được gọi khi người dùng nhấn "Phân tích ảnh".
 - Ảnh được đóng gói vào `FormData`, gửi POST request lên endpoint `/api/AI/image_detection`.
@@ -358,36 +360,36 @@ export async function predictDisease(imageFile) {
   const formData = new FormData();
   formData.append("image", imageFile);
   const response = await fetch("/api/AI/image_detection", {
-	method: "POST",
-	body: formData,
+  method: "POST",
+  body: formData,
   });
   if (!response.ok) throw new Error("Upload failed");
   return await response.json();
 }
 ```
 
-### Bước 3: Backend nhận, xử lý và gọi AI model
+#### Bước 3: Backend nhận, xử lý và gọi AI model
 
 - API backend nhận file ảnh từ request (sử dụng multer để lưu file tạm).
 - Backend gọi script Python (`predict.py`) bằng Node.js (child_process).
 - Ảnh được đưa vào model AI (đã train trước bằng PyTorch).
 
-### Bước 4: AI model dự đoán
+#### Bước 4: AI model dự đoán
 
 - Script Python load model, tiền xử lý ảnh, dự đoán ra top các bệnh và xác suất.
 - Trả kết quả về dạng JSON (success, predictions).
 
-### Bước 5: Backend trả kết quả
+#### Bước 5: Backend trả kết quả
 
 - Backend nhận kết quả từ Python, xóa file tạm, gửi dữ liệu JSON về frontend.
 
-### Bước 6: Frontend hiển thị kết quả
+#### Bước 6: Frontend hiển thị kết quả
 
 - Frontend nhận kết quả, cập nhật UI hiển thị cho người dùng: Top 3 bệnh dự đoán và xác suất.
 
 ---
 
-## 3. Tóm tắt vai trò các thành phần
+### 3. Tóm tắt vai trò các thành phần
 
 - **Frontend (React):** Hiển thị UI, xử lý upload ảnh, gửi request và nhận kết quả, trình bày kết quả cho người dùng.
 - **Backend (Node.js/Express):** Nhận ảnh, lưu tạm, gọi mô hình AI, trả kết quả.
@@ -395,7 +397,7 @@ export async function predictDisease(imageFile) {
 
 ---
 
-## 4. Ưu điểm của kiến trúc này
+### 4. Ưu điểm của kiến trúc này
 
 - Phân tách rõ ràng frontend, backend và AI model.
 - Có thể mở rộng dễ dàng cho nhiều loại bệnh, mô hình khác, hoặc tích hợp thêm chức năng (ví dụ chatbot, tra cứu, lịch sử...).
@@ -405,38 +407,38 @@ export async function predictDisease(imageFile) {
 
 
 ---
-## Chatbot AI Sử Dụng Kỹ Thuật RAG (Retrieval-Augmented Generation)
-![alt text](images/image-1.png)
+# Chatbot AI Sử Dụng Kỹ Thuật RAG (Retrieval-Augmented Generation)
+![alt text](images/image-chatbot.png)
 
 Đây là hệ thống chatbot thông minh được thiết kế để hỗ trợ người dùng trong việc tra cứu thông tin sức khỏe một cách chính xác và dễ hiểu. Chatbot sử dụng kỹ thuật tiên tiến có tên là RAG - Retrieval-Augmented Generation, hay còn gọi là Tìm kiếm tăng cường tạo sinh. Điều này có nghĩa là chatbot không chỉ tạo câu trả lời dựa trên kiến thức đã học sẵn, mà còn chủ động tìm kiếm thông tin liên quan trong một kho dữ liệu riêng, giúp tăng độ chính xác và tính cập nhật của phản hồi.
 
-### 1. Thu thập và xử lý dữ liệu ban đầu
+## 1. Thu thập và xử lý dữ liệu ban đầu
 Để chatbot có kiến thức y tế đáng tin cậy, dữ liệu cần được chuẩn bị kỹ lưỡng qua các bước sau:
 
-**Bước 1:** Thu thập thông tin
+### **Bước 1:** Thu thập thông tin
 
 - Chatbot được "nuôi dưỡng" bằng thông tin từ các trang web y tế có uy tín (Vinmec).
 
 - Các thông tin này có thể bao gồm bài viết, hướng dẫn, thống kê, và tài liệu chuyên môn.
 
-**Bước 2:** Chuẩn hóa định dạng
+### **Bước 2:** Chuẩn hóa định dạng
 
 - Sau khi thu thập, dữ liệu được chuyển thành định dạng có cấu trúc (JSON). Việc chuẩn hóa này giúp hệ thống xử lý và hiểu thông tin dễ dàng hơn.
 
-**Bước 3:** Chuyển nội dung thành dữ liệu số
+### **Bước 3:** Chuyển nội dung thành dữ liệu số
 
 - Các đoạn văn bản được đưa vào một mô hình đặc biệt gọi là mô hình nhúng (embedding model). Mô hình này sẽ chuyển văn bản thành vector – tập hợp các con số có thể hiểu như “ý nghĩa số học” của đoạn văn bản.
 
 - Mỗi đoạn nội dung trở thành một vector có 384 chiều (tức là có 384 giá trị số biểu diễn nội dung đó).
 
-**Bước 4:** Lưu trữ vào cơ sở dữ liệu vector
+### **Bước 4:** Lưu trữ vào cơ sở dữ liệu vector
 
 - Các vector này được lưu vào một cơ sở dữ liệu chuyên dụng cho mục đích lưu trữ và tìm kiếm vector, gọi là Qdrant, cho phép chatbot sau này tìm kiếm những đoạn thông tin phù hợp một cách nhanh chóng và chính xác.
 
-### 2. Tiếp nhận và xử lý câu hỏi từ người dùng
+## 2. Tiếp nhận và xử lý câu hỏi từ người dùng
 Khi người dùng muốn hỏi điều gì đó, chatbot sẽ thực hiện các bước sau:
 
-**Trường hợp người dùng nhập văn bản**
+### **Trường hợp người dùng nhập văn bản**
 
 - Người dùng gõ câu hỏi bằng văn bản (ví dụ: “Triệu chứng của bệnh tiểu đường là gì?”).
 
@@ -444,13 +446,13 @@ Khi người dùng muốn hỏi điều gì đó, chatbot sẽ thực hiện cá
 
 - Vector câu hỏi được dùng để tìm trong cơ sở dữ liệu Qdrant những đoạn thông tin gần giống nhất về mặt nội dung.
 
-**Trường hợp người dùng tải lên hình ảnh**
+### **Trường hợp người dùng tải lên hình ảnh**
 
 - Ví dụ, người dùng gửi ảnh chụp kết quả xét nghiệm với các thông số như Nồng độ tiểu cầu trong máu: 50, Huyết áp: 90, Cân nặng: 90, ....
 
 - Hệ thống sẽ xử lý ảnh sẽ trích xuất các từ khóa quan trọng kèm thông số mô tả (Huyết áp: 90) và lưu vào user_data để tạo ngữ cảnh.
 
-**Trường hợp người dùng nói trực tiếp**
+### **Trường hợp người dùng nói trực tiếp**
 
 - Người dùng có thể nói vào micro.
 
@@ -458,22 +460,22 @@ Khi người dùng muốn hỏi điều gì đó, chatbot sẽ thực hiện cá
 
 - Sau đó, chatbot tiếp tục xử lý như với văn bản gõ tay.
 
-### 3. Tạo ra câu trả lời
+## 3. Tạo ra câu trả lời
 Sau khi hiểu câu hỏi và truy xuất được các đoạn thông tin liên quan, chatbot sẽ tiến hành trả lời như sau:
 
-**Tổng hợp dữ liệu từ nhiều nguồn**
+### **Tổng hợp dữ liệu từ nhiều nguồn**
 
 - Các đoạn văn bản phù hợp nhất từ Qdrant sẽ được lấy ra. Mỗi đoạn đều có thông tin như: tiêu đề bài viết, nguồn gốc, và liên kết gốc.
 
 - Nếu có thông tin trích xuất từ hình ảnh hoặc các triệu chứng cũ từ phản hồi trước đó của user, chúng cũng được đưa vào làm ngữ cảnh.
 
-**Tạo câu trả lời bằng mô hình ngôn ngữ lớn**
+### **Tạo câu trả lời bằng mô hình ngôn ngữ lớn**
 
 - Toàn bộ ngữ cảnh sẽ được gửi tới một Mô hình Ngôn ngữ Lớn (LLM - Large Language Model), chẳng hạn như Gemini của Google.
 
 - Mô hình này sẽ dựa trên ngữ cảnh để viết ra một câu trả lời rõ ràng, tự nhiên và dễ hiểu, giống như đang được một chuyên gia tư vấn.
 
-**Điểm mạnh của phương pháp này**
+### **Điểm mạnh của phương pháp này**
 
 - Không trả lời theo kiểu học thuộc lòng.
 
@@ -481,40 +483,178 @@ Sau khi hiểu câu hỏi và truy xuất được các đoạn thông tin liên
 
 - Phản hồi mang tính cá nhân hóa theo từng câu hỏi cụ thể.
 
-### 4. Hướng phát triển trong tương lai
+## 4. Hướng phát triển trong tương lai
 Để nâng cao độ chính xác, khả năng cập nhật và độ thông minh của chatbot, hệ thống có thể cải tiến theo các hướng sau:
 
-**1. Tăng chất lượng và tính hợp pháp của dữ liệu**
+### **1. Tăng chất lượng và tính hợp pháp của dữ liệu**
 
 - Mua quyền truy cập API từ các trang y tế uy tín, để trích xuất trực tiếp dữ liệu chuẩn hóa và cập nhật theo thời gian thực. Một số nguồn có thể cung cấp API:
 
-	Mayo Clinic API (nếu khả dụng)
+  Mayo Clinic API (nếu khả dụng)
 
-	Health.gov
+  Health.gov
 
-	CDC APIs
+  CDC APIs
 
-	OpenFDA
+  OpenFDA
 
 - Việc sử dụng API chính thức đảm bảo dữ liệu luôn mới, hợp pháp và chính xác hơn so với việc tự động thu thập.
 
-**2. Nâng cấp mô hình nhúng vector**
+### **2. Nâng cấp mô hình nhúng vector**
 
 - Hiện tại hệ thống dùng mô hình nhúng 384 chiều.
 
 - Có thể cải tiến bằng cách sử dụng mô hình có nhiều chiều hơn (ví dụ: 768, 1024, hoặc 1536 chiều) để tăng độ chính xác khi biểu diễn ý nghĩa văn bản.
 
-**3. Hỗ trợ đa ngôn ngữ tốt hơn**
+### **3. Hỗ trợ đa ngôn ngữ tốt hơn**
 
 - Bổ sung khả năng hiểu và trả lời bằng nhiều ngôn ngữ (ví dụ tiếng Việt, tiếng Anh, tiếng Nhật…) giúp mở rộng đối tượng người dùng.
 
-**4. Cải thiện khả năng hiểu hình ảnh y tế**
+### **4. Cải thiện khả năng hiểu hình ảnh y tế**
 
 - Tích hợp các mô hình thị giác máy tính (Computer Vision) để phân tích ảnh chụp X-quang, phiếu xét nghiệm, hoặc ảnh siêu âm.
 
-### Tổng kết
+## Tổng kết
 Hệ thống chatbot y tế sử dụng công nghệ RAG là một bước tiến mới trong việc tạo ra câu trả lời chính xác, dễ hiểu và có cơ sở rõ ràng cho người dùng. Nhờ vào khả năng kết hợp giữa tìm kiếm thông tin và ngôn ngữ tự nhiên, chatbot có thể hỗ trợ người bệnh hoặc người quan tâm đến sức khỏe một cách hiệu quả và tin cậy.
 
+---
+# 🧾 OCR & Trích Xuất Thông Tin Từ Hồ Sơ Bệnh Án
+
+## 📄 Mô Tả Chức Năng
+
+Tính năng cho phép người dùng tải lên hồ sơ bệnh án (ảnh, PDF, DOCX), thực hiện nhận diện ký tự (OCR), sau đó dùng mô hình AI để trích xuất và cấu trúc dữ liệu về thông tin cá nhân và các chỉ số sức khỏe, cuối cùng lưu kết quả vào cơ sở dữ liệu MongoDB.
+
+## 🛠️ Công Nghệ Sử Dụng
+
+* 🖼️ **OCR**: `pytesseract`, `pdf2image`, `docx2pdf`
+* 🤖 **AI**: Google Gemini (qua thư viện `google.generativeai`)
+* 💾 **Cơ sở dữ liệu**: MongoDB (qua thư viện Mongoose)
+
+## 🔁 Quy Trình Hoạt Động
+
+### 1. 👤 Người dùng chọn và gửi file
+
+* Người dùng chọn file hồ sơ bệnh án (PNG, JPG, PDF, DOCX) thông qua giao diện web.
+* File được đóng gói bằng `FormData` và gửi tới backend qua `Fetch API`.
+
+### 2. 📥 Tiếp nhận và chuyển tiếp file
+
+* Server Node.js nhận request và sử dụng `Multer` để lưu file tạm thời.
+* Sau đó, server khởi chạy một tiến trình Python để thực hiện OCR thông qua file `ocr.py`.
+
+### 3. 🧠 Xử lý OCR trong Python
+
+* **Chuyển định dạng**:
+
+  * File PDF được chuyển thành ảnh bằng `pdf2image`.
+  * File DOCX được chuyển thành PDF qua `docx2pdf`, sau đó thành ảnh.
+* **Nhận diện ký tự**: Text được trích xuất từ ảnh bằng `pytesseract`.
+* **Tổng hợp văn bản**: Tất cả đoạn text từ ảnh được nối lại thành một chuỗi văn bản đầy đủ.
+
+### 4. 🧬 Trích xuất dữ liệu y tế bằng AI
+
+* Một prompt chi tiết được xây dựng và gửi tới mô hình Gemini để phân tích văn bản và xuất ra dữ liệu có cấu trúc dạng JSON.
+* Kết quả JSON gồm các mục như: thông tin cá nhân, chỉ số sức khỏe, danh sách bệnh lý,...
+
+### 5. 💽 Lưu kết quả và phản hồi
+
+* Script Python trả về một JSON gồm: `raw_text`, `extracted_data`, `success` hoặc `error`.
+* Backend kiểm tra kết quả:
+
+  * Nếu thành công, dữ liệu sẽ được lưu vào MongoDB.
+  * Kết quả cuối cùng được trả về client để hiển thị hoặc xử lý tiếp.
+
+---
+# Hệ thống gợi ý bài báo liên quan.
+Hệ thống này tự động gợi ý **top 3 bài báo y tế phù hợp nhất** với người dùng, dựa trên **bệnh nền được trích xuất từ hồ sơ cá nhân (personal tracker)**. Công nghệ lõi sử dụng bao gồm:
+
+- **Mô hình nhúng ngữ nghĩa** 768 chiều (`bkai-foundation-models/vietnamese-bi-encoder`)
+- **Vector database Qdrant** kết hợp thuật toán tìm kiếm hiệu quả **HNSW**
+- **MongoDB** lưu trữ dữ liệu gốc về bệnh và bài báo liên quan
+- Gợi ý báo cho các bệnh: Tim, tiểu đường, dạ dày, ung thư, thận, gan...
+
+## Sơ đồ tổng quan hệ thống.
+![alt text](images/image-x.png)
+
+## 1. Chuẩn bị dữ liệu
+
+### Bước 1: Trích xuất dữ liệu từ MongoDB
+
+- Từ MongoDB, hệ thống lấy thông tin bệnh (`name_diseases`, `description_disease`) và danh sách bài báo liên quan (`articles[]`) như sau:
+
+```json
+{
+  "name_diseases": "Mụn cóc",
+  "description_disease": "Mụn cóc là bệnh da liễu thường gặp do virus HPV...",
+  "articles": [
+    {
+      "article_name": "Cách chữa mụn cóc ở chân và cách phòng ngừa",
+      "article_link": "https://giaan115.com/kien-thuc-y-khoa/..."
+    },
+    ...
+  ]
+}
+```
+
+### Bước 2: Tạo văn bản để embedding
+- Dữ liệu đầu vào để nhúng sẽ là phần tên bệnh + mô tả:
+
+```
+combined_text = f"{disease_name}. {description}".strip()
+texts_to_embed.append(combined_text)
+```
+- Dữ liệu đi kèm (payload) để lưu vào Qdrant gồm:
+
+```
+payloads.append({
+    "disease_name": disease_name,
+    "articles": articles
+})
+```
+## 2. Nhúng văn bản bằng mô hình 768 chiều
+- Mô hình sử dụng: bkai-foundation-models/vietnamese-bi-encoder (tối ưu cho tiếng Việt)
+
+- Mỗi văn bản sẽ được chuyển thành một vector 768 chiều, biểu diễn ý nghĩa của bệnh và mô tả bệnh.
+
+## 3. Lưu vào Qdrant vector database
+- Các vector embedding cùng payload sẽ được lưu vào Qdrant, sử dụng cấu hình:
+
+```
+{
+  "distance": "Cosine",
+  "hnsw_config": {
+    "m": 16,
+    "ef_construct": 100
+  }
+}
+```
+- Việc lưu vào Qdrant giúp truy xuất các bệnh tương tự về mặt ngữ nghĩa cực kỳ nhanh chóng.
+
+## 4. Truy xuất bài báo từ bệnh nền
+### Xử lý từ backend
+- Backend gọi script article_extraction.py, script này:
+
+  - Nhúng lại thông tin bệnh nền của user thành vector
+
+  - Truy vấn Qdrant để tìm top 3 bệnh gần nhất về mặt ý nghĩa
+
+  - Từ đó trả về danh sách các bài báo tương ứng từ các payload articles[]
+
+### Kết quả trả về
+- Mỗi truy vấn trả về cấu trúc như sau:
+
+[
+  "Dấu hiệu ung thư dạ dày giai đoạn cuối",
+  "Nội soi dạ dày có phát hiện ung thư không? Phương pháp chẩn đoán chính xác",
+  "Khát quát về ung thư dạ dày",
+  "Chỉ điểm 7 dấu hiệu ung thư dạ dày và cách phòng tránh bệnh",
+  "Dấu hiệu khiến bạn nghĩ ngay đến ung thư dạ dày",
+  "Yếu tố nguy cơ ung thư dạ dày"
+]
+
+- Frontend chỉ hiển thị 5 bài báo gợi ý đầu tiên, ưu tiên theo độ tương đồng embedding.
+![alt text](images/image-goiybao1.png)
+![alt text](images/image-goiybao2.png)
 ---
 ## Cách cài đặt và chạy dự án.
 
@@ -789,10 +929,10 @@ server {
 
 ---
 ## Bảng phân chia công việc.
-| STT | Họ và tên            | Công việc phụ trách                                                                                                                                                                                                                  |
-|-----|----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 1   | Nguyễn Thế Anh       | - Chỉnh sửa phần FE và BE phần auth form của trang web<br>- Hỗ trợ tăng tốc pagespeed của trang web<br>- Phát triển mô hình nhận diện bệnh ngoài da bằng mô hình học sâu<br>- Phát triển tính năng cảnh cáo các bệnh liên quan đến vị trí và thời tiết của người dùng<br>- Thực hiện giao và phân chia công việc<br>- Theo dõi tiến độ của team trong thời gian thực hiện dự án<br>- Deploy trang web trên môi trường cloud Digital Ocean với proxy server Nginx và SSL<br>- Fix conflict cho các nhánh khi pull request lên nhánh chính của repo<br>- Đăng ký gmail đặc quyền cho trang web để gửi OTP trên môi trường production<br>- Cấu hình các bản ghi MX và TXT cho phần liên quan |
-| 2   | Nguyễn Đức Hùng      | - Phát triển thông tin chi tiết về các bệnh<br>- Phát triển backend cho personal tracker<br>- Chỉnh sửa giao diện cho phù hợp các phần liên quan<br>- Tăng điểm page speed của trang web<br>- Chỉnh sửa avatar thay đổi trên navbar khi người dùng đổi ảnh                                                   |
-| 3   | Nguyễn Quốc Vương    | - Kết nối backend với frontend cho phần auth form<br>- Phát triển frontend cho personal tracker<br>- Xây dựng tìm kiếm elasticsearch cho thông tin dược của trang web<br>- Xây dựng giao diện cho chatbot AI                                                               |
-| 4   | Huỳnh Gia Bảo        | - Phát triển giao diện cho trang chủ<br>- Phát triển giao diện các trang thông tin về trang web<br>- Phát triển giao diện cho trang thông tin bệnh<br>- Phát triển giao diện cho trang thông tin thuốc<br>- Tăng điểm SEO cho trang web                                 |
-| 5   | Phan Đức Anh         | - Phát triển chatbot AI tiếp nhận thông tin giọng nói sang text<br>- Phát triển chatbot chuyên môn hóa liên quan đến y tế<br>- Phát triển chatbot có khả năng nhớ ngữ cảnh<br>- Thu thập thông tin y tế phục vụ chatbot                                                  |
+| STT | Họ và Tên            | Vai trò/Nhiệm vụ chính |
+|-----|----------------------|--------------------------|
+| 1   | Nguyễn Thế Anh       | - Chỉnh sửa phần frontend và backend của form xác thực người dùng<br>- Hỗ trợ tăng tốc độ tải trang (PageSpeed)<br>- Phát triển mô hình học sâu nhận diện bệnh ngoài da<br>- Phát triển tính năng cảnh báo bệnh theo vị trí và thời tiết người dùng<br>- Giao và phân chia công việc trong nhóm<br>- Theo dõi tiến độ thực hiện dự án của các thành viên<br>- Deploy toàn bộ hệ thống trên cloud (DigitalOcean) sử dụng Nginx và cấu hình SSL<br>- Xử lý xung đột khi pull request lên nhánh chính<br>- Đăng ký Gmail đặc quyền để gửi OTP trên môi trường production<br>- Cấu hình các bản ghi MX và TXT để phục vụ email hệ thống<br>- Phát triển chatbot để cá nhân hóa theo thông tin của người dùng, hỗ trợ kết hợp thông tin prompt + thông tin cá nhân trước đó của bệnh nhân để ra câu trả lời khách quan nhất: bệnh nền, chỉ số y tế: BMI, nhịp tim, huyết áp,... |
+| 2   | Nguyễn Đức Hùng      | - Phát triển nội dung chi tiết cho thông tin bệnh<br>- Phát triển backend cho tính năng personal tracker<br>- Chỉnh sửa giao diện tương ứng với các thay đổi backend<br>- Cải thiện điểm PageSpeed của website<br>- Hiển thị bài báo gợi ý lên giao diện người dùng<br>- Chỉnh sửa logic thay đổi avatar người dùng trên navbar |
+| 3   | Nguyễn Quốc Vương    | - Kết nối frontend và backend cho form xác thực người dùng<br>- Phát triển frontend cho tính năng personal tracker<br>- Xây dựng hệ thống tìm kiếm thông tin dược phẩm sử dụng Elasticsearch<br>- Thiết kế giao diện cho chatbot AI<br>- Xây dựng tính năng OCR ảnh để lấy thông tin y tế từ hồ sơ bệnh án. |
+| 4   | Huỳnh Gia Bảo        | - Thiết kế giao diện trang chủ<br>- Phát triển giao diện các trang giới thiệu, thông tin bệnh và thông tin thuốc<br>- Tối ưu điểm SEO của trang web |
+| 5   | Phan Đức Anh         | - Phát triển RAG Chatbot AI chuyên môn hóa lĩnh vực y tế, hỗ trợ ghi nhớ ngữ cảnh và chuyển giọng nói thành văn bản<br>- Phát triển database Qdrant để phục vụ cho phần chatbot và gợi ý bài báo liên quan kết hợp AI<br>- Xây dựng hệ thống gợi ý bài báo y khoa dựa trên tình trạng bệnh nền của người dùng<br>- Xây dựng API phục vụ cho việc gọi và hiển thị top 3 bài báo liên quan trên frontend<br>- Thu thập và xử lý dữ liệu y tế để huấn luyện và nâng cao hiệu quả chatbot |
