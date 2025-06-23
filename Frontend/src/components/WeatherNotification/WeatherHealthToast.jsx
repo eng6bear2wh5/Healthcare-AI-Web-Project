@@ -23,22 +23,13 @@ export default function WeatherHealthToast() {
   useEffect(() => {
     if (!loading && disease.length > 0) setShow(true);
   }, [loading, disease]);
-  useEffect(() => {
-    if (error) setShow(true);
-  }, [error]);
 
   return (
     <>
-      {show && (disease.length > 0 || error) && (
+      {show && disease.length > 0 && (
         <Toast
-          message={
-            error ? (
-              <span className="font-semibold">Lỗi: {error}</span>
-            ) : (
-              <ToastMessage diseases={disease} />
-            )
-          }
-          type={error ? "error" : "info"}
+          message={<ToastMessage diseases={disease} />}
+          type="info"
           onClose={() => setShow(false)}
         />
       )}

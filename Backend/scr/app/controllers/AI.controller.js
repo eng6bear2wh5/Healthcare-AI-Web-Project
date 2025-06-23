@@ -12,7 +12,9 @@ exports.predictDisease = (req, res) => {
   if (!req.file)
     return res.status(400).json({ success: false, error: "No file" });
 
-  const python = spawn("python", ["predict.py", req.file.path]);
+  const path = require("path");
+  const scriptPath = path.join(__dirname, "..", "..", "..", "predict.py");
+  const python = spawn("python", [scriptPath, req.file.path]);
   let result = "";
   python.stdout.on("data", (data) => (result += data.toString()));
   python.stderr.on("data", (data) =>
@@ -132,12 +134,10 @@ exports.askToChatbot = async (req, res) => {
       `${new Date().toISOString()} - ERROR - /ask endpoint error for user ${currentUsername}: ${error.message}`,
       error.stack
     );
-    res
-      .status(500)
-      .json({
-        error:
-          error.message || "An error occurred while processing your question.",
-      });
+    res.status(500).json({
+      error:
+        error.message || "An error occurred while processing your question.",
+    });
   }
 };
 
@@ -255,12 +255,9 @@ exports.uploadToChatbot = async (req, res) => {
       `${new Date().toISOString()} - ERROR - /upload endpoint error for user ${currentUsername}: ${error.message}`,
       error.stack
     );
-    res
-      .status(500)
-      .json({
-        error:
-          error.message || "An error occurred while processing your upload.",
-      });
+    res.status(500).json({
+      error: error.message || "An error occurred while processing your upload.",
+    });
   } finally {
     if (tempImagePath) {
       fs.unlink(tempImagePath, (err) => {
@@ -322,12 +319,10 @@ exports.convertFileToText = async (req, res) => {
       });
     } catch (e) {
       console.error("Failed to parse JSON from Python script:", e.message);
-      res
-        .status(500)
-        .json({
-          success: false,
-          error: "Failed to parse response from processing service.",
-        });
+      res.status(500).json({
+        success: false,
+        error: "Failed to parse response from processing service.",
+      });
     }
   });
 };

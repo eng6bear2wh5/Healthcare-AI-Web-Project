@@ -10,7 +10,7 @@ export const ToastProvider = ({ children }) => {
 
   const showToast = useCallback((message, type = "success") => {
     setToast({ message, type });
-    setTimeout(() => setToast(null), 3000); // tự ẩn sau 3s
+    setTimeout(() => setToast(null), 2000);
   }, []);
 
   return (
