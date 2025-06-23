@@ -564,6 +564,9 @@ Tính năng cho phép người dùng tải lên hồ sơ bệnh án (ảnh, PDF,
   * Nếu thành công, dữ liệu sẽ được lưu vào MongoDB.
   * Kết quả cuối cùng được trả về client để hiển thị hoặc xử lý tiếp.
 
+### 🎥 Xem video demo
+👉 [Tải xuống hoặc xem video demo](videos/ocr_preview.mp4)
+
 ---
 # Hệ thống gợi ý bài báo liên quan.
 Hệ thống này tự động gợi ý **top 3 bài báo y tế phù hợp nhất** với người dùng, dựa trên **bệnh nền được trích xuất từ hồ sơ cá nhân (personal tracker)**. Công nghệ lõi sử dụng bao gồm:
@@ -932,7 +935,7 @@ server {
 | STT | Họ và Tên            | Vai trò/Nhiệm vụ chính |
 |-----|----------------------|--------------------------|
 | 1   | Nguyễn Thế Anh       | - Chỉnh sửa phần frontend và backend của form xác thực người dùng<br>- Hỗ trợ tăng tốc độ tải trang (PageSpeed)<br>- Phát triển mô hình học sâu nhận diện bệnh ngoài da<br>- Phát triển tính năng cảnh báo bệnh theo vị trí và thời tiết người dùng<br>- Giao và phân chia công việc trong nhóm<br>- Theo dõi tiến độ thực hiện dự án của các thành viên<br>- Deploy toàn bộ hệ thống trên cloud (DigitalOcean) sử dụng Nginx và cấu hình SSL<br>- Xử lý xung đột khi pull request lên nhánh chính<br>- Đăng ký Gmail đặc quyền để gửi OTP trên môi trường production<br>- Cấu hình các bản ghi MX và TXT để phục vụ email hệ thống |
-| 2   | Nguyễn Đức Hùng      | - Phát triển nội dung chi tiết cho thông tin bệnh<br>- Phát triển backend cho tính năng personal tracker<br>- Chỉnh sửa giao diện tương ứng với các thay đổi backend<br>- Cải thiện điểm PageSpeed của website<br>- Hiển thị bài báo gợi ý lên giao diện người dùng<br>- Chỉnh sửa logic thay đổi avatar người dùng trên navbar |
+| 2   | Nguyễn Đức Hùng      | - Phát triển nội dung chi tiết cho thông tin bệnh<br>- Phát triển backend cho tính năng personal tracker<br>- Chỉnh sửa giao diện tương ứng với các thay đổi backend<br>- Cải thiện điểm PageSpeed của website<br>- Hiển thị bài báo gợi ý lên giao diện người dùng<br>- Chỉnh sửa logic thay đổi avatar người dùng trên navbar<br>- Xây dựng frontend và backend phần lịch hiến máu, tính BMI, tỉ lệ mỡ và cập nhập vào personal tracker<br>- Phát triển tính năng gợi ý báo theo bệnh nền của người dùng<br>-Phát triển thông tin phần Tin tức. |
 | 3   | Nguyễn Quốc Vương    | - Kết nối frontend và backend cho form xác thực người dùng<br>- Phát triển frontend cho tính năng personal tracker<br>- Xây dựng hệ thống tìm kiếm thông tin dược phẩm sử dụng Elasticsearch<br>- Thiết kế giao diện cho chatbot AI<br>- Xây dựng tính năng OCR ảnh để lấy thông tin y tế từ hồ sơ bệnh án. |
 | 4   | Huỳnh Gia Bảo        | - Thiết kế giao diện trang chủ<br>- Phát triển giao diện các trang giới thiệu, thông tin bệnh và thông tin thuốc<br>- Tối ưu điểm SEO của trang web |
-| 5   | Phan Đức Anh         | - Phát triển RAG Chatbot AI chuyên môn hóa lĩnh vực y tế, hỗ trợ ghi nhớ ngữ cảnh và chuyển giọng nói thành văn bản<br>- Xây dựng hệ thống gợi ý bài báo y khoa dựa trên tình trạng bệnh nền của người dùng<br>- Cả hai hệ thống sử dụng Qdrant vector database kết hợp vector embedding và thuật toán HNSW để truy vấn hiệu quả<br>- Xây dựng API phục vụ cho việc gọi và hiển thị top 3 bài báo liên quan trên frontend<br>- Thu thập và xử lý dữ liệu y tế để huấn luyện và nâng cao hiệu quả chatbot |
+| 5   | Phan Đức Anh         | - Phát triển RAG Chatbot AI chuyên môn hóa lĩnh vực y tế, hỗ trợ ghi nhớ ngữ cảnh và chuyển giọng nói thành văn bản<br>- Xây dựng hệ thống gợi ý bài báo y khoa dựa trên tình trạng bệnh nền của người dùng<br>- Cả hai hệ thống sử dụng Qdrant vector database kết hợp vector embedding và thuật toán HNSW để truy vấn hiệu quả<br>- Xây dựng API phục vụ cho việc gọi và hiển thị top 3 bài báo liên quan trên frontend<br>- Thu thập và xử lý dữ liệu y tế để huấn luyện và nâng cao hiệu quả chatbot<br>- Phát triển tính năng hiển thị thông tin chỉ số sức khỏe lên trang chủ sau khi đăng nhập. |
