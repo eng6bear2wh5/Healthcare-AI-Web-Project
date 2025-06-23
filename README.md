@@ -653,8 +653,8 @@ payloads.append({
 ]
 
 - Frontend chỉ hiển thị 5 bài báo gợi ý đầu tiên, ưu tiên theo độ tương đồng embedding.
-![alt text](image-goiybao1.png)
-![alt text](image-goiybao2.png)
+![alt text](images/image-goiybao1.png)
+![alt text](images/image-goiybao2.png)
 ---
 ## Cách cài đặt và chạy dự án.
 
