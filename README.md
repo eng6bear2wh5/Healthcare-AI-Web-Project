@@ -564,6 +564,11 @@ Tính năng cho phép người dùng tải lên hồ sơ bệnh án (ảnh, PDF,
   * Nếu thành công, dữ liệu sẽ được lưu vào MongoDB.
   * Kết quả cuối cùng được trả về client để hiển thị hoặc xử lý tiếp.
 
+### 📹 Xem video demo
+
+👉 [Click vào đây để xem video demo](https://drive.google.com/file/d/1AVKXuMHvX80cD4tQtYVJzsaRZMcEz9B1/view?usp=sharing)
+
+
 ---
 # Hệ thống gợi ý bài báo liên quan.
 Hệ thống này tự động gợi ý **top 3 bài báo y tế phù hợp nhất** với người dùng, dựa trên **bệnh nền được trích xuất từ hồ sơ cá nhân (personal tracker)**. Công nghệ lõi sử dụng bao gồm:
