@@ -4,7 +4,7 @@ from qdrant_client import QdrantClient
 from dotenv import load_dotenv
 import logging
 
-load_dotenv('key.env')
+load_dotenv('../.env')
 
 class ArticleRecommender:
     def __init__(self):
