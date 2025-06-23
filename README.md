@@ -564,8 +564,10 @@ Tính năng cho phép người dùng tải lên hồ sơ bệnh án (ảnh, PDF,
   * Nếu thành công, dữ liệu sẽ được lưu vào MongoDB.
   * Kết quả cuối cùng được trả về client để hiển thị hoặc xử lý tiếp.
 
-### 🎥 Xem video demo
-👉 [Tải xuống hoặc xem video demo](videos/ocr_preview.mp4)
+### 📹 Xem video demo
+
+👉 [Click vào đây để xem video demo](https://drive.google.com/file/d/1AVKXuMHvX80cD4tQtYVJzsaRZMcEz9B1/view?usp=sharing)
+
 
 ---
 # Hệ thống gợi ý bài báo liên quan.
