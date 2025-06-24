@@ -117,12 +117,12 @@ Hệ thống được chia thành ba phần chính:
   - Cung cấp thông tin về triệu chứng, nguyên nhân, cách điều trị các bệnh thường gặp.
   - Nội dung được chọn lọc từ các nguồn y tế uy tín.
 - Công cụ tính toán sức khỏe:
-  - **BMI** – tính chỉ số khối cơ thể.
+  - **BMI** – tính chỉ số khối cơ thể và lưu chỉ số này vô thông tin chỉ số của người dùng.
   - **Nhu cầu calo hằng ngày** – tính toán theo giới tính, tuổi, chiều cao, cân nặng và mức độ vận động.
   - **Cân nặng lý tưởng** – gợi ý mức cân phù hợp theo chiều cao và độ tuổi.
-  - **Tỷ lệ mỡ cơ thể** – ước tính dựa trên các thông số như vòng cổ, vòng eo, chiều cao.
+  - **Tỷ lệ mỡ cơ thể** – tính dựa trên các thông số như vòng cổ, vòng eo, chiều cao; lưu thông tin chỉ số này vô thông tin chỉ số của người dùng.
 - Lịch hiến máu:
-  - Hiển thị các đợt hiến máu theo khu vực gần nhất.
+  - Hiển thị thông tin thời gian, địa điểm của các đợt hiến máu.
 - Tin tức sức khỏe:
   - Cập nhật tin tức theo nhóm bệnh: tim mạch, hô hấp, thần kinh,...
   - Nguồn tin được chọn lọc từ báo chí và tổ chức y tế có độ tin cậy cao.
@@ -132,7 +132,7 @@ Hệ thống được chia thành ba phần chính:
 - Chatbot tư vấn:
   - Hỗ trợ trò chuyện (cho phép gửi ảnh và voice), cung cấp thông tin liên quan đến các vấn đề sức khỏe.
 - Hệ thống gợi ý bài báo liên quan:
-  - Dựa trên bệnh nền của bệnh nhân trong Personal Tracker để đưa top 3 bài báo liên quan nhất phù hợp với bệnh nhân.
+  - Dựa trên bệnh nền của bệnh nhân trong Personal Tracker để đưa ra các bài báo liên quan nhất phù hợp với bệnh nhân.
 ---
 ## Công nghệ sử dụng.
 
@@ -657,7 +657,7 @@ payloads.append({
   "Yếu tố nguy cơ ung thư dạ dày"
 ]
 
-- Frontend chỉ hiển thị 5 bài báo gợi ý đầu tiên, ưu tiên theo độ tương đồng embedding.
+- Frontend chỉ hiển thị 6 bài báo gợi ý đầu tiên, ưu tiên theo độ tương đồng embedding.
 ![alt text](images/image-goiybao1.png)
 ![alt text](images/image-goiybao2.png)
 ---
@@ -685,9 +685,13 @@ npx serve -s dist
 
 ### Giao diện các chức năng chính.
 
-Trang chủ.
+Trang chủ khi chưa đăng nhập.
 
 ![alt text](images/image-2.png)
+
+Trang chủ khi đã đăng nhập.
+
+![alt text](images/home.png)
 
 Đăng ký & xác minh.
 
@@ -937,7 +941,7 @@ server {
 | STT | Họ và Tên            | Vai trò/Nhiệm vụ chính |
 |-----|----------------------|--------------------------|
 | 1   | Nguyễn Thế Anh       | - Chỉnh sửa phần frontend và backend của form xác thực người dùng<br>- Hỗ trợ tăng tốc độ tải trang (PageSpeed)<br>- Phát triển mô hình học sâu nhận diện bệnh ngoài da<br>- Phát triển tính năng cảnh báo bệnh theo vị trí và thời tiết người dùng<br>- Giao và phân chia công việc trong nhóm<br>- Theo dõi tiến độ thực hiện dự án của các thành viên<br>- Deploy toàn bộ hệ thống trên cloud (DigitalOcean) sử dụng Nginx và cấu hình SSL<br>- Xử lý xung đột khi pull request lên nhánh chính<br>- Đăng ký Gmail đặc quyền để gửi OTP trên môi trường production<br>- Cấu hình các bản ghi MX và TXT để phục vụ email hệ thống<br>- Phát triển chatbot để cá nhân hóa theo thông tin của người dùng, hỗ trợ kết hợp thông tin prompt + thông tin cá nhân trước đó của bệnh nhân để ra câu trả lời khách quan nhất: bệnh nền, chỉ số y tế: BMI, nhịp tim, huyết áp,... |
-| 2   | Nguyễn Đức Hùng      | - Phát triển nội dung chi tiết cho thông tin bệnh<br>- Phát triển backend cho tính năng personal tracker<br>- Chỉnh sửa giao diện tương ứng với các thay đổi backend<br>- Cải thiện điểm PageSpeed của website<br>- Hiển thị bài báo gợi ý lên giao diện người dùng<br>- Chỉnh sửa logic thay đổi avatar người dùng trên navbar |
+| 2   | Nguyễn Đức Hùng      | - Phát triển nội dung chi tiết cho thông tin bệnh<br>- Phát triển backend cho tính năng personal tracker<br>- Chỉnh sửa giao diện tương ứng với các thay đổi backend<br>- Cải thiện điểm PageSpeed của website<br>- Hiển thị bài báo gợi ý lên giao diện người dùng<br>- Chỉnh sửa logic thay đổi avatar người dùng trên navbar<br> - Xây dựng frontend và backend cho phần Lịch hiến máu<br> - Thêm tính năng lưu chỉ số BMI và Tỉ lệ mỡ vô personal tracker của người dùng. |
 | 3   | Nguyễn Quốc Vương    | - Kết nối frontend và backend cho form xác thực người dùng<br>- Phát triển frontend cho tính năng personal tracker<br>- Xây dựng hệ thống tìm kiếm thông tin dược phẩm sử dụng Elasticsearch<br>- Thiết kế giao diện cho chatbot AI<br>- Xây dựng tính năng OCR ảnh để lấy thông tin y tế từ hồ sơ bệnh án. |
 | 4   | Huỳnh Gia Bảo        | - Thiết kế giao diện trang chủ<br>- Phát triển giao diện các trang giới thiệu, thông tin bệnh và thông tin thuốc<br>- Tối ưu điểm SEO của trang web |
 | 5   | Phan Đức Anh         | - Phát triển RAG Chatbot AI chuyên môn hóa lĩnh vực y tế, hỗ trợ ghi nhớ ngữ cảnh và chuyển giọng nói thành văn bản<br>- Phát triển database Qdrant để phục vụ cho phần chatbot và gợi ý bài báo liên quan kết hợp AI<br>- Xây dựng hệ thống gợi ý bài báo y khoa dựa trên tình trạng bệnh nền của người dùng<br>- Xây dựng API phục vụ cho việc gọi và hiển thị top 3 bài báo liên quan trên frontend<br>- Thu thập và xử lý dữ liệu y tế để huấn luyện và nâng cao hiệu quả chatbot |
