@@ -687,7 +687,7 @@ npx serve -s dist
 
 Trang chủ khi chưa đăng nhập.
 
-![alt text](images/image-2.png)
+![alt text](images/signuphome.png)
 
 Trang chủ khi đã đăng nhập.
 
@@ -719,7 +719,7 @@ Trang Tin tức.
 
 Trang Công cụ tính toán - BMI.
 
-![alt text](images/image-11.png)
+![alt text](images/BMI.png)
 
 Trang Công cụ tính toán - Tính calo.
 
@@ -731,7 +731,7 @@ Trang Công cụ tính toán - Tính cân nặng lý tưởng.
 
 Trang Công cụ tính toán - Tỉ lệ mỡ.
 
-![alt text](images/image-13.png)
+![alt text](images/Mo.png)
 
 Trang Cộng đồng - Lịch hiến máu.
 
